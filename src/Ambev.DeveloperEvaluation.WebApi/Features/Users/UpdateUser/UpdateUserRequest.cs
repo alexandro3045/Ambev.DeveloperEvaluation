@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Enums;
+﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Enums;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Users.UpdateUser;
 
@@ -17,6 +18,16 @@ public class UpdateUserRequest
     /// Gets or sets the username. Must be unique and contain only valid characters.
     /// </summary>
     public string UserName { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the name.
+    /// </summary>
+    public Name Name { get; set; }
+
+    /// <summary>
+    /// Gets or sets the address.
+    /// </summary>
+    public Address Address { get; set; }
 
     /// <summary>
     /// Gets or sets the password. Must meet security requirements.

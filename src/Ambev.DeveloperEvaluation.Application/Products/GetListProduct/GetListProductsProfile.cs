@@ -1,5 +1,4 @@
 using Ambev.DeveloperEvaluation.Application.Products.GetListProducts;
-using Ambev.DeveloperEvaluation.Application.Users.GetListUser;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using AutoMapper;
 

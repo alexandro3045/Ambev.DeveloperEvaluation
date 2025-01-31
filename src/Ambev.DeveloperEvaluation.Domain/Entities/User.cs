@@ -55,7 +55,7 @@ public class User : BaseEntity, IUser
     /// Gets the user's current status.
     /// Indicates whether the user is active, inactive, or blocked in the system.
     /// </summary>
-    public UserStatus Status { get; set; }
+    public UserStatus Status { get; set; } = UserStatus.Unknown;
 
     /// <summary>
     /// Gets the date and time when the user was created.

@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using AutoMapper;
 
 namespace Ambev.DeveloperEvaluation.Application.Users.UpdateUser;
 
@@ -12,7 +13,7 @@ public class UpdateUserProfile : Profile
     /// </summary>
     public UpdateUserProfile()
     {
-        CreateMap<UpdateUserCommand, Domain.Entities.User>();
-        CreateMap<bool, UpdateUserResult>();
+        CreateMap<UpdateUserCommand, User>();
+        CreateMap<User?, UpdateUserResult>();
     }
 }

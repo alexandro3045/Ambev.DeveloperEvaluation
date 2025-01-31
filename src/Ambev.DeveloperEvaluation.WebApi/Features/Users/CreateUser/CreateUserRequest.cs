@@ -13,8 +13,14 @@ public class CreateUserRequest
     /// </summary>
     public string Username { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the name.
+    /// </summary>
     public Name Name { get; set; }
 
+    /// <summary>
+    /// Gets or sets the address.
+    /// </summary>
     public Address Address { get; set; }
 
     /// <summary>

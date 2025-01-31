@@ -1,6 +1,8 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Common.QueryExpression;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories;
 

@@ -39,6 +39,6 @@ public class GetListCategoriesHandler : IRequestHandler<GetListCategoriesCommand
     {
         var listCategories = await _ProductsRepository.GetAllCategoriesAsync(cancellationToken);
 
-        return _mapper.Map<GetListCategoriesResult>(listCategories);
+        return _mapper.Map<GetListCategoriesResult>(listCategories.OrderBy(d => d).ToArray());
     }
 }

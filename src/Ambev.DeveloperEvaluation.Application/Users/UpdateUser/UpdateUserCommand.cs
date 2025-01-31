@@ -1,4 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Common.Validation;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 using FluentValidation;
 using MediatR;
@@ -30,6 +31,16 @@ public class UpdateUserCommand :  IRequest<UpdateUserResult>
     /// Gets or sets the username of the user to be created.
     /// </summary>
     public string Username { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the name.
+    /// </summary>
+    public Name Name { get; set; }
+
+    /// <summary>
+    /// Gets or sets the address.
+    /// </summary>
+    public Address Address { get; set; }
 
     /// <summary>
     /// Gets or sets the password for the user.
