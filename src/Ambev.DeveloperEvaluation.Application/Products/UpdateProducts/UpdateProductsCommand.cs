@@ -1,10 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using Ambev.DeveloperEvaluation.Application.Products.UpdateProducts;
+﻿using Ambev.DeveloperEvaluation.Application.Products.UpdateProducts;
 using Ambev.DeveloperEvaluation.Application.Productss.CreateProducts;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Entities;
-using Ambev.DeveloperEvaluation.Domain.Enums;
 using MediatR;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ambev.DeveloperEvaluation.Application.Productss.UpdateProducts;
 
@@ -22,11 +21,45 @@ namespace Ambev.DeveloperEvaluation.Application.Productss.UpdateProducts;
 /// <see cref="AbstractValidator{T}"/> to ensure that the fields are correctly 
 /// populated and follow the required rules.
 /// </remarks>
-public class UpdateProductsCommand : CreateProductsCommand, IRequest<UpdateProductsResult>
+public class UpdateProductsCommand : IRequest<UpdateProductResult>
 {
-    public override ValidationResultDetail Validate()
+
+    /// <summary>
+    /// Gets or sets the id of the product to be update.
+    /// </summary>
+    public string Id { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets the Title from product
+    /// </summary>
+    public string Title { get; set; }
+
+    /// <summary>
+    /// Gets the price from product
+    /// </summary>
+    public decimal Price { get; set; }
+
+    /// <summary>
+    /// Gets the description from product.
+    /// </summary>
+    public string Descripption { get; set; }
+
+    /// <summary>
+    /// Gets the category from product.
+    /// </summary>
+    public string Category { get; set; }
+
+    /// <summary>
+    /// Gets the image from product.
+    /// </summary>
+    public string Image { get; set; }
+
+    [Column(TypeName = "jsonb")]
+    public Rating Rating { get; set; }
+
+    public ValidationResultDetail Validate()
     {
-        var result = base.Validate();
+        var result = Validate();
 
         var validator = new UpdateProductsValidator();
 

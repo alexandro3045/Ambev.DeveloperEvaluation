@@ -56,7 +56,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
                 .Skip((page - 1) * size)
                 .Take(size)
                 .OrderBySource(order,direction)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
     }
 }

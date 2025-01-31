@@ -1,12 +1,18 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 
-namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProducts;
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct;
 
 /// <summary>
-/// Represents a request to create a new products in the system.
+/// Represents a request to Update a new product in the system.
 /// </summary>
-public class CreateProductRequest
+public class UpdateProductRequest
 {
+
+    /// <summary>
+    /// Gets or sets the id.
+    /// </summary>
+    public string Id { get; set; } = string.Empty;
+
     /// <summary>
     /// Gets the Title from product
     /// </summary>

@@ -1,5 +1,8 @@
-﻿using Ambev.DeveloperEvaluation.Application.Products.UpdateProducts;
+﻿using Ambev.DeveloperEvaluation.Application.Products.CreateProducts;
+using Ambev.DeveloperEvaluation.Application.Products.UpdateProducts;
+using Ambev.DeveloperEvaluation.Application.Productss.CreateProducts;
 using Ambev.DeveloperEvaluation.Application.Productss.UpdateProducts;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using AutoMapper;
 
 
@@ -15,7 +18,8 @@ public class UpdateProductProfile : Profile
     /// </summary>
     public UpdateProductProfile()
     {
-        CreateMap<UpdateProductsCommand, Domain.Entities.Products>();
-        CreateMap<Domain.Entities.Products, UpdateProductsResult>();
+        CreateMap<UpdateProductsCommand, Product>();
+        CreateMap<Product, UpdateProductResult>();
+        CreateMap<Product, CreateProductsResult>();
     }
 }

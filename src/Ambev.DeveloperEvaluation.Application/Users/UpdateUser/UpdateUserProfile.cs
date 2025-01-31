@@ -13,6 +13,6 @@ public class UpdateUserProfile : Profile
     public UpdateUserProfile()
     {
         CreateMap<UpdateUserCommand, Domain.Entities.User>();
-        CreateMap<Domain.Entities.User, UpdateUserResult>();
+        CreateMap<bool, UpdateUserResult>();
     }
 }

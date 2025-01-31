@@ -61,7 +61,7 @@ public class UsersController : BaseController
     }
 
     /// <summary>
-    /// Creates a new user
+    /// Update a user
     /// </summary>
     /// <param name="request">The user update request</param>
     /// <param name="cancellationToken">Cancellation token</param>
@@ -105,13 +105,7 @@ public class UsersController : BaseController
         var command = _mapper.Map<GetUserCommand>(request.Id);
         var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponseWithData<GetUserResponse>
-        {
-            Success = true,
-            Message = "User retrieved successfully",
-            Data = _mapper.Map<GetUserResponse>(response)
-        });
-        //return Ok(_mapper.Map<GetUserResponse>(response));
+        return Ok(_mapper.Map<GetUserResponse>(response));
     }
 
     /// <summary>
@@ -127,7 +121,7 @@ public class UsersController : BaseController
     [ProducesResponseType(typeof(PaginatedList<User?>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetListUsers([FromRoute] int page = 1,int size = 10,string? order = default, string? direction = default, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetListUsers([FromRoute] int page = 1,int size = 10,string? order = default, string? direction = "asc", CancellationToken cancellationToken = default)
     {
         var request = new GetListUserRequest { Page = page, Size = size, Order = order, Direction = direction };
         var validator = new GetListUserRequestValidator();

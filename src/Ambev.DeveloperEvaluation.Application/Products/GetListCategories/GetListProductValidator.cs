@@ -1,21 +1,21 @@
 using FluentValidation;
 
-namespace Ambev.DeveloperEvaluation.Application.Users.GetListUser;
+namespace Ambev.DeveloperEvaluation.Application.Products.GetListProducts;
 
 /// <summary>
-/// Validator for GetListUserCommand
+/// Validator for GetProductsCommand
 /// </summary>
-public class GetListUserValidator : AbstractValidator<GetListUserCommand>
+public class GetListProductValidator : AbstractValidator<GetListProductCommand>
 {
     private string message = "{0} of the list is required";
     /// <summary>
-    /// Initializes validation rules for GetUserCommand
+    /// Initializes validation rules for GetListProductsCommand
     /// </summary>
-    public GetListUserValidator()
+    public GetListProductValidator()
     {
         RuleFor(x => x.Page)
             .NotEmpty()
-            .WithMessage(string.Format(message,"Page"));
+            .WithMessage(string.Format(message, "Page"));
 
         RuleFor(x => x.Order)
             .NotEmpty()

@@ -18,9 +18,9 @@ public interface IRepository<TEntity> where TEntity : class
     /// <summary>
     /// Updates a new entity in the repository
     /// </summary>
-    /// <param name="TEntity">The TEntity to create</param>
+    /// <param name="TEntity">The TEntity to update</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The created entity</returns>
+    /// <returns>The update entity</returns>
     Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
 
     /// <summary>

@@ -13,6 +13,6 @@ public class GetProductsProfile : Profile
     /// </summary>
     public GetProductsProfile()
     {
-        CreateMap<Domain.Entities.Products, GetProductsResult>();
+        CreateMap<Domain.Entities.Product, GetProductsResult>();
     }
 }
