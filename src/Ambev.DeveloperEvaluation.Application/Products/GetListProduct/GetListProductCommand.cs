@@ -7,6 +7,7 @@ namespace Ambev.DeveloperEvaluation.Application.Products.GetListProducts;
 /// </summary>
 public record GetListProductCommand : IRequest<GetListProductResult>
 {
+
     /// <summary>
     /// The page of the list
     /// </summary>

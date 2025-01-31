@@ -10,4 +10,6 @@ public interface IProductsRepository : IRepository<Product>
     Task<Product?> GetByTitleAsync(string title, CancellationToken cancellationToken = default);
 
     Task<string[]> GetAllCategoriesAsync(CancellationToken cancellationToken = default);
+
+    Task<List<Product>?> GetByCategoryAsync(string category, int page, int size, string order, string direction, CancellationToken cancellationToken = default);
 }

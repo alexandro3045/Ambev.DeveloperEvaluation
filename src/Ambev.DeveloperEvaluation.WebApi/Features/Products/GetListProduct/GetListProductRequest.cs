@@ -5,6 +5,12 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.GetListProduct;
 /// </summary>
 public class GetListProductRequest
 {
+
+    /// <summary>
+    /// The category Products list to retrieve
+    /// </summary>
+    public string Category { get; set; }
+
     /// <summary>
     /// The page Products list to retrieve
     /// </summary>

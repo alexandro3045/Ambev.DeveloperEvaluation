@@ -12,5 +12,9 @@ public class GetListProductResult
     /// </summary>
     public List<Product> Products { get; set; }
 
-    
+    public GetListProductResult(List<Product>? listProduct)
+    {
+        Products = listProduct;
+    }
+
 }

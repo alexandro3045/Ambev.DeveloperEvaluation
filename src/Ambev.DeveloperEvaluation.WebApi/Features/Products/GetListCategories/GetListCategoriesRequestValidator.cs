@@ -1,4 +1,3 @@
-using Ambev.DeveloperEvaluation.WebApi.Features.Categories.GetListProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetListProduct;
 using FluentValidation;
 

@@ -17,7 +17,7 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Productss.GetProducts;
 using Ambev.DeveloperEvaluation.Application.Products.GetListProducts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.DeleteUser;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.GetListProduct;
-using FluentValidation;
+using Ambev.DeveloperEvaluation.Application.Products.GetListCategorias;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Products;
 
@@ -135,7 +135,7 @@ public class ProductsController : BaseController
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
-        var command = _mapper.Map<GetListProductCommand>(request);
+        var command = _mapper.Map<GetListProductByCategoryCommand>(request);
         var response = await _mediator.Send(command, cancellationToken);
 
         return OkPaginated(new PaginatedList<Product?>(response.Products, response.Products.Count, page, size));
@@ -171,25 +171,51 @@ public class ProductsController : BaseController
     }
 
     /// <summary>
-    /// Retrieves a list product by their page, size and order
+    /// Retrieves a list categories of product
     /// </summary>
     /// <returns>The list of Categories </returns>
-    [HttpGet]
+    [HttpGet("categories")]
     [ProducesResponseType(typeof(string[]), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetListCategories([FromBody] GetListCategoriesRequest request, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetListCategories(CancellationToken cancellationToken)
+    {       
+        var command = _mapper.Map<GetListCategoriesCommand>(new GetListCategoriesRequest());     
+        var response = await _mediator.Send(command, cancellationToken);
+
+        return Ok(response);
+    }
+
+    /// <summary>
+    /// Retrieves a list product by their page, size and order
+    /// </summary>
+    /// <param name="page">The page of list</param>
+    /// <param name="size">The page of list</param>
+    /// <param name="order">The page of list</param>
+    /// <param name="direction">The page of list</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The list of Products </returns>
+    [HttpGet("category/{category}")]
+    [ProducesResponseType(typeof(PaginatedList<Product?>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetListProductsByCategory([FromRoute] int page = 1, int size = 10, string? order = default, string? direction = "asc", CancellationToken cancellationToken = default)
     {
-        var validator = new GetListCategoriesRequestValidator();
+        var request = new GetListProductRequest { Page = page, Size = size, Order = order, Direction = direction, Category = Request.RouteValues["category"]?.ToString() };
+        var validator = new GetListProductsRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
-        var command = _mapper.Map<GetListCategoriesCommand>(request);
+        var command = _mapper.Map<GetListProductByCategoryCommand>(request);
         var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(response);
+        if(response.Products == null)
+            return NotFound(new ApiResponse { Success = false, Message = "Products not found" });
+
+        return OkPaginated(new PaginatedList<Product?>(response.Products, response.Products.Count, page, size));
     }
+
 
 }

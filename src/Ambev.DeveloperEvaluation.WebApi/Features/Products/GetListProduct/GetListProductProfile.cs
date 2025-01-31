@@ -16,6 +16,9 @@ public class GetListProductProfile : Profile
         CreateMap<GetListProductRequest, GetListProductCommand>()
             .ConstructUsing(request => new GetListProductCommand(request.Page, request.Size, request.Order, request.Direction));
 
+        CreateMap<GetListProductRequest, GetListProductByCategoryCommand>()
+          .ConstructUsing(request => new GetListProductByCategoryCommand(request.Page, request.Size, request.Order, request.Direction, request.Category));
+
         CreateMap<GetListProductResult, GetListProductResponse>();
     }
 }

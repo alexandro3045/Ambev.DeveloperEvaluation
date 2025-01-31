@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Products\GetListCategories\GetListCategoriesValidator.cs" />
     <Compile Remove="Products\GetListProduct\GetListCategoriesCommand.cs" />
   </ItemGroup>
 

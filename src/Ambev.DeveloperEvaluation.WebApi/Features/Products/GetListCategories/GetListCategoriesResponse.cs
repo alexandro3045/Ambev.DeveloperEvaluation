@@ -1,15 +1,15 @@
 
 using Ambev.DeveloperEvaluation.Domain.Entities;
 
-namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.GetListProduct;
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.GetListCategories;
 
 /// <summary>
-/// API response model for ListProductsoperation
+/// API response model for ListCategoriesoperation
 /// </summary>
-public class GetListProductResponse
+public class GetListCategoriesResponse
 {
     /// <summary>
-    /// The list product
+    /// The list categories
     /// </summary>
-    public List<Product> ListProduct { get; set; }
+    public string[] ListCategories { get; set; }
 }

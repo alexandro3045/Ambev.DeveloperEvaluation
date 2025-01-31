@@ -1,17 +1,18 @@
+using Ambev.DeveloperEvaluation.Application.Products.GetListCategorias;
 using FluentValidation;
 
-namespace Ambev.DeveloperEvaluation.Application.Products.GetListProducts;
+namespace Ambev.DeveloperEvaluation.Application.Categories.GetListCategories;
 
 /// <summary>
-/// Validator for GetProductsCommand
+/// Validator for GetCategoriesCommand
 /// </summary>
-public class GetListProductValidator : AbstractValidator<GetListProductCommand>
+public class GetListCategoriesValidator : AbstractValidator<GetListCategoriesCommand>
 {
     private string message = "{0} of the list is required";
     /// <summary>
-    /// Initializes validation rules for GetListProductsCommand
+    /// Initializes validation rules for GetListCategoriesCommand
     /// </summary>
-    public GetListProductValidator()
+    public GetListCategoriesValidator()
     {
         RuleFor(x => x.Page)
             .NotEmpty()

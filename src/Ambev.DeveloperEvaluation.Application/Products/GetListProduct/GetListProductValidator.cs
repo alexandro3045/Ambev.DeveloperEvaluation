@@ -5,7 +5,7 @@ namespace Ambev.DeveloperEvaluation.Application.Products.GetListProducts;
 /// <summary>
 /// Validator for GetProductsCommand
 /// </summary>
-public class GetListProductValidator : AbstractValidator<GetListProductCommand>
+public class GetListProductValidator : AbstractValidator<GetListProductByCategoryCommand>
 {
     private string message = "{0} of the list is required";
     /// <summary>

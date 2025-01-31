@@ -1,11 +1,12 @@
+using Ambev.DeveloperEvaluation.Application.Products.GetListCategories;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.GetListCategorias;
 
 /// <summary>
-/// Command for retrieving a list Products
+/// Command for retrieving a list categories of Products
 /// </summary>
-public record GetListCategoriesCommand : IRequest<GetListProductResult>
+public record GetListCategoriesCommand : IRequest<GetListCategoriesResult>
 {
     /// <summary>
     /// The page of the list
@@ -33,7 +34,7 @@ public record GetListCategoriesCommand : IRequest<GetListProductResult>
     /// <param name="page">The page of the list of the list products to retrieve</param>
     /// <param name="size">The size of the list of the list products to retrieve</param>
     /// <param name="order">The order of the list of the list products to retrieve</param>
-    public GetListCategoriasCommand(int page, int size, string? order, string? direction)
+    public GetListCategoriesCommand(int page, int size, string? order, string? direction)
     {
         Page = page;
         Size = size;
