@@ -1,0 +1,50 @@
+﻿using AutoMapper;
+using MediatR;
+using FluentValidation;
+using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Ambev.DeveloperEvaluation.Application.Products.UpdateProducts;
+
+
+namespace Ambev.DeveloperEvaluation.Application.Productss.UpdateProducts;
+
+/// <summary>
+/// Handler for processing UpdateProductsCommand requests
+/// </summary>
+public class UpdateProductsHandler : IRequestHandler<UpdateProductsCommand, UpdateProductsResult>
+{
+    private readonly IProductsRepository _ProductsRepository;
+    private readonly IMapper _mapper;
+
+    /// <summary>
+    /// Initializes a new instance of UpdateProductsHandler
+    /// </summary>
+    /// <param name="ProductsRepository">The Products repository</param>
+    /// <param name="mapper">The AutoMapper instance</param>
+    /// <param name="validator">The validator for UpdateProductsCommand</param>
+    public UpdateProductsHandler(IProductsRepository ProductsRepository, IMapper mapper)
+    {
+        _ProductsRepository = ProductsRepository;
+        _mapper = mapper;
+    }
+
+    /// <summary>
+    /// Handles the UpdateProductsCommand request
+    /// </summary>
+    /// <param name="command">The UpdateProducts command</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The Updated Products details</returns>
+    public async Task<UpdateProductsResult> Handle(UpdateProductsCommand command, CancellationToken cancellationToken)
+    {
+        var validator = new UpdateProductsValidator();
+        var validationResult = await validator.ValidateAsync(command, cancellationToken);
+
+        if (!validationResult.IsValid)
+            throw new ValidationException(validationResult.Errors);
+       
+        var Products = _mapper.Map<Domain.Entities.Products>(command);
+
+        var UpdatedProducts = await _ProductsRepository.UpdateAsync(Products, cancellationToken);
+        var result = _mapper.Map<UpdateProductsResult>(UpdatedProducts);
+        return result;
+    }
+}
