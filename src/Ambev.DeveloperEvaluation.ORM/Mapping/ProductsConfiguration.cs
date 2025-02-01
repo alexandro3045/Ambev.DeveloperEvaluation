@@ -13,15 +13,29 @@ public class ProductsConfiguration : IEntityTypeConfiguration<Product>
         builder.ToTable("Products");
 
         builder.HasKey(u => u.Id);
-        builder.Property(u => u.Id).HasColumnType("uuid").HasDefaultValueSql("gen_random_uuid()");
 
-        builder.Property(u => u.Title).IsRequired().HasMaxLength(50);
-        builder.Property(u => u.Price).IsRequired().HasMaxLength(10);
-        builder.Property(u => u.Descripption).IsRequired().HasMaxLength(100);
-        builder.Property(u => u.Category).HasMaxLength(20);
+        builder.Property(u => u.Id)
+            .HasColumnType("uuid")
+            .HasDefaultValueSql("gen_random_uuid()");
 
-        builder.Property(u => u.Image).HasColumnType("image");
+        builder.Property(u => u.Title)
+            .IsRequired()
+            .HasMaxLength(50);
 
+        builder.Property(u => u.Price)
+            .IsRequired()
+            .HasMaxLength(10);
+
+        builder.Property(u => u.Descripption)
+            .IsRequired()
+            .HasMaxLength(100);
+
+        builder.Property(u => u.Category)
+            .HasMaxLength(20);
+
+        builder.Property(u => u.Image)
+            .IsRequired()
+            .HasMaxLength(1000);
 
         builder
          .Property(x => x.Rating)

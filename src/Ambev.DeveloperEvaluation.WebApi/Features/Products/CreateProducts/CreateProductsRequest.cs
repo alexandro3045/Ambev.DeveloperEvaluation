@@ -30,7 +30,7 @@ public class CreateProductRequest
     /// <summary>
     /// Gets the image from product.
     /// </summary>
-    public required byte[] Image { get; set; }
+    public required string Image { get; set; }
 
     /// <summary>
     /// Gets the rating from product.

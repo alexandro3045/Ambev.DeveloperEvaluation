@@ -1,4 +1,3 @@
-using Ambev.DeveloperEvaluation.Domain.Enums;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProducts;
 
@@ -8,7 +7,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProducts;
 public class CreateProductsResponse : CreateProductRequest
 {
     /// <summary>
-    /// The unique identifier of the created user
+    /// The unique identifier of the created product
     /// </summary>
     public Guid Id { get; set; }
     

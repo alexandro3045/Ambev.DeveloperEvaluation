@@ -1,4 +1,3 @@
-using Ambev.DeveloperEvaluation.WebApi.Features.Users.DeleteUser;
 using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.DeleteProducts;

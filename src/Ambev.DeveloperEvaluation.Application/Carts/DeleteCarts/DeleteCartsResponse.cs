@@ -1,9 +1,9 @@
-namespace Ambev.DeveloperEvaluation.Application.Products.DeleteProducts;
+namespace Ambev.DeveloperEvaluation.Application.Carts.DeleteCarts;
 
 /// <summary>
-/// Response model for DeleteProducts operation
+/// Response model for DeleteCarts operation
 /// </summary>
-public class DeleteProductsResponse
+public class DeleteCartsResponse
 {
     /// <summary>
     /// Indicates whether the deletion was successful

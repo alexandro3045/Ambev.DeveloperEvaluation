@@ -1,4 +1,3 @@
-using Ambev.DeveloperEvaluation.Application.Users.DeleteUser;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.DeleteProducts;
