@@ -14,8 +14,7 @@ public class CartsConfiguration : IEntityTypeConfiguration<Carts>
         builder.HasKey(u => u.Id);
 
         builder.Property(u => u.Id)
-            .HasColumnType("uuid")
-            .HasDefaultValueSql("gen_random_uuid()");
+            .HasColumnType("uuid");
 
         builder.Property(u => u.UserId)
             .IsRequired()
@@ -24,13 +23,13 @@ public class CartsConfiguration : IEntityTypeConfiguration<Carts>
         builder.Property(u => u.Date)
             .IsRequired()
             .HasColumnType("date");
-
+        
         builder
          .Property(x => x.Products)
          .HasColumnType("jsonb")
          .HasConversion(
               x => JsonConvert.SerializeObject(x),
-              x => JsonConvert.DeserializeObject<List<Product>>(x)
-          );
+              x => JsonConvert.DeserializeObject<List<Item>>(x)
+          );        
     }
 }

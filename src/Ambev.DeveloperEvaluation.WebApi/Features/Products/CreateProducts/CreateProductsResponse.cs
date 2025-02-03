@@ -10,5 +10,5 @@ public class CreateProductsResponse : CreateProductRequest
     /// The unique identifier of the created product
     /// </summary>
     public Guid Id { get; set; }
-    
+
 }

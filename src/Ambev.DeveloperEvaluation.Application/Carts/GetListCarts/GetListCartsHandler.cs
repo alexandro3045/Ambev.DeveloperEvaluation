@@ -1,10 +1,9 @@
 using AutoMapper;
 using MediatR;
 using FluentValidation;
-using Ambev.DeveloperEvaluation.Application.Carts.GetListCarts;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 
-namespace Ambev.DeveloperEvaluation.Application.Carts.GetListCartss;
+namespace Ambev.DeveloperEvaluation.Application.Carts.GetListCarts;
 
 /// <summary>
 /// Handler for processing GetCartsCommand requests

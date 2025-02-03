@@ -1,18 +1,22 @@
 using FluentValidation;
 
-namespace Ambev.DeveloperEvaluation.Application.Products.GetListProducts;
+namespace Ambev.DeveloperEvaluation.Application.Products.GetListProductsByCategory;
 
 /// <summary>
-/// Validator for GetProductsCommand
+/// Validator for GetProductsByCategoryommand
 /// </summary>
-public class GetListProductValidator : AbstractValidator<GetListProductCommand>
+public class GetListProducByCategorytValidator : AbstractValidator<GetListProductByCategoryCommand>
 {
     private string message = "{0} the list is required";
     /// <summary>
     /// Initializes validation rules for GetListProductsCommand
     /// </summary>
-    public GetListProductValidator()
+    public GetListProducByCategorytValidator()
     {
+        RuleFor(x => x.Category)
+        .NotEmpty()
+        .WithMessage(string.Format(message, "Category"));
+
         RuleFor(x => x.Page)
             .NotEmpty()
             .WithMessage(string.Format(message, "Page"));

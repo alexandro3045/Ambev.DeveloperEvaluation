@@ -8,11 +8,10 @@ public class GetListCartsResult
     /// <summary>
     /// Gets list from carts
     /// </summary>
-    public List<Domain.Entities.Carts> Carts { get; set; }
+    public List<Domain.Entities.Carts> ListCarts { get; set; }
 
     public GetListCartsResult(List<Domain.Entities.Carts>? listCarts)
     {
-        Carts = listCarts;
+        ListCarts = listCarts;
     }
-
 }

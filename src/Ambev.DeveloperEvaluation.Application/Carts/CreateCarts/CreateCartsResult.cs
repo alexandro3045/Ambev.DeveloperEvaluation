@@ -12,6 +12,18 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
 /// </remarks>
 public class CreateCartsResult
 {
+
+    public CreateCartsResult(List<Item> products)
+    {
+        Products = products;
+    }
+
+    /// <summary>
+    /// Gets or sets the unique identifier of the newly created Products.
+    /// </summary>
+    /// <value>A GUID that uniquely identifies the created Products in the system.</value>
+    public Guid Id { get; set; }
+
     /// <summary>
     /// Gets the UserId from user
     /// </summary>
@@ -25,5 +37,5 @@ public class CreateCartsResult
     /// <summary>
     /// Gets the List from product.
     /// </summary>
-    public List<Product> Carts { get; set; }
+    public List<Item> Products { get; set; }
 }

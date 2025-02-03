@@ -2,8 +2,9 @@
 using MediatR;
 using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
-using Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
-namespace Ambev.DeveloperEvaluation.Application.Cartss.CreateCarts;
+
+
+namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
 
 /// <summary>
 /// Handler for processing CreateCartsCommand requests

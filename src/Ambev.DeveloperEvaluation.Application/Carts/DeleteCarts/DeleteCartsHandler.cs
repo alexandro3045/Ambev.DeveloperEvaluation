@@ -1,9 +1,8 @@
 using MediatR;
 using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
-using Ambev.DeveloperEvaluation.Application.Carts.DeleteCarts;
 
-namespace Ambev.DeveloperEvaluation.Application.Cartss.DeleteCarts;
+namespace Ambev.DeveloperEvaluation.Application.Carts.DeleteCarts;
 
 /// <summary>
 /// Handler for processing DeleteCartsCommand requests

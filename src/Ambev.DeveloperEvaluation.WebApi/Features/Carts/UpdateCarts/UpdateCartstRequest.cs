@@ -24,7 +24,7 @@ public class UpdateCartsRequest
     public required DateTime Date { get; set; }
 
     /// <summary>
-    /// Gets the description from Carts.
+    /// Gets the products from Carts.
     /// </summary>
-    public required List<Product> Products { get; set; }
+    public required List<Item> Products { get; set; }
 }

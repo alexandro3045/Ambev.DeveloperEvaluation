@@ -20,13 +20,14 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         public string UserId { get; set; }
 
         /// <summary>
-        /// Gets the User when the carts was created.
-        /// </summary>
-        public string User { get; set; }
-
-        /// <summary>
         /// Gets the products when the carts was created.
         /// </summary>
-        public List<Product> Products { get; set; }
+        public List<Item> Products { get; set; }
+    }
+
+    public class Item
+    {
+        public Guid ProductId { get; set; }
+        public int Quantity { get; set; }
     }
 }

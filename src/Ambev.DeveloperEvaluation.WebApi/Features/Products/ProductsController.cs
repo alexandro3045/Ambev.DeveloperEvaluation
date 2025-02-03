@@ -18,6 +18,7 @@ using Ambev.DeveloperEvaluation.Application.Products.GetListProducts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.DeleteUser;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.GetListProduct;
 using Ambev.DeveloperEvaluation.Application.Products.GetListCategorias;
+using Ambev.DeveloperEvaluation.Application.Products.GetListProductsByCategory;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Products;
 
@@ -135,7 +136,7 @@ public class ProductsController : BaseController
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
-        var command = _mapper.Map<GetListProductByCategoryCommand>(request);
+        var command = _mapper.Map<GetListProductCommand>(request);
         var response = await _mediator.Send(command, cancellationToken);
 
         return OkPaginated(new PaginatedList<Product?>(response.Products, response.Products.Count, page, size));

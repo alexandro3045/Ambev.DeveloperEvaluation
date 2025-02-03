@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using Ambev.DeveloperEvaluation.Application.Products.UpdateProducts;
-using Ambev.DeveloperEvaluation.Application.Products.CreateProducts;
-
+using Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCarts;
 
@@ -16,7 +14,7 @@ public class UpdateCartsProfile : Profile
     public UpdateCartsProfile()
     {
         CreateMap<UpdateCartsCommand, Domain.Entities.Carts>();
-        CreateMap<Domain.Entities.Carts, UpdateProductResult>();
-        CreateMap<Domain.Entities.Carts, CreateProductsResult>();
+        CreateMap<Domain.Entities.Carts, UpdateCartsResult>();
+        CreateMap<Domain.Entities.Carts, CreateCartsResult>();
     }
 }

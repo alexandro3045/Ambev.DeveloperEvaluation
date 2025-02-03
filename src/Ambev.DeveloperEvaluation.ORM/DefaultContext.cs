@@ -12,6 +12,8 @@ public class DefaultContext : DbContext
 
     public DbSet<Product> Products { get; set; }
 
+    public DbSet<Carts> Carts { get; set; }
+
     public DefaultContext(DbContextOptions<DefaultContext> options) : base(options)
     {
     }

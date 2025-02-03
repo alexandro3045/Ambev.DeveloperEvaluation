@@ -7,6 +7,9 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCarts;
 /// </summary>
 public class UpdateCartsValidator : AbstractValidator<UpdateCartsCommand>
 {
+
+    private string message = "{0} the list is required";
+
     /// <summary>
     /// Initializes a new instance of the CreateCartsRequestValidator with defined validation rules.
     /// </summary>
@@ -18,8 +21,16 @@ public class UpdateCartsValidator : AbstractValidator<UpdateCartsCommand>
     /// </remarks>
     public UpdateCartsValidator()
     {
-        RuleFor(Carts => Carts.UserId).NotEmpty();
-        RuleFor(Carts => Carts.Date).NotEmpty();
-        RuleFor(Carts => Carts.Products).NotEmpty();
+        RuleFor(x => x.Date)
+            .NotEmpty()
+            .WithMessage(string.Format(message, "Date"));
+
+        RuleFor(x => x.Products)
+            .NotEmpty()
+            .WithMessage(string.Format(message, "Products"));
+
+        RuleFor(x => x.UserId)
+            .NotEmpty()
+            .WithMessage(string.Format(message, "UserId"));
     }
 }

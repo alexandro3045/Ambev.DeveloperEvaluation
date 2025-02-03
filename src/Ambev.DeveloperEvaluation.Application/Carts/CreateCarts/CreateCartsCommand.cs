@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using Ambev.DeveloperEvaluation.Application.Cartss.CreateCarts;
-using Ambev.DeveloperEvaluation.Application.Products.CreateProducts;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using MediatR;
@@ -37,7 +35,7 @@ public class CreateCartsCommand : IRequest<CreateCartsResult>
     /// Gets the List from product.
     /// </summary>
     [Column(TypeName = "jsonb")]
-    public required List<Product> Products { get; set; }
+    public required List<Item> Products { get; set; }
 
     public virtual ValidationResultDetail Validate()
     {

@@ -11,9 +11,5 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCarts;
 /// </remarks>
 public class UpdateCartsResult : GetCartsResult
 {
-    /// <summary>
-    /// Gets or sets the unique identifier of the newly created Carts.
-    /// </summary>
-    /// <value>A GUID that uniquely identifies the created Carts in the system.</value>
-    public Guid Id { get; set; }
+
 }

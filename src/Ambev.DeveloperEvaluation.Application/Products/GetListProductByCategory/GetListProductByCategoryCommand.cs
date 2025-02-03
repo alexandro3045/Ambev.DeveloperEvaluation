@@ -1,6 +1,7 @@
+using Ambev.DeveloperEvaluation.Application.Products.GetListProducts;
 using MediatR;
 
-namespace Ambev.DeveloperEvaluation.Application.Products.GetListProducts;
+namespace Ambev.DeveloperEvaluation.Application.Products.GetListProductsByCategory;
 
 /// <summary>
 /// Command for retrieving a list Products

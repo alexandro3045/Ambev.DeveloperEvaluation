@@ -1,15 +1,30 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Products.GetListProducts;
+using Ambev.DeveloperEvaluation.Application.Products.GetListProductsByCategory;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentValidation;
+using MediatR;
 
 
 namespace Ambev.DeveloperEvaluation.Application.Products.GetListProductByCategory
 {
-    public class GetListProductsByCategoryHandler : GetListProductHandler
+    public class GetListProductsByCategoryHandler : IRequestHandler<GetListProductByCategoryCommand, GetListProductResult>
     {
-        public GetListProductsByCategoryHandler(IProductsRepository _ProductsRepository, IMapper mapper) : base(_ProductsRepository, mapper) 
+        protected readonly IProductsRepository _ProductsRepository;
+        protected readonly IMapper _mapper;
+
+        /// <summary>
+        /// Initializes a new instance of GetListProductsHandler
+        /// </summary>
+        /// <param name="ProductsRepository">The Products repository</param>
+        /// <param name="mapper">The AutoMapper instance</param>
+        /// <param name="validator">The validator for GetProductsCommand</param>
+        public GetListProductsByCategoryHandler(
+            IProductsRepository ProductsRepository,
+            IMapper mapper)
         {
+            _ProductsRepository = ProductsRepository;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -18,9 +33,9 @@ namespace Ambev.DeveloperEvaluation.Application.Products.GetListProductByCategor
         /// <param name="request">The GetProducts command</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>The Products details if found</returns>
-        public override async Task<GetListProductResult> Handle(GetListProductByCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<GetListProductResult> Handle(GetListProductByCategoryCommand request, CancellationToken cancellationToken)
         {
-            var validator = new GetListProductValidator();
+            var validator = new GetListProducByCategorytValidator();
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
             if (!validationResult.IsValid)

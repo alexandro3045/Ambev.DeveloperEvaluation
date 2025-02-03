@@ -32,14 +32,9 @@ public class UpdateCartsCommand : IRequest<UpdateCartsResult>
     public string UserId { get; set; }
 
     /// <summary>
-    /// Gets the User when the carts was created.
-    /// </summary>
-    public string User { get; set; }
-
-    /// <summary>
     /// Gets the Products when the carts was created.
     /// </summary>
-    public List<Product> Products { get; set; }
+    public List<Item> Products { get; set; }
 
     public ValidationResultDetail Validate()
     {

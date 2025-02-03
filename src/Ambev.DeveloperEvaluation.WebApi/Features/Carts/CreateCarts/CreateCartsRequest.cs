@@ -18,12 +18,7 @@ public class CreateCartsRequest
     public required string UserId { get; set; }
 
     /// <summary>
-    /// Gets the User when the carts was created.
-    /// </summary>
-    public required string User { get; set; }
-
-    /// <summary>
     /// Gets the products when the carts was created.
     /// </summary>
-    public required List<Product> Products { get; set; }
+    public required List<Item> Products { get; set; }
 }

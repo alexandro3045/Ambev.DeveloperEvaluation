@@ -1,7 +1,6 @@
-﻿using Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
-using FluentValidation;
+﻿using FluentValidation;
 
-namespace Ambev.DeveloperEvaluation.Application.Cartss.CreateCarts;
+namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
 
 /// <summary>
 /// Validator for CreateCartsCommand that defines validation rules for Carts creation command.
