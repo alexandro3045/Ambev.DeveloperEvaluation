@@ -14,7 +14,8 @@ public class GetListUserProfile : Profile
     public GetListUserProfile()
     {
         CreateMap<GetListUserRequest, GetListUserCommand>()
-            .ConstructUsing(request => new GetListUserCommand(request.Page, request.Size, request.Order, request.Direction));
+            .ConstructUsing(request => new GetListUserCommand(request.Page, request.Size, request.Order, request.Direction, 
+              request.ColumnFilters, request.SearchTerm));
 
         CreateMap<GetListUserResult, GetListUserResponse>();
     }

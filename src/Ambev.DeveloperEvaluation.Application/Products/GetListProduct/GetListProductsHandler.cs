@@ -41,7 +41,8 @@ public class GetListProductHandler : IRequestHandler<GetListProductCommand, GetL
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var listProduct = await _ProductsRepository.GetAllAsync(request.Page, request.Size, request.Order, request.Direction, cancellationToken);
+        var listProduct = await _ProductsRepository.GetAllAsync(request.Page, request.Size, request.Order, 
+               request.Direction, request.ColumnFilters, request.SearchTerm, cancellationToken);
 
         return _mapper.Map<GetListProductResult>(listProduct);
     }

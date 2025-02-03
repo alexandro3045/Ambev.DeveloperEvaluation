@@ -119,13 +119,16 @@ public class CartsController : BaseController
     /// <param name="direction">The page of list</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The list of Carts </returns>
-    [HttpGet("{page},{size},{order},{direction}")]
+    [HttpGet()]
     [ProducesResponseType(typeof(PaginatedList<Domain.Entities.Carts?>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetListCarts([FromRoute] int page = 1, int size = 10, string? order = default, string? direction = "asc", CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetListCarts([FromQuery] int page = 1, [FromQuery] int size = 10, [FromQuery] string? order = "Date", [FromQuery] string? direction = "asc",
+          [FromQuery] string? columnFilters = default, [FromQuery] string? searchTerm = default, CancellationToken cancellationToken = default)
     {
-        var request = new GetListCartsRequest { Page = page, Size = size, Order = order, Direction = direction };
+        var request = new GetListCartsRequest { Page = page, Size = size, Order = order, 
+                  ColumnFilters = columnFilters, SearchTerm = searchTerm , Direction = direction };
+
         var validator = new GetListCartsRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 

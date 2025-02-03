@@ -1,6 +1,10 @@
-﻿using Ambev.DeveloperEvaluation.Common.QueryExpression;
+﻿using Ambev.DeveloperEvaluation.Common.Filter;
+using Ambev.DeveloperEvaluation.Common.QueryExpression;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Linq.Expressions;
+using System.Text.Json;
 
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories
@@ -49,8 +53,32 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             return await _context.Set<TEntity>().FindAsync(id, cancellationToken);
         }
 
-        public async Task<List<TEntity>> GetAllAsync(int page, int size, string order, string direction, CancellationToken cancellationToken = default)
+        public async Task<List<TEntity>> GetAllAsync(int page, int size, string order, string direction,
+            string? columnFilters, string? searchTerm, CancellationToken cancellationToken = default)
         {
+            var filterColumn = new List<ColumnFilter>() { new ColumnFilter { Id = columnFilters, Value = searchTerm } };
+
+            Expression<Func<TEntity, bool>> filters = null;
+            //First, we are checking our SearchTerm. If it contains information we are creating a filter.
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                searchTerm = searchTerm.Trim().ToLower();
+                filters = x => x.GetType().GetProperty("columnFilters").GetValue(x).ToString().ToLower().Contains(searchTerm);
+            }
+            // Then we are overwriting a filter if columnFilters has data.
+            if (!columnFilters.IsNullOrEmpty() || !searchTerm.IsNullOrEmpty())
+            {
+                filters = CustomExpressionFilter<TEntity>.CustomFilter(filterColumn, typeof(TEntity).Name);
+
+                return await _context.Set<TEntity>()
+                .AsNoTracking()
+                .Where(filters)
+                .Skip((page - 1) * size)
+                .Take(size)
+                .OrderBySource(order, direction)
+                .ToListAsync(cancellationToken);
+            }
+
             return await _context.Set<TEntity>()
                 .AsNoTracking()
                 .Skip((page - 1) * size)

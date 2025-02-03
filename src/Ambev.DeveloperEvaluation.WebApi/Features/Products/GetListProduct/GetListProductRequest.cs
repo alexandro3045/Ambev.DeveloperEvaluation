@@ -30,4 +30,14 @@ public class GetListProductRequest
     /// The direction Products list to retrieve
     /// </summary>
     public string? Direction { get; set; }
+
+    /// <summary>
+    /// The Filters of the field list
+    /// </summary>
+    public string? ColumnFilters { get; }
+
+    /// <summary>
+    /// The Filters of the field list
+    /// </summary>
+    public string? SearchTerm { get; }
 }

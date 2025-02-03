@@ -1,4 +1,5 @@
 using Ambev.DeveloperEvaluation.Application.Products.GetListProducts;
+using Ambev.DeveloperEvaluation.Common.Filter;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.GetListProductsByCategory;
@@ -35,17 +36,33 @@ public record GetListProductByCategoryCommand : IRequest<GetListProductResult>
     public string Category { get; }
 
     /// <summary>
+    /// The Filters of the field list
+    /// </summary>
+    public string? ColumnFilters { get; }
+
+    /// <summary>
+    /// The Filters of the field list
+    /// </summary>
+    public string? SearchTerm { get; }
+
+    /// <summary>
     /// Initializes a new instance of ListproductsCommand
     /// </summary>
     /// <param name="page">The page of the list of the list products to retrieve</param>
     /// <param name="size">The size of the list of the list products to retrieve</param>
     /// <param name="order">The order of the list of the list products to retrieve</param>
-    public GetListProductByCategoryCommand(int page, int size, string? order, string? direction, string? category)
+    /// <param name="direction">The Direction of the list of the list products to retrieve</param>
+    /// <param name="columnFilters">The filter of the list of the list products to retrieve</param>
+    /// <param name="searchTerm">The searchTerm of the list of the list products to retrieve</param>
+    public GetListProductByCategoryCommand(int page, int size, string? order, string? direction,
+        string? columnFilters, string? searchTerm, string? category)
     {
         Page = page;
         Size = size;
         Order = order;
         Direction = direction;
+        ColumnFilters = columnFilters;
+        SearchTerm = searchTerm;
         Category = category;
     }
 }

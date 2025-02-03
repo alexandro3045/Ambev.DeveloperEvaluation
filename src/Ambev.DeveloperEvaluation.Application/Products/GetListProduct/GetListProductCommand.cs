@@ -7,7 +7,6 @@ namespace Ambev.DeveloperEvaluation.Application.Products.GetListProducts;
 /// </summary>
 public record GetListProductCommand : IRequest<GetListProductResult>
 {
-
     /// <summary>
     /// The page of the list
     /// </summary>
@@ -29,17 +28,33 @@ public record GetListProductCommand : IRequest<GetListProductResult>
     public string? Direction { get; }
 
     /// <summary>
+    /// The Filters of the field list
+    /// </summary>
+    public string? ColumnFilters { get; }
+
+    /// <summary>
+    /// The Filters of the field list
+    /// </summary>
+    public string? SearchTerm { get; }
+
+    /// <summary>
     /// Initializes a new instance of ListproductsCommand
     /// </summary>
     /// <param name="page">The page of the list of the list products to retrieve</param>
     /// <param name="size">The size of the list of the list products to retrieve</param>
     /// <param name="order">The order of the list of the list products to retrieve</param>
-    public GetListProductCommand(int page, int size, string? order, string? direction)
+    /// <param name="direction">The Direction of the list of the list products to retrieve</param>
+    /// <param name="columnFilters">The filter of the list of the list products to retrieve</param>
+    /// <param name="searchTerm">The searchTerm of the list of the list products to retrieve</param>
+    public GetListProductCommand(int page, int size, string? order, string? direction,
+        string? columnFilters, string? searchTerm)
     {
         Page = page;
         Size = size;
         Order = order;
         Direction = direction;
+        ColumnFilters = columnFilters;
+        SearchTerm = searchTerm;
     }
 }
 

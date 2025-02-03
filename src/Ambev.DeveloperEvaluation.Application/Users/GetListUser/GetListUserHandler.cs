@@ -3,6 +3,7 @@ using MediatR;
 using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Application.Users.GetListUser;
+using Ambev.DeveloperEvaluation.Common.Filter;
 
 namespace Ambev.DeveloperEvaluation.Application.Users.GetUser;
 
@@ -42,8 +43,8 @@ public class GetListUserHandler : IRequestHandler<GetListUserCommand, GetListUse
 
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
-
-        var listUser = await _userRepository.GetAllAsync(request.Page, request.Size, request.Order, request.Direction, cancellationToken);
+        var listUser = await _userRepository.GetAllAsync(request.Page, request.Size, request.Order, request.Direction, 
+            request.ColumnFilters, request.SearchTerm, cancellationToken);
 
         return _mapper.Map<GetListUserResult>(listUser);
     }

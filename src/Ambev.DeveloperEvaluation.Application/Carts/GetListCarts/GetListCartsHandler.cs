@@ -41,7 +41,8 @@ public class GetListCartsHandler : IRequestHandler<GetListCartsCommand, GetListC
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var listCarts = await _CartssRepository.GetAllAsync(request.Page, request.Size, request.Order, request.Direction, cancellationToken);
+        var listCarts = await _CartssRepository.GetAllAsync(request.Page, request.Size, request.Order,request.Direction,
+            request.ColumnFilters, request.SearchTerm, cancellationToken);
 
         return _mapper.Map<GetListCartsResult>(listCarts);
     }

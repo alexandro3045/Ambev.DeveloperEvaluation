@@ -28,16 +28,29 @@ public record GetListUserCommand : IRequest<GetListUserResult>
     public string? Direction { get; }
 
     /// <summary>
+    /// The Filters of the field list
+    /// </summary>
+    public string? ColumnFilters { get; }
+
+    /// <summary>
+    /// The Filters of the field list
+    /// </summary>
+    public string? SearchTerm { get; }
+
+    /// <summary>
     /// Initializes a new instance of ListUserCommand
     /// </summary>
     /// <param name="page">The page of the list of the list user to retrieve</param>
     /// <param name="size">The size of the list of the list user to retrieve</param>
     /// <param name="order">The order of the list of the list user to retrieve</param>
-    public GetListUserCommand(int page, int size, string? order, string? direction)
+    public GetListUserCommand(int page, int size, string? order, string? direction,
+        string? columnFilters, string? searchTerm)
     {
         Page = page;
         Size = size;
         Order = order;
         Direction = direction;
+        ColumnFilters = columnFilters;
+        SearchTerm = searchTerm;
     }
 }
