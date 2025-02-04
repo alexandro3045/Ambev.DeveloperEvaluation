@@ -54,26 +54,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         public async Task<List<TEntity>> GetAllAsync(int page, int size, string order, string direction,
             string? columnFilters, CancellationToken cancellationToken = default)
         {
-            var filterColumn = new List<ColumnFilter>();
-            if (!string.IsNullOrEmpty(columnFilters))
-            {
-                columnFilters.Split('&').ToList().ForEach(x =>
-                {
-                    switch (x.Split('=')[0])
-                    {
-                        case "_minPrice":
-                            filterColumn.Add(new ColumnFilter { Id = "Price", Value = x.Split('=')[1], Range = "Min" });
-                            break;
-
-                        case "_maxPrice":
-                            filterColumn.Add(new ColumnFilter { Id = "Price", Value = x.Split('=')[1], Range = "Max" });
-                            break;
-                        default:
-                            filterColumn.Add(new ColumnFilter { Id = x.Split('=')[0], Value = x.Split('=')[1] });
-                            break;
-                    }   
-                });                
-            }
 
             Expression<Func<TEntity, bool>> filters = null;
 
@@ -81,7 +61,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             // Then we are overwriting a filter if columnFilters has data.
             if (!string.IsNullOrEmpty(columnFilters))
             {
-                filters = CustomExpressionFilter<TEntity>.CustomFilter(filterColumn, typeof(TEntity).Name);
+                filters = CustomExpressionFilter<TEntity>.CustomFilterColumn(columnFilters, typeof(TEntity).Name);
 
                 source = source.Where(filters);
             }
