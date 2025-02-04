@@ -20,7 +20,7 @@ public class CartsConfiguration : IEntityTypeConfiguration<Carts>
             .IsRequired()
             .HasMaxLength(50);
 
-        builder.Property(u => u.Date)
+        builder.Property(u => u.CreatedAt)
             .IsRequired()
             .HasColumnType("date");
         

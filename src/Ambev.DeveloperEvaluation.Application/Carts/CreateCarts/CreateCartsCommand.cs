@@ -27,9 +27,9 @@ public class CreateCartsCommand : IRequest<CreateCartsResult>
     public required string UserId { get; set; }
 
     /// <summary>
-    /// Gets the date from carts
+    /// Gets the createdAt from carts
     /// </summary>
-    public required DateTime Date { get; set; }
+    public required DateTime CreatedAt { get; set; }
 
     /// <summary>
     /// Gets the List from product.
