@@ -12,10 +12,8 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetListProduct;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Application.Productss.CreateProducts;
 using Ambev.DeveloperEvaluation.Application.Productss.UpdateProducts;
-using Ambev.DeveloperEvaluation.Application.Products.UpdateProducts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Productss.GetProducts;
 using Ambev.DeveloperEvaluation.Application.Products.GetListProducts;
-using Ambev.DeveloperEvaluation.WebApi.Features.Users.DeleteUser;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.GetListProduct;
 using Ambev.DeveloperEvaluation.Application.Products.GetListCategorias;
 using Ambev.DeveloperEvaluation.Application.Products.GetListProductsByCategory;
@@ -61,9 +59,16 @@ public class ProductsController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<CreateProductsCommand>(request);
-        var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(_mapper.Map<CreateProductsResponse>(response));
+        try
+        {
+            var response = await _mediator.Send(command, cancellationToken);
+            return Ok(_mapper.Map<CreateProductsResponse>(response));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+        }
     }
 
     /// <summary>
@@ -84,9 +89,17 @@ public class ProductsController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<UpdateProductsCommand>(request);
-        var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(_mapper.Map<UpdateProductResult>(response));
+        try
+        {
+            var response = await _mediator.Send(command, cancellationToken);
+            return Ok(_mapper.Map<UpdateProductResponse>(response));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+        }
+
     }
 
     /// <summary>
@@ -109,7 +122,11 @@ public class ProductsController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<GetProductsCommand>(request.Id);
+
         var response = await _mediator.Send(command, cancellationToken);
+
+        if(response == null)
+            return NotFound(new ApiResponse { Success = false, Message = "Product not found" });
 
         return Ok(_mapper.Map<GetProductsResponse>(response));
     }
@@ -139,9 +156,15 @@ public class ProductsController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<GetListProductCommand>(request);
-        var response = await _mediator.Send(command, cancellationToken);
-
-        return OkPaginated(new PaginatedList<Product?>(response.Products, response.Products.Count, page, size));
+        try
+        {
+            var response = await _mediator.Send(command, cancellationToken);
+            return OkPaginated(new PaginatedList<Product?>(response.Products, response.Products.Count, page, size));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+        }
     }
 
     /// <summary>
@@ -164,7 +187,15 @@ public class ProductsController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<DeleteProductsCommand>(request.Id);
-        await _mediator.Send(command, cancellationToken);
+
+        try
+        {
+            await _mediator.Send(command, cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+        }
 
         return Ok(new ApiResponse
         {
@@ -185,6 +216,9 @@ public class ProductsController : BaseController
     {       
         var command = _mapper.Map<GetListCategoriesCommand>(new GetListCategoriesRequest());     
         var response = await _mediator.Send(command, cancellationToken);
+
+        if(response.Categories == null)
+            return NotFound(new ApiResponse { Success = false, Message = "Categories not found" });
 
         return Ok(response);
     }
@@ -214,6 +248,7 @@ public class ProductsController : BaseController
         var command = _mapper.Map<GetListProductByCategoryCommand>(request);
         var response = await _mediator.Send(command, cancellationToken);
 
+            
         if(response.Products == null)
             return NotFound(new ApiResponse { Success = false, Message = "Products not found" });
 

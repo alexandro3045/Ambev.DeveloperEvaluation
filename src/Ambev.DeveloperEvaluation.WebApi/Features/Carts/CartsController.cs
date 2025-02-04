@@ -57,9 +57,16 @@ public class CartsController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<CreateCartsCommand>(request);
-        var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(_mapper.Map<CreateCartsResponse>(response));
+        try
+        {
+            var response = await _mediator.Send(command, cancellationToken);
+            return CreatedAtRoute("GetCarts", new { id = response.Id }, _mapper.Map<CreateCartsResponse>(response));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+        }
     }
 
     /// <summary>
@@ -80,9 +87,16 @@ public class CartsController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<UpdateCartsCommand>(request);
-        var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(_mapper.Map<UpdateCartsResult>(response));
+        try
+        {
+            var response = await _mediator.Send(command, cancellationToken);
+            return CreatedAtRoute("GetCarts", new { id = response.Id }, _mapper.Map<UpdateCartsResponse>(response));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     /// <summary>
@@ -105,9 +119,17 @@ public class CartsController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<GetCartsCommand>(request.Id);
-        var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(_mapper.Map<GetCartsResponse>(response));
+        try
+        {
+            var response = await _mediator.Send(command, cancellationToken);
+            return Ok(_mapper.Map<GetCartsResponse>(response));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+        }
+
     }
 
     /// <summary>
@@ -136,9 +158,16 @@ public class CartsController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<GetListCartsCommand>(request);
-        var response = await _mediator.Send(command, cancellationToken);
 
-        return OkPaginated(new PaginatedList<Domain.Entities.Carts?>(response.ListCarts, response.ListCarts.Count, page, size));
+        try
+        {
+            var response = await _mediator.Send(command, cancellationToken);
+            return OkPaginated(new PaginatedList<Domain.Entities.Carts?>(response.ListCarts, response.ListCarts.Count, page, size));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+        }
     }
 
     /// <summary>
@@ -161,12 +190,20 @@ public class CartsController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<DeleteCartsCommand>(request.Id);
-        await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponse
+        try
         {
-            Success = true,
-            Message = "Carts deleted successfully"
-        });
+            var response = await _mediator.Send(command, cancellationToken);
+            return Ok(new ApiResponse
+            {
+                Success = true,
+                Message = "Carts deleted successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+        }
+
     }
 }
