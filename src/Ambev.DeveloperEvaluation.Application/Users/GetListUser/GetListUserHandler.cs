@@ -44,7 +44,7 @@ public class GetListUserHandler : IRequestHandler<GetListUserCommand, GetListUse
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
         var listUser = await _userRepository.GetAllAsync(request.Page, request.Size, request.Order, request.Direction, 
-            request.ColumnFilters, request.SearchTerm, cancellationToken);
+            request.ColumnFilters, cancellationToken);
 
         return _mapper.Map<GetListUserResult>(listUser);
     }

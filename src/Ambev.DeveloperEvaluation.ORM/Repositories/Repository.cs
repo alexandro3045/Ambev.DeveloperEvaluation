@@ -2,16 +2,14 @@
 using Ambev.DeveloperEvaluation.Common.QueryExpression;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using System.Linq.Expressions;
-using System.Text.Json;
-
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories
 {
     public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         protected readonly DefaultContext _context;
+
         public Repository(DefaultContext context)
         {
             _context = context;
@@ -54,36 +52,56 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         }
 
         public async Task<List<TEntity>> GetAllAsync(int page, int size, string order, string direction,
-            string? columnFilters, string? searchTerm, CancellationToken cancellationToken = default)
+            string? columnFilters, CancellationToken cancellationToken = default)
         {
-            var filterColumn = new List<ColumnFilter>() { new ColumnFilter { Id = columnFilters, Value = searchTerm } };
+            var filterColumn = new List<ColumnFilter>();
+            if (!string.IsNullOrEmpty(columnFilters))
+            {
+                columnFilters.Split('&').ToList().ForEach(x =>
+                {
+                    switch (x.Split('=')[0])
+                    {
+                        case "_minPrice":
+                            filterColumn.Add(new ColumnFilter { Id = "Price", Value = x.Split('=')[1], Range = "Min" });
+                            break;
+
+                        case "_maxPrice":
+                            filterColumn.Add(new ColumnFilter { Id = "Price", Value = x.Split('=')[1], Range = "Max" });
+                            break;
+                        default:
+                            filterColumn.Add(new ColumnFilter { Id = x.Split('=')[0], Value = x.Split('=')[1] });
+                            break;
+                    }   
+                });                
+            }
 
             Expression<Func<TEntity, bool>> filters = null;
-            //First, we are checking our SearchTerm. If it contains information we are creating a filter.
-            if (!string.IsNullOrEmpty(searchTerm))
-            {
-                searchTerm = searchTerm.Trim().ToLower();
-                filters = x => x.GetType().GetProperty("columnFilters").GetValue(x).ToString().ToLower().Contains(searchTerm);
-            }
+
+            IQueryable<TEntity> source = _context.Set<TEntity>().AsQueryable();
             // Then we are overwriting a filter if columnFilters has data.
-            if (!columnFilters.IsNullOrEmpty() || !searchTerm.IsNullOrEmpty())
+            if (!string.IsNullOrEmpty(columnFilters))
             {
                 filters = CustomExpressionFilter<TEntity>.CustomFilter(filterColumn, typeof(TEntity).Name);
 
-                return await _context.Set<TEntity>()
-                .AsNoTracking()
-                .Where(filters)
-                .Skip((page - 1) * size)
-                .Take(size)
-                .OrderBySource(order, direction)
-                .ToListAsync(cancellationToken);
+                source = source.Where(filters);
             }
 
-            return await _context.Set<TEntity>()
+            if (page > 0 && size > 0)
+            {
+                source = source
+               .Skip((page - 1) * size)
+               .Take(size);
+            }
+
+            if (!string.IsNullOrEmpty(order))
+            {
+                source = source
+                 .Skip((page - 1) * size)
+                 .OrderBySource(order, direction);
+            }
+
+            return await source
                 .AsNoTracking()
-                .Skip((page - 1) * size)
-                .Take(size)
-                .OrderBySource(order,direction)
                 .ToListAsync(cancellationToken);
         }
     }

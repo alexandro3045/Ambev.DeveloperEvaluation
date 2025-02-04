@@ -32,12 +32,8 @@ public class GetListProductRequest
     public string? Direction { get; set; }
 
     /// <summary>
-    /// The Filters of the field list
+    /// The filter Carts list to retrieve
     /// </summary>
-    public string? ColumnFilters { get; }
+    public string? ColumnFilters { get; set; }
 
-    /// <summary>
-    /// The Filters of the field list
-    /// </summary>
-    public string? SearchTerm { get; }
 }

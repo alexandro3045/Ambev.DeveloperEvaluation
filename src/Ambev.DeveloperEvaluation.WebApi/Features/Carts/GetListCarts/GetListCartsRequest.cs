@@ -29,9 +29,4 @@ public class GetListCartsRequest
     /// The filter Carts list to retrieve
     /// </summary>
     public string? ColumnFilters { get; set; }
-
-    /// <summary>
-    /// The filter Carts list to retrieve
-    /// </summary>
-    public string? SearchTerm { get; set; }
 }

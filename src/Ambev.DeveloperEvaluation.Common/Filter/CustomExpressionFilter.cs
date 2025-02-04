@@ -8,6 +8,7 @@ namespace Ambev.DeveloperEvaluation.Common.Filter
         {
             public string ColumnName { get; set; }
             public string Value { get; set; }
+            public string Range { get; set; }
         }
 
         public static Expression<Func<T, bool>> CustomFilter(List<ColumnFilter> columnFilters, string className)
@@ -18,7 +19,7 @@ namespace Ambev.DeveloperEvaluation.Common.Filter
                 var expressionFilters = new List<ExpressionFilter>();
                 foreach (var item in columnFilters)
                 {
-                    expressionFilters.Add(new ExpressionFilter() { ColumnName = item.Id, Value = item.Value });
+                    expressionFilters.Add(new ExpressionFilter() { ColumnName = item.Id, Value = item.Value , Range = item.Range });
                 }
                 // Create the parameter expression for the input data
                 var parameter = Expression.Parameter(typeof(T), className);
@@ -29,8 +30,18 @@ namespace Ambev.DeveloperEvaluation.Common.Filter
                 {
                     var property = Expression.Property(parameter, filter.ColumnName);
 
-                    Expression comparison;
+                    Expression comparison=null;
 
+                    if (filter.Range == "Min")
+                    {
+                        var constant = Expression.Constant(decimal.Parse(filter.Value));
+                        comparison = Expression.GreaterThanOrEqual(property, constant);
+                    }
+                    if (filter.Range == "Max")
+                    {
+                        var constant = Expression.Constant(decimal.Parse(filter.Value));
+                        comparison = Expression.LessThanOrEqual(property, constant);
+                    }
                     if (property.Type == typeof(string))
                     {
                         var constant = Expression.Constant(filter.Value);
@@ -46,7 +57,7 @@ namespace Ambev.DeveloperEvaluation.Common.Filter
                         var constant = Expression.Constant(Guid.Parse(filter.Value));
                         comparison = Expression.Equal(property, constant);
                     }
-                    else
+                    else if (property.Type == typeof(Int32))
                     {
                         var constant = Expression.Constant(Convert.ToInt32(filter.Value));
                         comparison = Expression.Equal(property, constant);
@@ -61,8 +72,9 @@ namespace Ambev.DeveloperEvaluation.Common.Filter
                 // Create the lambda expression with the parameter and the filter expression
                 filters = Expression.Lambda<Func<T, bool>>(filterExpression, parameter);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 filters = null;
             }
             return filters;

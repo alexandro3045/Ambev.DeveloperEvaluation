@@ -42,7 +42,7 @@ public class GetListCartsHandler : IRequestHandler<GetListCartsCommand, GetListC
             throw new ValidationException(validationResult.Errors);
 
         var listCarts = await _CartssRepository.GetAllAsync(request.Page, request.Size, request.Order,request.Direction,
-            request.ColumnFilters, request.SearchTerm, cancellationToken);
+            request.ColumnFilters, cancellationToken);
 
         return _mapper.Map<GetListCartsResult>(listCarts);
     }

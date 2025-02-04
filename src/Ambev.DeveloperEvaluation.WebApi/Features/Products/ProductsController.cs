@@ -127,9 +127,11 @@ public class ProductsController : BaseController
     [ProducesResponseType(typeof(PaginatedList<Product?>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetListProducts([FromRoute] int page = 1,int size = 10,string? order = default, string? direction = "asc", CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetListProducts([FromRoute] int page = 1,int size = 10,string? 
+        order = default, string? direction = "asc",
+        [FromQuery] string? columnFilters = "", CancellationToken cancellationToken = default)
     {
-        var request = new GetListProductRequest { Page = page, Size = size, Order = order, Direction = direction };
+        var request = new GetListProductRequest { Page = page, Size = size, Order = order, Direction = direction, ColumnFilters = columnFilters };
         var validator = new GetListProductsRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 

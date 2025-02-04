@@ -16,7 +16,7 @@ public class GetListCartProfile : Profile
     {
         CreateMap<GetListCartsRequest, GetListCartsCommand>()
             .ConstructUsing(request => new GetListCartsCommand(request.Page, request.Size, request.Order,
-              request.Direction, request.ColumnFilters, request.SearchTerm));
+              request.Direction, request.ColumnFilters));
 
          CreateMap<GetListCartsResult, GetListCartsResponse>();
     }

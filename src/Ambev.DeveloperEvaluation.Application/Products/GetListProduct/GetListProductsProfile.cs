@@ -15,6 +15,6 @@ public class GetListProductsProfile : Profile
     public GetListProductsProfile()
     {
         CreateMap<List<Product>, GetListProductResult>()
-            .ConstructUsing(listProduct => new GetListProductResult(listProduct)); 
+            .ConstructUsing(listProduct => new GetListProductResult(listProduct));
     }
 }

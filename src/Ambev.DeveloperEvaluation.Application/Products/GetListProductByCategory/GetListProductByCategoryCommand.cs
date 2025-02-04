@@ -40,10 +40,6 @@ public record GetListProductByCategoryCommand : IRequest<GetListProductResult>
     /// </summary>
     public string? ColumnFilters { get; }
 
-    /// <summary>
-    /// The Filters of the field list
-    /// </summary>
-    public string? SearchTerm { get; }
 
     /// <summary>
     /// Initializes a new instance of ListproductsCommand
@@ -55,14 +51,13 @@ public record GetListProductByCategoryCommand : IRequest<GetListProductResult>
     /// <param name="columnFilters">The filter of the list of the list products to retrieve</param>
     /// <param name="searchTerm">The searchTerm of the list of the list products to retrieve</param>
     public GetListProductByCategoryCommand(int page, int size, string? order, string? direction,
-        string? columnFilters, string? searchTerm, string? category)
+        string? columnFilters, string? category)
     {
         Page = page;
         Size = size;
         Order = order;
         Direction = direction;
         ColumnFilters = columnFilters;
-        SearchTerm = searchTerm;
         Category = category;
     }
 }

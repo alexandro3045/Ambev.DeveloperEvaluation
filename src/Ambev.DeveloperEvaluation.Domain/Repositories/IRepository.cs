@@ -48,7 +48,7 @@ public interface IRepository<TEntity> where TEntity : class
     /// <param name="order">Order of pagination to list of the entity</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The entity if found, null otherwise</returns>
-    Task<List<TEntity>> GetAllAsync(int page, int size, string order, string direction, string? ColumnFilters, string? SearchTerm, CancellationToken cancellationToken = default);
+    Task<List<TEntity>> GetAllAsync(int page, int size, string order, string direction, string? ColumnFilters, CancellationToken cancellationToken = default);
 
 
 }
