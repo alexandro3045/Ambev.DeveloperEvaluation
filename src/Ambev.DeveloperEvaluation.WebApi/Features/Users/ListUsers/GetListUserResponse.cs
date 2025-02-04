@@ -8,7 +8,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Users.LisUsers;
 public class GetListUserResponse
 {
     /// <summary>
-    /// The unique identifier of the user
+    /// The list of the user
     /// </summary>
     public List<User> ListUser { get; set; }
 }

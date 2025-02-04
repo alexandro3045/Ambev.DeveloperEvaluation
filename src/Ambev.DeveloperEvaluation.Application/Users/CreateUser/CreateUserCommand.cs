@@ -27,8 +27,14 @@ public class CreateUserCommand : IRequest<CreateUserResult>
     /// </summary>
     public string Username { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the name of the user to be updated.
+    /// </summary>
     public Name Name { get; set; }
 
+    /// <summary>
+    /// Gets or sets the address of the user to be updated.
+    /// </summary>
     public Address Address { get; set; }
 
     /// <summary>

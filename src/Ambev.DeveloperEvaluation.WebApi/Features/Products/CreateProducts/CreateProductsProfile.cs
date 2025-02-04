@@ -14,7 +14,7 @@ public class CreateProductsProfile : Profile
     /// </summary>
     public CreateProductsProfile()
     {
-        CreateMap<CreateProductsRequest, CreateProductsCommand>();
+        CreateMap<CreateProductRequest, CreateProductsCommand>();
         CreateMap<CreateProductsResult, CreateProductsResponse>();
     }
 }

@@ -10,7 +10,9 @@ public class DefaultContext : DbContext
 {
     public DbSet<User> Users { get; set; }
 
-    public DbSet<Products> Products { get; set; }
+    public DbSet<Product> Products { get; set; }
+
+    public DbSet<Carts> Carts { get; set; }
 
     public DefaultContext(DbContextOptions<DefaultContext> options) : base(options)
     {

@@ -49,6 +49,9 @@ public class AuthController : BaseController
         var command = _mapper.Map<AuthenticateUserCommand>(request);
         var response = await _mediator.Send(command, cancellationToken);
 
+        if (response == null)
+            return Unauthorized();
+
         return Ok( _mapper.Map<AuthenticateUserResponse>(response) );
     }
 }

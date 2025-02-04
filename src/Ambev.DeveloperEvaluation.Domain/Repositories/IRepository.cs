@@ -1,3 +1,4 @@
+using Ambev.DeveloperEvaluation.Common.Filter;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 
 namespace Ambev.DeveloperEvaluation.Domain.Repositories;
@@ -18,9 +19,9 @@ public interface IRepository<TEntity> where TEntity : class
     /// <summary>
     /// Updates a new entity in the repository
     /// </summary>
-    /// <param name="TEntity">The TEntity to create</param>
+    /// <param name="TEntity">The TEntity to update</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The created entity</returns>
+    /// <returns>The update entity</returns>
     Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -47,7 +48,7 @@ public interface IRepository<TEntity> where TEntity : class
     /// <param name="order">Order of pagination to list of the entity</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The entity if found, null otherwise</returns>
-    Task<List<TEntity>> GetAllAsync(int page, int size, string order, string direction, CancellationToken cancellationToken = default);
+    Task<List<TEntity>> GetAllAsync(int page, int size, string order, string direction, string? ColumnFilters, CancellationToken cancellationToken = default);
 
 
 }

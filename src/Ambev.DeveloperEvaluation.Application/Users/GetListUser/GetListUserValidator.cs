@@ -7,7 +7,7 @@ namespace Ambev.DeveloperEvaluation.Application.Users.GetListUser;
 /// </summary>
 public class GetListUserValidator : AbstractValidator<GetListUserCommand>
 {
-    private string message = "{0} list is required";
+    private string message = "{0} of the list is required";
     /// <summary>
     /// Initializes validation rules for GetUserCommand
     /// </summary>

@@ -9,7 +9,7 @@ namespace Ambev.DeveloperEvaluation.Application.Products.UpdateProducts;
 /// This response contains the unique identifier of the newly update Products,
 /// which can be used for subsequent operations or reference.
 /// </remarks>
-public class UpdateProductsResult : GetProductsResult
+public class UpdateProductResult : GetProductsResult
 {
     /// <summary>
     /// Gets or sets the unique identifier of the newly created Products.

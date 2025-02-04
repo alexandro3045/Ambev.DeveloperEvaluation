@@ -43,7 +43,7 @@ public class CreateProductsHandler : IRequestHandler<CreateProductsCommand, Crea
         if (existingProducts != null)
             throw new InvalidOperationException($"Products with title {command.Title} already exists");
 
-        var Products = _mapper.Map<Domain.Entities.Products>(command);
+        var Products = _mapper.Map<Domain.Entities.Product>(command);
 
         var createdProducts = await _ProductsRepository.CreateAsync(Products, cancellationToken);
         var result = _mapper.Map<CreateProductsResult>(createdProducts);

@@ -1,13 +1,15 @@
-﻿using Ambev.DeveloperEvaluation.Common.QueryExpression;
+﻿using Ambev.DeveloperEvaluation.Common.Filter;
+using Ambev.DeveloperEvaluation.Common.QueryExpression;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
-
+using System.Linq.Expressions;
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories
 {
     public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         protected readonly DefaultContext _context;
+
         public Repository(DefaultContext context)
         {
             _context = context;
@@ -49,14 +51,38 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             return await _context.Set<TEntity>().FindAsync(id, cancellationToken);
         }
 
-        public async Task<List<TEntity>> GetAllAsync(int page, int size, string order, string direction, CancellationToken cancellationToken = default)
+        public async Task<List<TEntity>> GetAllAsync(int page, int size, string order, string direction,
+            string? columnFilters, CancellationToken cancellationToken = default)
         {
-            return await _context.Set<TEntity>()
+
+            Expression<Func<TEntity, bool>> filters = null;
+
+            IQueryable<TEntity> source = _context.Set<TEntity>().AsQueryable();
+            // Then we are overwriting a filter if columnFilters has data.
+            if (!string.IsNullOrEmpty(columnFilters))
+            {
+                filters = CustomExpressionFilter<TEntity>.CustomFilterColumn(columnFilters, typeof(TEntity).Name);
+
+                source = source.Where(filters);
+            }
+
+            if (page > 0 && size > 0)
+            {
+                source = source
+               .Skip((page - 1) * size)
+               .Take(size);
+            }
+
+            if (!string.IsNullOrEmpty(order))
+            {
+                source = source
+                 .Skip((page - 1) * size)
+                 .OrderBySource(order, direction);
+            }
+
+            return await source
                 .AsNoTracking()
-                .Skip((page - 1) * size)
-                .Take(size)
-                .OrderBySource(order,direction)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
     }
 }

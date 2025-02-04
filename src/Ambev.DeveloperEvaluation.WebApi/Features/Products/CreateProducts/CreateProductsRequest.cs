@@ -5,7 +5,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProducts;
 /// <summary>
 /// Represents a request to create a new products in the system.
 /// </summary>
-public class CreateProductsRequest
+public class CreateProductRequest
 {
     /// <summary>
     /// Gets the Title from product
@@ -30,10 +30,10 @@ public class CreateProductsRequest
     /// <summary>
     /// Gets the image from product.
     /// </summary>
-    public required byte[] Image { get; set; }
+    public required string Image { get; set; }
 
     /// <summary>
-    /// Gets the rating from rating.
+    /// Gets the rating from product.
     /// </summary>
     public required Rating Rating { get; set; }
 }

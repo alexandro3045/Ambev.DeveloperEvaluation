@@ -1,6 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Enums;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Users.CreateUser;
 
@@ -14,8 +13,14 @@ public class CreateUserRequest
     /// </summary>
     public string Username { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the name.
+    /// </summary>
     public Name Name { get; set; }
 
+    /// <summary>
+    /// Gets or sets the address.
+    /// </summary>
     public Address Address { get; set; }
 
     /// <summary>

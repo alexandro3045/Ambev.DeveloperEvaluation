@@ -9,7 +9,7 @@ namespace Ambev.DeveloperEvaluation.Application.Productss.GetProducts;
 /// <summary>
 /// Handler for processing GetProductsCommand requests
 /// </summary>
-public class GetProductsHandler : IRequestHandler<GetProductsCommand, GetProductsResult>
+public class GetProductHandler : IRequestHandler<GetProductsCommand, GetProductsResult>
 {
     private readonly IProductsRepository _ProductsRepository;
     private readonly IMapper _mapper;
@@ -20,7 +20,7 @@ public class GetProductsHandler : IRequestHandler<GetProductsCommand, GetProduct
     /// <param name="ProductsRepository">The Products repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for GetProductsCommand</param>
-    public GetProductsHandler(
+    public GetProductHandler(
         IProductsRepository ProductsRepository,
         IMapper mapper)
     {

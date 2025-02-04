@@ -45,6 +45,23 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
 
         var user = _mapper.Map<Domain.Entities.User>(command);
 
+        #region Setando status do usuário como ativo, inativo e ou suspenso
+        switch (user.Status)
+        {
+            case Domain.Enums.UserStatus.Active:
+                user.Activate();
+                break;
+            case Domain.Enums.UserStatus.Inactive:
+                user.Deactivate();
+                break;
+            case Domain.Enums.UserStatus.Suspended:
+                user.Suspend();
+                break;
+            default:
+                break;
+        }
+        #endregion
+
         var UpdatedUser = await _userRepository.UpdateAsync(user, cancellationToken);
         var result = _mapper.Map<UpdateUserResult>(UpdatedUser);
         return result;

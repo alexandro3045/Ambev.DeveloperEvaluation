@@ -23,6 +23,9 @@ namespace Ambev.DeveloperEvaluation.Application.Productss.CreateProducts;
 /// </remarks>
 public class CreateProductsCommand : IRequest<CreateProductsResult>
 {
+
+    public Guid Id { get; set; }
+
     /// <summary>
     /// Gets the Title from product
     /// </summary>

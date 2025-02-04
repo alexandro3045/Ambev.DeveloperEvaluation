@@ -4,9 +4,9 @@ using Ambev.DeveloperEvaluation.Domain.Common;
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
 
 
-public class Products : BaseEntity
+public class Product : BaseEntity
 {
-    public Products()
+    public Product()
     {
         CreatedAt = DateTime.UtcNow;
     }
