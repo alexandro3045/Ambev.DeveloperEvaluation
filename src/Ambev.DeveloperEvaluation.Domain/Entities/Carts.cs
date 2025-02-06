@@ -22,12 +22,13 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// <summary>
         /// Gets the products when the carts was created.
         /// </summary>
-        public List<Item> Products { get; set; }
+        public List<Product> Products { get; set; }
     }
 
     public class Item
     {
         public Guid ProductId { get; set; }
+        public Product Product { get; set; }
         public int Quantity { get; set; }
     }
 }

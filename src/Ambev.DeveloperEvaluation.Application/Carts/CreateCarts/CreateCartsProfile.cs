@@ -16,7 +16,6 @@ public class CreateCartsProfile : Profile
     public CreateCartsProfile()
     {
         CreateMap<CreateCartsCommand, Domain.Entities.Carts>();
-        CreateMap<Domain.Entities.Carts, CreateCartsResult>()
-            .ConstructUsing(carts => new CreateCartsResult(carts.Products));
+        CreateMap<Domain.Entities.Carts, CreateCartsResult>();
     }
 }

@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Ambev.DeveloperEvaluation.ORM.Mapping;
 
-public class CartsConfiguration : IEntityTypeConfiguration<Carts>
+public class BranchConfiguration : IEntityTypeConfiguration<Carts>
 {
     public void Configure(EntityTypeBuilder<Carts> builder)
     {
@@ -28,13 +28,8 @@ public class CartsConfiguration : IEntityTypeConfiguration<Carts>
             .Property(u => u.CreatedAt)
             .IsRequired()
             .HasColumnType("date");
-        
-        builder
-         .Property(x => x.Products)
-         .HasColumnType("jsonb")
-         .HasConversion(
-              x => JsonConvert.SerializeObject(x),
-              x => JsonConvert.DeserializeObject<List<Product>>(x)
-          );        
+            
     }
 }
+
+

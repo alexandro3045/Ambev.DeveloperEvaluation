@@ -1,5 +1,4 @@
 using AutoMapper;
-using Ambev.DeveloperEvaluation.Domain.Entities;
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.GetCarts;
 
@@ -13,6 +12,6 @@ public class GetCartsProfile : Profile
     /// </summary>
     public GetCartsProfile()
     {
-        CreateMap<Product, GetCartsResult>();
+        CreateMap<Domain.Entities.Carts, GetCartsResult>();
     }
 }

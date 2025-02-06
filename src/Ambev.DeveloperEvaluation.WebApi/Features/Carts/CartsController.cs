@@ -148,8 +148,12 @@ public class CartsController : BaseController
     public async Task<IActionResult> GetListCarts([FromQuery] int page = 1, [FromQuery] int size = 10, [FromQuery] string? order = "Date", [FromQuery] string? direction = "asc",
           [FromQuery] string? columnFilters = default, CancellationToken cancellationToken = default)
     {
-        var request = new GetListCartsRequest { Page = page, Size = size, Order = order, 
-                  ColumnFilters = columnFilters, Direction = direction };
+        var request = new GetListCartsRequest
+        {
+            Page = page,
+            Size = size,
+            Order = order,
+            ColumnFilters = columnFilters, Direction = direction };
 
         var validator = new GetListCartsRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
