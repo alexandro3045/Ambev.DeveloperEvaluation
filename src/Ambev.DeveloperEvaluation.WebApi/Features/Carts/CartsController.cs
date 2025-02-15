@@ -15,6 +15,7 @@ using Ambev.DeveloperEvaluation.WebApi.Carts.GetCarts.GetCarts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetListCarts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.UpdateCards;
 using Ambev.DeveloperEvaluation.WebApi.Carts.GetCarts;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts;
 
@@ -46,9 +47,9 @@ public class CartsController : BaseController
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The created Carts details</returns>
     [HttpPost]
-    [ProducesResponseType(typeof(ApiResponseWithData<CreateCartsResponse>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ApiResponseWithData<CartsResponse>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> CreateCarts([FromBody] CreateCartsRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateCarts([FromBody] CartsRequest request, CancellationToken cancellationToken)
     {
         var validator = new CreateCartsRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
@@ -61,7 +62,7 @@ public class CartsController : BaseController
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-            return CreatedAtRoute("GetCarts", new { id = response.Id }, _mapper.Map<CreateCartsResponse>(response));
+            return Ok(_mapper.Map<CartsResponse>(response));
         }
         catch (Exception ex)
         {
@@ -91,11 +92,11 @@ public class CartsController : BaseController
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-            return CreatedAtRoute("GetCarts", new { id = response.Id }, _mapper.Map<UpdateCartsResponse>(response));
+            return Ok(_mapper.Map<UpdateCartsResponse>(response));
         }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
         }
     }
 

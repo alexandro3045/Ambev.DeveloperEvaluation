@@ -35,6 +35,7 @@ public class CreateCartsHandler : IRequestHandler<CreateCartsCommand, CreateCart
     public async Task<CreateCartsResult> Handle(CreateCartsCommand command, CancellationToken cancellationToken)
     {
         var validator = new CreateCartsCommandValidator();
+
         var validationResult = await validator.ValidateAsync(command, cancellationToken);
 
         if (!validationResult.IsValid)
@@ -43,7 +44,9 @@ public class CreateCartsHandler : IRequestHandler<CreateCartsCommand, CreateCart
         var Carts = _mapper.Map<Domain.Entities.Carts>(command);
 
         var createdCarts = await _CartsRepository.CreateAsync(Carts, cancellationToken);
+
         var result = _mapper.Map<CreateCartsResult>(createdCarts);
+        
         return result;
     }
 }

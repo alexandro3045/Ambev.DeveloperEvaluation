@@ -5,10 +5,10 @@ using MediatR;
 namespace Ambev.DeveloperEvaluation.Application.SalesCarts.UpdateSalesCarts;
 
 /// <summary>
-/// Command for update a SalesCarts.
+/// Command for update a Carts.
 /// </summary>
 /// <remarks>
-/// This command is used to capture the required data for update a SalesCarts, 
+/// This command is used to capture the required data for update a Carts, 
 /// It implements <see cref="IRequest{TResponse}"/> to initiate the request 
 /// that returns a <see cref="UpdateSalesCartsResult"/>.
 /// 

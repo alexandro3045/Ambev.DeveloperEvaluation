@@ -18,7 +18,7 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductsCommand, Updat
     /// <summary>
     /// Initializes a new instance of UpdateProductsHandler
     /// </summary>
-    /// <param name="ProductsRepository">The Products repository</param>
+    /// <param name="ProductsRepository">The ProductsItems repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for UpdateProductsCommand</param>
     public UpdateProductHandler(IProductsRepository ProductsRepository, IMapper mapper)
@@ -32,7 +32,7 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductsCommand, Updat
     /// </summary>
     /// <param name="command">The UpdateProducts command</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The Updated Products details</returns>
+    /// <returns>The Updated ProductsItems details</returns>
     public async Task<UpdateProductResult> Handle(UpdateProductsCommand command, CancellationToken cancellationToken)
     {
         var validator = new UpdateProductsValidator();

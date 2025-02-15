@@ -16,7 +16,7 @@ public class CreateProductsHandler : IRequestHandler<CreateProductsCommand, Crea
     /// <summary>
     /// Initializes a new instance of CreateProductsHandler
     /// </summary>
-    /// <param name="ProductsRepository">The Products repository</param>
+    /// <param name="ProductsRepository">The ProductsItems repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for CreateProductsCommand</param>
     public CreateProductsHandler(IProductsRepository ProductsRepository, IMapper mapper)
@@ -30,7 +30,7 @@ public class CreateProductsHandler : IRequestHandler<CreateProductsCommand, Crea
     /// </summary>
     /// <param name="command">The CreateProducts command</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The created Products details</returns>
+    /// <returns>The created ProductsItems details</returns>
     public async Task<CreateProductsResult> Handle(CreateProductsCommand command, CancellationToken cancellationToken)
     {
         var validator = new CreateProductsCommandValidator();
@@ -41,7 +41,7 @@ public class CreateProductsHandler : IRequestHandler<CreateProductsCommand, Crea
 
         var existingProducts = await _ProductsRepository.GetByTitleAsync(command.Title, cancellationToken);
         if (existingProducts != null)
-            throw new InvalidOperationException($"Products with title {command.Title} already exists");
+            throw new InvalidOperationException($"ProductsItems with title {command.Title} already exists");
 
         var Products = _mapper.Map<Domain.Entities.Product>(command);
 

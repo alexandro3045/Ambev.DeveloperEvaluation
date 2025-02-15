@@ -2,7 +2,7 @@
 namespace Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.GetSalesCarts;
 
 /// <summary>
-/// Request model for getting a SalesCarts by ID
+/// Request model for getting a Carts by ID
 /// </summary>
 public class GetSalesCartsRequest
 {

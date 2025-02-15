@@ -35,9 +35,9 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         public Branch Branch { get; set; }
 
         /// <summary>
-        /// Gets the products when the carts was created.
+        /// Gets the Carts when the SalsesCarts was created.
         /// </summary>
-        public IList<Product> Products { get; set; }
+        public Carts Carts { get; set; }
 
         /// <summary>
         /// Gets the quantities products when the carts was created.
@@ -63,25 +63,25 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// Gets the canceled item products when the carts was created.
         /// </summary>
         public bool Canceled { get; set; }
-        
-        public void CalculateCart()
-        {
-            Quantities = Products.Count();
 
-            var group = Products.GroupBy(x => x.Id).Select(g => new
+        public void CalculateCart()
+        {            
+            Quantities = Carts.CartsProductsItemns.Count();
+
+            var group = Carts.CartsProductsItemns.GroupBy(x => x.ProductId).Select(g => new
             {
                 Chave = g.Key,
                 Itens = g.ToList(),
                 TotalAmountItem = g.Count(),
                 Quantities = g.Count() > 20 ? 0 : g.Count(),
-                TotalSales = TotalAmountItem <= 20 ? g.ToList().Sum(x => x.Price) * g.Count() : 0,
-                Discount = TotalAmountItem >= 4 ? TotalSales / (1 + 10) 
-                : TotalAmountItem >= 10 && TotalAmountItem <= 20 ? TotalSales / (1 + 20) : 0 
+                TotalSales = TotalAmountItem <= 20 ? g.ToList().Sum(x => x.Product.Price) * g.Count() : 0,
+                Discount = TotalAmountItem >= 4 ? TotalSales / (1 + 10)
+                : TotalAmountItem >= 10 && TotalAmountItem <= 20 ? TotalSales / (1 + 20) : 0
             });
-
-            Quantities =group.ToList().Sum(g => g.Quantities);
-            TotalSales = group.ToList().Sum(g=> g.TotalSales);
-            Discounts = group.ToList().Sum(x => x.Discount);                
+            
+            Quantities = group.ToList().Sum(g => g.Quantities);
+            TotalSales = group.ToList().Sum(g => g.TotalSales);
+            Discounts = group.ToList().Sum(x => x.Discount);            
         }
     }
 }

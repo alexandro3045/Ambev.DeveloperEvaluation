@@ -4,7 +4,7 @@ using FluentValidation;
 namespace Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.CreateSalesCarts;
 
 /// <summary>
-/// Validator for CreateSalesCartsRequest that defines validation rules for SalesCarts creation.
+/// Validator for CreateSalesCartsRequest that defines validation rules for Carts creation.
 /// </summary>
 public class CreateSalesCartsRequestValidator : AbstractValidator<CreateSalesCartsRequest>
 {
@@ -15,7 +15,7 @@ public class CreateSalesCartsRequestValidator : AbstractValidator<CreateSalesCar
     /// Validation rules include:
     /// - UserID:Required, UserID User
     /// - Date: Date created
-    /// - Products: Products relationed
+    /// - ProductsItems: ProductsItems relationed
     /// </remarks>
     public CreateSalesCartsRequestValidator()
     {
@@ -23,7 +23,7 @@ public class CreateSalesCartsRequestValidator : AbstractValidator<CreateSalesCar
             .NotEmpty()
             .WithMessage("O número da venda não pode ser um campo vazio.");
 
-        RuleFor(SalesCarts => SalesCarts.Branch.Id)
+        RuleFor(SalesCarts => SalesCarts.BranchId)
             .NotEmpty()
             .WithMessage("A filial não pode ser um campo vazio.");
 

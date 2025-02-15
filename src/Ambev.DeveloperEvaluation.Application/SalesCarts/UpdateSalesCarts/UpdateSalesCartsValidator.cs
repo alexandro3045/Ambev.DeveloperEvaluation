@@ -17,7 +17,7 @@ public class UpdateSalesCartsValidator : AbstractValidator<UpdateSalesCartsComma
     /// Validation rules include:
     /// - UserID:Required, UserID User
     /// - Date: Date created
-    /// - Products: Products relationed
+    /// - ProductsItems: ProductsItems relationed
     /// </remarks>
     public UpdateSalesCartsValidator()
     {
@@ -27,7 +27,7 @@ public class UpdateSalesCartsValidator : AbstractValidator<UpdateSalesCartsComma
 
         RuleFor(x => x.Products)
             .NotEmpty()
-            .WithMessage(string.Format(message, "Products"));
+            .WithMessage(string.Format(message, "ProductsItems"));
 
         RuleFor(x => x.UserId)
             .NotEmpty()

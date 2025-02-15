@@ -1,5 +1,4 @@
 
-
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -29,7 +28,7 @@ public class GetProductsResponse
     /// <summary>
     /// Gets the description from product.
     /// </summary>
-    public string Descripption { get; set; }
+    public string Description { get; set; }
 
     /// <summary>
     /// Gets the category from product.

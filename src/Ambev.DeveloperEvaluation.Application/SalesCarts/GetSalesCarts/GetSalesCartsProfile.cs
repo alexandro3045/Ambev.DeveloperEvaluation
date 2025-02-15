@@ -12,6 +12,6 @@ public class GetSalesCartsProfile : Profile
     /// </summary>
     public GetSalesCartsProfile()
     {
-        CreateMap<Domain.Entities.SalesCarts, GetSalesCartsResult>();
+        CreateMap<Domain.Entities.Carts, GetSalesCartsResult>();
     }
 }

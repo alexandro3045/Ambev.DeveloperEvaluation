@@ -2,16 +2,15 @@
 using Ambev.DeveloperEvaluation.Application.Products.CreateProducts;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Entities;
-using Ambev.DeveloperEvaluation.Domain.Enums;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Productss.CreateProducts;
 
 /// <summary>
-/// Command for creating a new Products.
+/// Command for creating a new ProductsItems.
 /// </summary>
 /// <remarks>
-/// This command is used to capture the required data for creating a Products, 
+/// This command is used to capture the required data for creating a ProductsItems, 
 /// including Productsname, password, phone number, email, status, and role. 
 /// It implements <see cref="IRequest{TResponse}"/> to initiate the request 
 /// that returns a <see cref="CreateProductsResult"/>.

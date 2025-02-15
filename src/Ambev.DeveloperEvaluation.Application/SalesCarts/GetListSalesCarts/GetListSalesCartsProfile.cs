@@ -12,7 +12,7 @@ public class GetListSalesCartsProfile : Profile
     /// </summary>
     public GetListSalesCartsProfile()
     {
-        CreateMap<List<Domain.Entities.SalesCarts>, GetListSalesCartsResult>()
+        CreateMap<List<Domain.Entities.Carts>, GetListSalesCartsResult>()
             .ConstructUsing(listSalseCarts => new GetListSalesCartsResult(listSalseCarts)); 
     }
 }

@@ -3,7 +3,7 @@
 namespace Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.UpdateSalesCarts;
 
 /// <summary>
-/// Validator for UpdateSalesCartsRequest that defines validation rules for SalesCarts creation.
+/// Validator for UpdateSalesCartsRequest that defines validation rules for Carts creation.
 /// </summary>
 public class UpdateSalesCartsRequestValidator : AbstractValidator<UpdateSalesCartsRequest>
 {
@@ -14,7 +14,7 @@ public class UpdateSalesCartsRequestValidator : AbstractValidator<UpdateSalesCar
     /// Validation rules include:
     /// - UserID:Required, UserID User
     /// - Date: Date created
-    /// - Products: Products relationed
+    /// - ProductsItems: ProductsItems relationed
     /// </remarks>
     public UpdateSalesCartsRequestValidator()
     {

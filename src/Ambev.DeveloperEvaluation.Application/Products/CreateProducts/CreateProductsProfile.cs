@@ -3,7 +3,6 @@ using Ambev.DeveloperEvaluation.Application.Productss.CreateProducts;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using AutoMapper;
 
-
 namespace Ambev.DeveloperEvaluation.Application.Products.CreateProduct;
 
 /// <summary>

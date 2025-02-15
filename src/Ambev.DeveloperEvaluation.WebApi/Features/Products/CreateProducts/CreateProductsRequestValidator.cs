@@ -3,7 +3,7 @@
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProducts;
 
 /// <summary>
-/// Validator for CreateProductsRequest that defines validation rules for Products creation.
+/// Validator for CreateProductsRequest that defines validation rules for ProductsItems creation.
 /// </summary>
 public class CreateProductRequestValidator : AbstractValidator<CreateProductRequest>
 {

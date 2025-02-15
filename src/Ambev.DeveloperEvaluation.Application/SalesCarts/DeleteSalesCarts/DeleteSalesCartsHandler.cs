@@ -14,7 +14,7 @@ public class DeleteSalesCartsHandler : IRequestHandler<DeleteSalesCartsCommand, 
     /// <summary>
     /// Initializes a new instance of DeleteSalesCartsHandler
     /// </summary>
-    /// <param name="SalesCartsRepository">The SalesCarts repository</param>
+    /// <param name="SalesCartsRepository">The Carts repository</param>
     /// <param name="validator">The validator for DeleteSalesCartsCommand</param>
     public DeleteSalesCartsHandler(
         ISalesCartsRepository SalesCartsRepository)
@@ -38,7 +38,7 @@ public class DeleteSalesCartsHandler : IRequestHandler<DeleteSalesCartsCommand, 
 
         var success = await _SalesCartsRepository.DeleteAsync(request.Id, cancellationToken);
         if (!success)
-            throw new KeyNotFoundException($"SalesCarts with ID {request.Id} not found");
+            throw new KeyNotFoundException($"Carts with ID {request.Id} not found");
 
         return new DeleteSalesCartsResponse { Success = true };
     }

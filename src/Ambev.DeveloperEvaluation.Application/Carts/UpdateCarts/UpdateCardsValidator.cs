@@ -17,17 +17,21 @@ public class UpdateCartsValidator : AbstractValidator<UpdateCartsCommand>
     /// Validation rules include:
     /// - UserID:Required, UserID User
     /// - Date: Date created
-    /// - Products: Products relationed
+    /// - ProductsItems: ProductsItems relationed
     /// </remarks>
     public UpdateCartsValidator()
     {
+        RuleFor(x => x.Id)
+            .NotEmpty()
+            .WithMessage(string.Format(message, "Id"));
+
         RuleFor(x => x.Date)
             .NotEmpty()
             .WithMessage(string.Format(message, "Date"));
 
         RuleFor(x => x.Products)
             .NotEmpty()
-            .WithMessage(string.Format(message, "Products"));
+            .WithMessage(string.Format(message, "ProductsItems"));
 
         RuleFor(x => x.UserId)
             .NotEmpty()

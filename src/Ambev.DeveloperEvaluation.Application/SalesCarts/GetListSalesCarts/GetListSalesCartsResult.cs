@@ -8,9 +8,9 @@ public class GetListSalesCartsResult
     /// <summary>
     /// Gets list from carts
     /// </summary>
-    public List<Domain.Entities.SalesCarts> ListSalesCarts { get; set; }
+    public List<Domain.Entities.Carts> ListSalesCarts { get; set; }
 
-    public GetListSalesCartsResult(List<Domain.Entities.SalesCarts>? lisSalestCarts)
+    public GetListSalesCartsResult(List<Domain.Entities.Carts>? lisSalestCarts)
     {
         ListSalesCarts = lisSalestCarts;
     }

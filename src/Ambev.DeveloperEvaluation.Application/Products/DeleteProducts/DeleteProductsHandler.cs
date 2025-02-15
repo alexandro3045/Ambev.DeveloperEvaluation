@@ -16,7 +16,7 @@ public class DeleteProductsHandler : IRequestHandler<DeleteProductsCommand, Dele
     /// <summary>
     /// Initializes a new instance of DeleteProductsHandler
     /// </summary>
-    /// <param name="ProductsRepository">The Products repository</param>
+    /// <param name="ProductsRepository">The ProductsItems repository</param>
     /// <param name="validator">The validator for DeleteProductsCommand</param>
     public DeleteProductsHandler(
         IProductsRepository ProductsRepository)
@@ -40,7 +40,7 @@ public class DeleteProductsHandler : IRequestHandler<DeleteProductsCommand, Dele
 
         var success = await _ProductsRepository.DeleteAsync(request.Id, cancellationToken);
         if (!success)
-            throw new KeyNotFoundException($"Products with ID {request.Id} not found");
+            throw new KeyNotFoundException($"ProductsItems with ID {request.Id} not found");
 
         return new DeleteProductsResponse { Success = true };
     }

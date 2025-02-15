@@ -15,13 +15,15 @@ public class UpdateCartsRequestValidator : AbstractValidator<UpdateCartsRequest>
     /// Validation rules include:
     /// - UserID:Required, UserID User
     /// - Date: Date created
-    /// - Products: Products relationed
+    /// - ProductsItems: ProductsItems relationed
     /// </remarks>
     public UpdateCartsRequestValidator()
     {
-        RuleFor(Cartss => Cartss.Id).NotEmpty();
-        RuleFor(Cartss => Cartss.UserId).NotEmpty().Length(1, 50);
-        RuleFor(Cartss => Cartss.Date).NotEmpty();
-        RuleFor(Cartss => Cartss.Products).NotEmpty();
+
+        RuleFor(Carts => Carts.UserId).NotEmpty().Length(1, 50);
+
+        RuleFor(Carts => Carts.Date).NotEmpty();
+
+        RuleFor(Carts => Carts.Products).NotEmpty();
     }
 }

@@ -3,7 +3,7 @@
 namespace Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.UpdateSalesCarts;
 
 /// <summary>
-/// Represents a request to Update a new SalesCarts in the system.
+/// Represents a request to Update a new Carts in the system.
 /// </summary>
 public class UpdateSalesCartsRequest
 {
@@ -14,17 +14,17 @@ public class UpdateSalesCartsRequest
     public required string Id { get; set; }
 
     /// <summary>
-    /// Gets the UserID from SalesCarts
+    /// Gets the UserID from Carts
     /// </summary>
     public required string UserId { get; set; }
 
     /// <summary>
-    /// Gets the date from SalesCarts
+    /// Gets the date from Carts
     /// </summary>
     public required DateTime Date { get; set; }
 
     /// <summary>
-    /// Gets the products from SalesCarts.
+    /// Gets the products from Carts.
     /// </summary>
-    public required List<Item> Products { get; set; }
+    public required List<Product> Products { get; set; }
 }

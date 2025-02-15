@@ -72,11 +72,11 @@ public class ProductsController : BaseController
     }
 
     /// <summary>
-    /// Update Products
+    /// Update ProductsItems
     /// </summary>
-    /// <param name="request">The Products update request</param>
+    /// <param name="request">The ProductsItems update request</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The update Products details</returns>
+    /// <returns>The update ProductsItems details</returns>
     [HttpPut]
     [ProducesResponseType(typeof(ApiResponseWithData<UpdateProductResponse>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
@@ -139,7 +139,7 @@ public class ProductsController : BaseController
     /// <param name="order">The page of list</param>
     /// <param name="direction">The page of list</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The list of Products </returns>
+    /// <returns>The list of ProductsItems </returns>
     [HttpGet("{page},{size},{order},{direction}")]
     [ProducesResponseType(typeof(PaginatedList<Product?>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
@@ -231,7 +231,7 @@ public class ProductsController : BaseController
     /// <param name="order">The page of list</param>
     /// <param name="direction">The page of list</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The list of Products </returns>
+    /// <returns>The list of ProductsItems </returns>
     [HttpGet("category/{category}")]
     [ProducesResponseType(typeof(PaginatedList<Product?>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
@@ -250,7 +250,7 @@ public class ProductsController : BaseController
 
             
         if(response.Products == null)
-            return NotFound(new ApiResponse { Success = false, Message = "Products not found" });
+            return NotFound(new ApiResponse { Success = false, Message = "ProductsItems not found" });
 
         return OkPaginated(new PaginatedList<Product?>(response.Products, response.Products.Count, page, size));
     }

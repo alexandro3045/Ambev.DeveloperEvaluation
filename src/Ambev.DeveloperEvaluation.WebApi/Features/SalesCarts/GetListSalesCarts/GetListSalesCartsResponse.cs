@@ -7,7 +7,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.GetListSalesCarts
 public class GetListSalesCartsResponse
 {
     /// <summary>
-    /// The list SalesCarts
+    /// The list Carts
     /// </summary>
-    public List<Domain.Entities.SalesCarts> ListSalesCarts { get; set; }
+    public List<Domain.Entities.Carts> ListSalesCarts { get; set; }
 }

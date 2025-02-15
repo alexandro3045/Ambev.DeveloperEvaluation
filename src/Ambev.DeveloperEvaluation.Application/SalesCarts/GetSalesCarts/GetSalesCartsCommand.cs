@@ -3,12 +3,12 @@ using MediatR;
 namespace Ambev.DeveloperEvaluation.Application.SalesCarts.GetSalesCarts;
 
 /// <summary>
-/// Command for retrieving a SalesCarts by their ID
+/// Command for retrieving a Carts by their ID
 /// </summary>
 public record GetSalesCartsCommand : IRequest<GetSalesCartsResult>
 {
     /// <summary>
-    /// The unique identifier of the SalesCarts to retrieve
+    /// The unique identifier of the Carts to retrieve
     /// </summary>
     public Guid Id { get; }
 

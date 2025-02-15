@@ -13,8 +13,8 @@ public class UpdateSalesCartsProfile : Profile
     /// </summary>
     public UpdateSalesCartsProfile()
     {
-        CreateMap<UpdateSalesCartsCommand, Domain.Entities.SalesCarts>();
-        CreateMap<Domain.Entities.SalesCarts, UpdateSalesCartsResult>();
-        CreateMap<Domain.Entities.SalesCarts, CreateSalesCartsResult>();
+        CreateMap<UpdateSalesCartsCommand, Domain.Entities.Carts>();
+        CreateMap<Domain.Entities.Carts, UpdateSalesCartsResult>();
+        CreateMap<Domain.Entities.Carts, CreateSalesCartsResult>();
     }
 }

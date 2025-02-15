@@ -5,12 +5,12 @@ using Newtonsoft.Json;
 
 namespace Ambev.DeveloperEvaluation.ORM.Mapping;
 
-public class BranchConfiguration : IEntityTypeConfiguration<Carts>
+public class BranchConfiguration : IEntityTypeConfiguration<Branch>
 {
-    public void Configure(EntityTypeBuilder<Carts> builder)
+    public void Configure(EntityTypeBuilder<Branch> builder)
     {
         builder
-            .ToTable("Carts");
+            .ToTable("Branch");
 
         builder
             .HasKey(u => u.Id);
@@ -19,16 +19,20 @@ public class BranchConfiguration : IEntityTypeConfiguration<Carts>
             .Property(u => u.Id)
             .HasColumnType("uuid");
 
-        builder
-            .Property(u => u.UserId)
+        builder.Property(u => u.Descripption)
             .IsRequired()
-            .HasMaxLength(50);
+            .HasMaxLength(100);
 
         builder
             .Property(u => u.CreatedAt)
             .IsRequired()
             .HasColumnType("date");
-            
+
+        builder
+            .Property(u => u.UpdatedAt)
+            .IsRequired()
+            .HasColumnType("date");
+
     }
 }
 

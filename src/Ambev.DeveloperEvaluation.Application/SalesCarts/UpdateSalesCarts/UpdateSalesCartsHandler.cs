@@ -39,7 +39,7 @@ public class UpdateCartsHandler : IRequestHandler<UpdateSalesCartsCommand, Updat
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
        
-        var Carts = _mapper.Map<Domain.Entities.SalesCarts>(command);
+        var Carts = _mapper.Map<Domain.Entities.Carts>(command);
 
         var UpdatedCarts = await _SalesCartsRepository.UpdateAsync(Carts, cancellationToken);
         var result = _mapper.Map<UpdateSalesCartsResult>(UpdatedCarts);

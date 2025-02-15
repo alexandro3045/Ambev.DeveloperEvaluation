@@ -10,7 +10,7 @@ public class CreateSalesCartsResponse : CreateSalesCartsRequest
 {
     
     /// <summary>
-    /// The unique identifier of the created SalesCarts
+    /// The unique identifier of the created Carts
     /// </summary>
     public Guid Id { get; set; }
     

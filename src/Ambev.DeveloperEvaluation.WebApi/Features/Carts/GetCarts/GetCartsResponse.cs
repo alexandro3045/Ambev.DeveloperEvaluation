@@ -28,5 +28,5 @@ public class GetCartsResponse
     /// <summary>
     /// Gets the products when the carts was created.
     /// </summary>
-    public required List<Item> Products { get; set; }
+    public required List<Product> Products { get; set; }
 }

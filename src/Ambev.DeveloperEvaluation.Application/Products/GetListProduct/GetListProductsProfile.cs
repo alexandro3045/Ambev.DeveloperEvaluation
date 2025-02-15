@@ -5,7 +5,7 @@ using AutoMapper;
 namespace Ambev.DeveloperEvaluation.Application.Products.GetProducts;
 
 /// <summary>
-/// Profile for mapping between Products entity and GetProductResult
+/// Profile for mapping between ProductsItems entity and GetProductResult
 /// </summary>
 public class GetListProductsProfile : Profile
 {

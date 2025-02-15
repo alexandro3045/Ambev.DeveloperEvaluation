@@ -17,7 +17,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
 
         public async Task<TEntity> CreateAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
-
             await _context.Set<TEntity>().AddAsync(entity, cancellationToken);
 
             await _context.SaveChangesAsync(cancellationToken);
@@ -27,10 +26,11 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
 
         public async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
+            _context.Entry(entity).State = EntityState.Modified;
 
             _context.Set<TEntity>().Update(entity);
 
-            await _context.SaveChangesAsync(cancellationToken);
+            await _context.SaveChangesAsync();
 
             return entity;
         }
@@ -58,7 +58,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             Expression<Func<TEntity, bool>> filters = null;
 
             IQueryable<TEntity> source = _context.Set<TEntity>().AsQueryable();
-            // Then we are overwriting a filter if columnFilters has data.
+
             if (!string.IsNullOrEmpty(columnFilters))
             {
                 filters = CustomExpressionFilter<TEntity>.CustomFilterColumn(columnFilters, typeof(TEntity).Name);

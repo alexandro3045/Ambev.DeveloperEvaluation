@@ -13,8 +13,8 @@ public class CreateSalesCartsProfile : Profile
     /// </summary>
     public CreateSalesCartsProfile()
     {
-        CreateMap<CreateSalesCartsCommand, Domain.Entities.SalesCarts>();
-        CreateMap<Domain.Entities.SalesCarts, CreateSalesCartsResult>();
-        CreateMap<Domain.Entities.SalesCarts, CreateSalesCartsResult>();
+        CreateMap<CreateSalesCartsCommand, Domain.Entities.Carts>();
+        CreateMap<Domain.Entities.Carts, CreateSalesCartsResult>();
+        CreateMap<Domain.Entities.Carts, CreateSalesCartsResult>();
     }
 }

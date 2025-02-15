@@ -3,7 +3,7 @@
 namespace Ambev.DeveloperEvaluation.Application.Productss.UpdateProducts;
 
 /// <summary>
-/// Validator for UpdateProductsCommand that defines validation rules for Products creation command.
+/// Validator for UpdateProductsCommand that defines validation rules for ProductsItems creation command.
 /// </summary>
 public class UpdateProductsValidator : AbstractValidator<UpdateProductsCommand>
 {

@@ -23,10 +23,4 @@ public class Branch : BaseEntity
     /// Gets the date and time of the last update to the branch information.
     /// </summary>
     public DateTime? UpdatedAt { get; set; }
-
-    /// <summary>
-    /// Gets list to the SalesCarts
-    /// </summary>
-    public List<SalesCarts> SalesCarts { get; set; }
-
 }

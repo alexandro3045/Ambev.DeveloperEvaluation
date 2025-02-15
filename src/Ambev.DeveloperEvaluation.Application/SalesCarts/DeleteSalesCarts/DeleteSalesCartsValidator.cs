@@ -14,6 +14,6 @@ public class DeleteSalesCartsValidator : AbstractValidator<DeleteSalesCartsComma
     {
         RuleFor(x => x.Id)
             .NotEmpty()
-            .WithMessage("SalesCarts ID is required");
+            .WithMessage("Carts ID is required");
     }
 }

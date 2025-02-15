@@ -43,7 +43,7 @@ public class GetSalesCartsHandler : IRequestHandler<GetSalesCartsCommand, GetSal
 
         var Carts = await _CartsRepository.GetByIdAsync(request.Id, cancellationToken);
         if (Carts == null)
-            throw new KeyNotFoundException($"SalesCarts with ID {request.Id} not found");
+            throw new KeyNotFoundException($"Carts with ID {request.Id} not found");
 
         return _mapper.Map<GetSalesCartsResult>(Carts);
     }

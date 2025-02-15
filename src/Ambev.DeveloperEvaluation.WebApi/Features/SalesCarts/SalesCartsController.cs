@@ -18,7 +18,7 @@ using Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.CreateCarts;
 namespace Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts;
 
 /// <summary>
-/// Controller for managing SalesCarts operations
+/// Controller for managing Carts operations
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
@@ -39,11 +39,11 @@ public class SalesCartsController : BaseController
     }
 
     /// <summary>
-    /// Creates a new SalesCarts
+    /// Creates a new Carts
     /// </summary>
-    /// <param name="request">The SalesCarts creation request</param>
+    /// <param name="request">The Carts creation request</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The created SalesCarts details</returns>
+    /// <returns>The created Carts details</returns>
     [HttpPost]
     [ProducesResponseType(typeof(ApiResponseWithData<CreateSalesCartsResponse>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
@@ -69,11 +69,11 @@ public class SalesCartsController : BaseController
     }
 
     /// <summary>
-    /// Update a SalesCarts
+    /// Update a Carts
     /// </summary>
-    /// <param name="request">The SalesCarts update request</param>
+    /// <param name="request">The Carts update request</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The update SalesCarts details</returns>
+    /// <returns>The update Carts details</returns>
     [HttpPut]
     [ProducesResponseType(typeof(ApiResponseWithData<UpdateSalesCartsResponse>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
@@ -99,11 +99,11 @@ public class SalesCartsController : BaseController
     }
 
     /// <summary>
-    /// Retrieves a SalesCarts by their ID
+    /// Retrieves a Carts by their ID
     /// </summary>
-    /// <param name="id">The unique identifier of the SalesCarts</param>
+    /// <param name="id">The unique identifier of the Carts</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The SalesCarts details if found</returns>
+    /// <returns>The Carts details if found</returns>
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ApiResponseWithData<GetSalesCartsResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
@@ -132,16 +132,16 @@ public class SalesCartsController : BaseController
     }
 
     /// <summary>
-    /// Retrieves a list SalesCarts by their page, size and order
+    /// Retrieves a list Carts by their page, size and order
     /// </summary>
     /// <param name="page">The page of list</param>
     /// <param name="size">The page of list</param>
     /// <param name="order">The page of list</param>
     /// <param name="direction">The page of list</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The list of SalesCarts </returns>
+    /// <returns>The list of Carts </returns>
     [HttpGet()]
-    [ProducesResponseType(typeof(PaginatedList<Domain.Entities.SalesCarts?>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PaginatedList<Domain.Entities.Carts?>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetListSalesCarts([FromQuery] int page = 1, [FromQuery] int size = 10, [FromQuery] string? order = "Date", [FromQuery] string? direction = "asc",
@@ -161,7 +161,7 @@ public class SalesCartsController : BaseController
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-            return OkPaginated(new PaginatedList<Domain.Entities.SalesCarts?>(response.ListSalesCarts, response.ListSalesCarts.Count, page, size));
+            return OkPaginated(new PaginatedList<Domain.Entities.Carts?>(response.ListSalesCarts, response.ListSalesCarts.Count, page, size));
         }
         catch (Exception ex)
         {
@@ -170,11 +170,11 @@ public class SalesCartsController : BaseController
     }
 
     /// <summary>
-    /// Deletes a SalesCarts by their ID
+    /// Deletes a Carts by their ID
     /// </summary>
-    /// <param name="id">The unique identifier of the SalesCarts to delete</param>
+    /// <param name="id">The unique identifier of the Carts to delete</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Success response if the SalesCarts was deleted</returns>
+    /// <returns>Success response if the Carts was deleted</returns>
     [HttpDelete("{id}")]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
@@ -196,7 +196,7 @@ public class SalesCartsController : BaseController
             return Ok(new ApiResponse
             {
                 Success = true,
-                Message = "SalesCarts deleted successfully"
+                Message = "Carts deleted successfully"
             });
         }
         catch (Exception ex)

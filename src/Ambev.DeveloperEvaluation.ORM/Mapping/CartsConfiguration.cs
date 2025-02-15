@@ -1,7 +1,6 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Newtonsoft.Json;
 
 namespace Ambev.DeveloperEvaluation.ORM.Mapping;
 
@@ -17,7 +16,8 @@ public class CartsConfiguration : IEntityTypeConfiguration<Carts>
 
         builder
             .Property(u => u.Id)
-            .HasColumnType("uuid");
+            .HasColumnType("uuid")
+            .HasDefaultValueSql("gen_random_uuid()");
 
         builder
             .Property(u => u.UserId)
@@ -28,13 +28,11 @@ public class CartsConfiguration : IEntityTypeConfiguration<Carts>
             .Property(u => u.CreatedAt)
             .IsRequired()
             .HasColumnType("date");
-        
+
         builder
-         .Property(x => x.Products)
-         .HasColumnType("jsonb")
-         .HasConversion(
-              x => JsonConvert.SerializeObject(x),
-              x => JsonConvert.DeserializeObject<List<Product>>(x)
-          );        
+            .HasMany(sc => sc.CartsProductsItemns)
+            .WithOne()
+            .HasForeignKey(b => b.CartId)
+            .IsRequired(false);
     }
 }

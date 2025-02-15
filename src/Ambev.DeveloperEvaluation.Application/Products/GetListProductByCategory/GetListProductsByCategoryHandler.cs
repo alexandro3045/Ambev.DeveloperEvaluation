@@ -16,7 +16,7 @@ namespace Ambev.DeveloperEvaluation.Application.Products.GetListProductByCategor
         /// <summary>
         /// Initializes a new instance of GetListProductsHandler
         /// </summary>
-        /// <param name="ProductsRepository">The Products repository</param>
+        /// <param name="ProductsRepository">The ProductsItems repository</param>
         /// <param name="mapper">The AutoMapper instance</param>
         /// <param name="validator">The validator for GetProductsCommand</param>
         public GetListProductsByCategoryHandler(
@@ -32,7 +32,7 @@ namespace Ambev.DeveloperEvaluation.Application.Products.GetListProductByCategor
         /// </summary>
         /// <param name="request">The GetProducts command</param>
         /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>The Products details if found</returns>
+        /// <returns>The ProductsItems details if found</returns>
         public async Task<GetListProductResult> Handle(GetListProductByCategoryCommand request, CancellationToken cancellationToken)
         {
             var validator = new GetListProducByCategorytValidator();

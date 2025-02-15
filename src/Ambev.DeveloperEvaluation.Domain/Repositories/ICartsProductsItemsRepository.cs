@@ -5,7 +5,7 @@
 /// </summary>
 namespace Ambev.DeveloperEvaluation.Domain.Repositories
 {
-    public interface ISalesCartsRepository : IRepository<Carts>
+    public interface ICartsProductsItemsRepository : IRepository<CartsProductItem>
     {
     }
 }

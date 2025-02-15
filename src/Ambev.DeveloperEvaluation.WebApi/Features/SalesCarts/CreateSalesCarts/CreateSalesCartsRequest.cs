@@ -1,26 +1,38 @@
-﻿using Ambev.DeveloperEvaluation.WebApi.Features.Branch.CreateBranchRequest;
-using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CreateCarts;
-using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProducts;
+﻿using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.CreateCarts;
 
 /// <summary>
-/// Represents a request to create a new SalesCarts in the system.
+/// Represents a request to create a new Carts in the system.
 /// </summary>
 public class CreateSalesCartsRequest
 {
+    public CreateSalesCartsRequest()
+    {
+        salesNumber = new Random().Next(1, int.MaxValue);
+    }
     /// <summary>
     /// Gets the SalesNumber sales when the carts was created.
     /// </summary>
-    public required int SalesNumber { get; set; } = new Random().Next(1,10000);
+    private int salesNumber ;
+
+    public required int SalesNumber
+    {
+        get
+        {
+            return salesNumber;
+        }
+
+        set { salesNumber = value; }
+    }
 
     /// <summary>
     /// Gets the branch sales when the carts was created.
     /// </summary>
-    public CreateBranchRequest Branch { get; set; }
+    public Guid BranchId { get; set; }
 
     /// <summary>
-    /// Gets the Carts when the carts was created.
+    /// Gets the Carts when the sales was created.
     /// </summary>
-    public CreateCartsRequest Carts { get; set; }
+    public CartsRequest Carts { get; set; }
 }

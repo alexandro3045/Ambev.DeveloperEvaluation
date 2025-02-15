@@ -16,7 +16,7 @@ public class GetListProductHandler : IRequestHandler<GetListProductCommand, GetL
     /// <summary>
     /// Initializes a new instance of GetListProductsHandler
     /// </summary>
-    /// <param name="ProductsRepository">The Products repository</param>
+    /// <param name="ProductsRepository">The ProductsItems repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for GetProductsCommand</param>
     public GetListProductHandler(
@@ -32,7 +32,7 @@ public class GetListProductHandler : IRequestHandler<GetListProductCommand, GetL
     /// </summary>
     /// <param name="request">The GetProducts command</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The Products details if found</returns>
+    /// <returns>The ProductsItems details if found</returns>
     public virtual async Task<GetListProductResult> Handle(GetListProductCommand request, CancellationToken cancellationToken)
     {
         var validator = new GetListProductValidator();
