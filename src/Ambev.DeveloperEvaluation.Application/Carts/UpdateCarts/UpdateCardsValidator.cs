@@ -25,7 +25,7 @@ public class UpdateCartsValidator : AbstractValidator<UpdateCartsCommand>
             .NotEmpty()
             .WithMessage(string.Format(message, "Id"));
 
-        RuleFor(x => x.Date)
+        RuleFor(x => x.CreatedAt)
             .NotEmpty()
             .WithMessage(string.Format(message, "Date"));
 

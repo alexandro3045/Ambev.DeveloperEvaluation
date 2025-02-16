@@ -11,7 +11,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCarts;
 public class UpdateCartsHandler : IRequestHandler<UpdateCartsCommand, UpdateCartsResult>
 {
     private readonly ICartsRepository _CartsRepository;
-    private readonly IProductsRepository _ProductsRepository;
+    private readonly ICartsProductsItemsRepository _CartsProductsItemsRepository;
     private readonly IMapper _mapper;
 
     /// <summary>
@@ -20,9 +20,9 @@ public class UpdateCartsHandler : IRequestHandler<UpdateCartsCommand, UpdateCart
     /// <param name="CartsRepository">The Carts repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for UpdateCartsCommand</param>
-    public UpdateCartsHandler(ICartsRepository CartsRepository, IProductsRepository _ProductsRepository, IMapper mapper)
+    public UpdateCartsHandler(ICartsRepository CartsRepository, ICartsProductsItemsRepository CartsProductsItemsRepository, IMapper mapper)
     {
-        _ProductsRepository = _ProductsRepository;
+        _CartsProductsItemsRepository = CartsProductsItemsRepository;
         _CartsRepository = CartsRepository;
         _mapper = mapper;
     }
@@ -43,10 +43,7 @@ public class UpdateCartsHandler : IRequestHandler<UpdateCartsCommand, UpdateCart
             throw new ValidationException(validationResult.Errors);
        
         var Carts = _mapper.Map<Domain.Entities.Carts>(command);
-        var i = command.Products.Select(p => p.ProductId).ToArray();
-        _ProductsRepository.GetByProductsIds(i);
-        Carts.CartsProductsItemns =  command.Products.Select(p => new Domain.Entities.CartsProductItem { ProductId = p.ProductId, Quantity = p.Quantity }).ToList();
-        
+
         var UpdatedCarts = await _CartsRepository.UpdateAsync(Carts, cancellationToken);
 
         var result = _mapper.Map<UpdateCartsResult>(UpdatedCarts);

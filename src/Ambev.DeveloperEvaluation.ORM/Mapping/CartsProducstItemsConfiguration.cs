@@ -4,20 +4,22 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Ambev.DeveloperEvaluation.ORM.Mapping;
 
-public class CartsProducstItemsConfiguration : IEntityTypeConfiguration<CartsProductItem>
+public class CartsProducstItemsConfiguration : IEntityTypeConfiguration<CartsProductsItems>
 {
-    public void Configure(EntityTypeBuilder<CartsProductItem> builder)
+    public void Configure(EntityTypeBuilder<CartsProductsItems> builder)
     {
         builder
             .ToTable("CartsProductsItems");
 
        builder
-            .HasKey(t => new { t.Id} );
+            .HasKey(t => new { t.Id } );
+
+        builder
+            .HasAlternateKey(t => new { t.Id, t.ProductId });
 
         builder
             .Property(u => u.Id)
-            .HasColumnType("uuid")
-            .HasDefaultValueSql("gen_random_uuid()");
+            .HasColumnType("uuid");
 
         builder
             .Property(u => u.Quantity)

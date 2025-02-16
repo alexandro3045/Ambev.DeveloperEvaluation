@@ -23,6 +23,7 @@ public class UpdateCartsProfile : Profile
             .ForMember(dest => dest.Products,  opt => opt.MapFrom( src => src.Products.Select( p => new CartItem(src.Id, p.ProductId, p.Quantity)))); ;
         
         CreateMap<UpdateCartsResult, UpdateCartsResponse>()
+            .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.Date))
           .ForMember(dest => dest.Products,  opt => opt.MapFrom( src => src.Products.Select( p => new ItemProduct(p.ProductId,p.Quantity) )));
     }
 }

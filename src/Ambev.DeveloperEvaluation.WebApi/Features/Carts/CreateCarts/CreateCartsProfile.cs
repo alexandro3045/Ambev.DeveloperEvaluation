@@ -17,7 +17,7 @@ public class CreateCartsProfile : Profile
         CreateMap<ItemProduct, CartItem>();
 
         CreateMap<CartsRequest, CreateCartsCommand>()
-            .ForMember(dest => dest.CreatedAt, static opt => opt.MapFrom(static src => src.Date != default ? src.Date : DateTime.Now));
+            .ForMember(dest => dest.CreatedAt, static opt => opt.MapFrom(static src => src.CreatedAt != default ? src.CreatedAt : DateTime.Now));
 
         CreateMap<Domain.Entities.ProductsItems, ItemProduct>()
             .ForMember(dest => dest.ProductId, static opt => opt.MapFrom(static src => src.ProductId))
@@ -27,7 +27,7 @@ public class CreateCartsProfile : Profile
             .ForMember(dest => dest.Products, static opt => opt.MapFrom(static src => src.Products));           
 
         CreateMap<CartsRequest, CreateCartsCommand>()
-            .ForMember(dest => dest.CreatedAt, static opt => opt.MapFrom(static src => src.Date != default ? src.Date : DateTime.Now));
+            .ForMember(dest => dest.CreatedAt, static opt => opt.MapFrom(static src => src.CreatedAt != default ? src.CreatedAt : DateTime.Now));
 
         CreateMap<Domain.Entities.Carts, CreateCartsResult>();
 

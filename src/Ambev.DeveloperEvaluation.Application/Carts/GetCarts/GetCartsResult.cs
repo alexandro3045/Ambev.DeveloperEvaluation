@@ -15,7 +15,7 @@ public class GetCartsResult
     /// <summary>
     /// Gets the date and time when the carts was created.
     /// </summary>
-    public DateTime Date { get; set; }
+    public DateTime CreatedAt { get; set; }
 
     /// <summary>
     /// Gets the UserId when the carts was created.
@@ -25,5 +25,5 @@ public class GetCartsResult
     /// <summary>
     /// Gets the products when the carts was created.
     /// </summary>
-    public required List<Product> Products { get; set; }
+    public required List<CartsProductsItems> CartsProductsItemns { get; set; }
 }

@@ -29,5 +29,5 @@ public class CreateCartsResult
     /// <summary>
     /// Gets the List from product.
     /// </summary>
-    public List<Domain.Entities.CartsProductItem> Products { get; set; }
+    public List<Domain.Entities.CartsProductsItems> Products { get; set; }
 }

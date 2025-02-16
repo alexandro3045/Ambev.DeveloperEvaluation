@@ -33,6 +33,6 @@ public class CartsConfiguration : IEntityTypeConfiguration<Carts>
             .HasMany(sc => sc.CartsProductsItemns)
             .WithOne()
             .HasForeignKey(b => b.CartId)
-            .IsRequired(false);
+            .HasPrincipalKey(e => e.Id);
     }
 }

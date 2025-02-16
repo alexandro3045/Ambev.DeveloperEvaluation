@@ -1,7 +1,9 @@
 ﻿using Ambev.DeveloperEvaluation.Common.Filter;
 using Ambev.DeveloperEvaluation.Common.QueryExpression;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Ambev.DeveloperEvaluation.ORM.Repositories.Extensions;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
 using System.Linq.Expressions;
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories
@@ -17,7 +19,9 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
 
         public async Task<TEntity> CreateAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
-            await _context.Set<TEntity>().AddAsync(entity, cancellationToken);
+            _context.Set<TEntity>().Entry(entity).State = EntityState.Added;
+
+            await _context.Set<TEntity>().AddOrUpdateAsync(entity);
 
             await _context.SaveChangesAsync(cancellationToken);
 
@@ -26,14 +30,15 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
 
         public async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
-            _context.Entry(entity).State = EntityState.Modified;
+            _context.Set<TEntity>().Entry(entity).State = EntityState.Modified;
 
-            _context.Set<TEntity>().Update(entity);
+            await _context.Set<TEntity>().AddOrUpdateAsync(entity);
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return entity;
         }
+
 
         public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
         {
@@ -48,7 +53,17 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
 
         public async Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await _context.Set<TEntity>().FindAsync(id, cancellationToken);
+            IQueryable<TEntity> source = _context.Set<TEntity>()
+            .IncludeAllRecursively()
+            .AsQueryable();
+
+            var filters = CustomExpressionFilter<TEntity>.CustomFilterColumn($"Id={id}", typeof(TEntity).Name);
+            
+            source = source.Where(filters);
+
+            return await source
+                .AsNoTracking()
+                .SingleAsync(cancellationToken);
         }
 
         public async Task<List<TEntity>> GetAllAsync(int page, int size, string order, string direction,
@@ -57,7 +72,9 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
 
             Expression<Func<TEntity, bool>> filters = null;
 
-            IQueryable<TEntity> source = _context.Set<TEntity>().AsQueryable();
+            IQueryable<TEntity> source = _context.Set<TEntity>()
+                .IncludeAllRecursively()
+                .AsQueryable();
 
             if (!string.IsNullOrEmpty(columnFilters))
             {

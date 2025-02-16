@@ -48,7 +48,7 @@ public class CreateSalesCartsHandler : IRequestHandler<CreateSalesCartsCommand, 
 
         var salesCarts = _mapper.Map<Domain.Entities.Carts>(command);
 
-        //salesCarts.CartsProductItems = products.Select(x => new Domain.Entities.CartsProductItem
+        //salesCarts.CartsProductItems = products.Select(x => new Domain.Entities.CartsProductsItems
         //{
         //    Product = x,
         //    Quantity = command.ProductsItems.First(y => y.ProductId == x.Id).Quantity

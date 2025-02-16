@@ -65,7 +65,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                     b.ToTable("Carts", (string)null);
                 });
 
-            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.CartsProductItem", b =>
+            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.CartsProductsItems", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -263,7 +263,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
 
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Carts", b =>
                 {
-                    b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.CartsProductItem", null)
+                    b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.CartsProductsItems", null)
                         .WithOne("Cart")
                         .HasForeignKey("Ambev.DeveloperEvaluation.Domain.Entities.Carts", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -276,7 +276,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.CartsProductItem", b =>
+            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.CartsProductsItems", b =>
                 {
                     b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Carts", null)
                         .WithMany("CartsProductsItemns")
@@ -311,7 +311,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                     b.Navigation("CartsProductsItemns");
                 });
 
-            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.CartsProductItem", b =>
+            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.CartsProductsItems", b =>
                 {
                     b.Navigation("Cart")
                         .IsRequired();
@@ -325,7 +325,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                     b.Navigation("Carts")
                         .IsRequired();
 
-                    b.Navigation("Products");
+                    b.Navigation("CartsProductsItemns");
                 });
 #pragma warning restore 612, 618
         }

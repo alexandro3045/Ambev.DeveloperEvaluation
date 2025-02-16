@@ -144,7 +144,7 @@ public class SalesCartsController : BaseController
     [ProducesResponseType(typeof(PaginatedList<Domain.Entities.Carts?>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetListSalesCarts([FromQuery] int page = 1, [FromQuery] int size = 10, [FromQuery] string? order = "Date", [FromQuery] string? direction = "asc",
+    public async Task<IActionResult> GetListSalesCarts([FromQuery] int page = 1, [FromQuery] int size = 10, [FromQuery] string? order = "CreatedAt", [FromQuery] string? direction = "asc",
           [FromQuery] string? columnFilters = default, CancellationToken cancellationToken = default)
     {
         var request = new GetListSalesCartsRequest { Page = page, Size = size, Order = order, 

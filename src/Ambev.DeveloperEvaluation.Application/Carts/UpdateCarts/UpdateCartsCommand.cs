@@ -28,7 +28,7 @@ public class UpdateCartsCommand : IRequest<UpdateCartsResult>
     /// <summary>
     /// Gets the date and time when the carts was created.
     /// </summary>
-    public DateTime Date { get; set; }
+    public DateTime CreatedAt { get; set; }
 
     /// <summary>
     /// Gets the UserId when the carts was created.

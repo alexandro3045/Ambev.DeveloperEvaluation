@@ -14,13 +14,13 @@ public class CreateCartsRequestValidator : AbstractValidator<CartsRequest>
     /// <remarks>
     /// Validation rules include:
     /// - UserID:Required, UserID User
-    /// - Date: Date created
+    /// - CreatedAt: CreatedAt created
     /// - ProductsItems: ProductsItems relationed
     /// </remarks>
     public CreateCartsRequestValidator()
     {
         RuleFor(Carts => Carts.UserId).NotEmpty();
-        RuleFor(Carts => Carts.Date).NotEmpty();
+        RuleFor(Carts => Carts.CreatedAt).NotEmpty();
         RuleFor(Carts => Carts.Products).NotEmpty();
     }
 }

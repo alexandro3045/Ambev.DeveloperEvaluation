@@ -13,7 +13,7 @@ public class UpdateSalesCartsRequestValidator : AbstractValidator<UpdateSalesCar
     /// <remarks>
     /// Validation rules include:
     /// - UserID:Required, UserID User
-    /// - Date: Date created
+    /// - CreatedAt: CreatedAt created
     /// - ProductsItems: ProductsItems relationed
     /// </remarks>
     public UpdateSalesCartsRequestValidator()

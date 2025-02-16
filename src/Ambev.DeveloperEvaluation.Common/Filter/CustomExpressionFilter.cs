@@ -1,5 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Ambev.DeveloperEvaluation.Common.Filter

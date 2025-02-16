@@ -107,7 +107,7 @@ public class CartsController : BaseController
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The Carts details if found</returns>
     [HttpGet("{id}")]
-    [ProducesResponseType(typeof(ApiResponseWithData<GetCartsResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponseWithData<CartsResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetCarts([FromRoute] Guid id, CancellationToken cancellationToken)
@@ -124,7 +124,7 @@ public class CartsController : BaseController
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-            return Ok(_mapper.Map<GetCartsResponse>(response));
+            return Ok(_mapper.Map<CartsResponse>(response));
         }
         catch (Exception ex)
         {
@@ -143,10 +143,10 @@ public class CartsController : BaseController
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The list of Carts </returns>
     [HttpGet()]
-    [ProducesResponseType(typeof(PaginatedList<Domain.Entities.Carts?>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PaginatedList<GetListCartsResponse?>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetListCarts([FromQuery] int page = 1, [FromQuery] int size = 10, [FromQuery] string? order = "Date", [FromQuery] string? direction = "asc",
+    public async Task<IActionResult> GetListCarts([FromQuery] int page = 1, [FromQuery] int size = 10, [FromQuery] string? order = "CreatedAt", [FromQuery] string? direction = "asc",
           [FromQuery] string? columnFilters = default, CancellationToken cancellationToken = default)
     {
         var request = new GetListCartsRequest
@@ -167,7 +167,10 @@ public class CartsController : BaseController
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-            return OkPaginated(new PaginatedList<Domain.Entities.Carts?>(response.ListCarts, response.ListCarts.Count, page, size));
+
+            var mappedResponse = _mapper.Map<GetListCartsResponse>(response);
+           
+           return OkPaginated(new PaginatedList<CartsResponse?>(mappedResponse?.ListCarts, mappedResponse.ListCarts.Count, page, size));
         }
         catch (Exception ex)
         {
