@@ -1,9 +1,8 @@
 ﻿using Ambev.DeveloperEvaluation.Common.Filter;
 using Ambev.DeveloperEvaluation.Common.QueryExpression;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
-using Ambev.DeveloperEvaluation.ORM.Repositories.Extensions;
+using Ambev.DeveloperEvaluation.Common.DBExtensions;
 using Microsoft.EntityFrameworkCore;
-using System.Collections;
 using System.Linq.Expressions;
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories
@@ -28,6 +27,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
 
         public async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
+            _context.Set<TEntity>().Entry(entity).State = EntityState.Modified;
 
             await _context.Set<TEntity>().AddOrUpdateAsync(entity);
 

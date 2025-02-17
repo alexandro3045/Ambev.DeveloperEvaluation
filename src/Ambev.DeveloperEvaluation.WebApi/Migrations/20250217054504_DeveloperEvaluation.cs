@@ -26,6 +26,25 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Product",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    Title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Price = table.Column<decimal>(type: "numeric", maxLength: 10, nullable: false),
+                    Descripption = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Category = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    Image = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
+                    Rating = table.Column<string>(type: "jsonb", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Product", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -47,24 +66,22 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SalesCarts",
+                name: "ProductsItems",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
-                    CreatedAt = table.Column<DateTime>(type: "date", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "date", nullable: false),
-                    CustomerId = table.Column<string>(type: "text", nullable: false),
-                    Customer = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
-                    TotalSales = table.Column<decimal>(type: "numeric", maxLength: 10, nullable: false),
-                    Quantities = table.Column<int>(type: "int", nullable: false),
-                    UnitPrice = table.Column<decimal>(type: "numeric", maxLength: 10, nullable: false),
-                    Discounts = table.Column<decimal>(type: "numeric", maxLength: 3, nullable: false),
-                    TotalAmountItem = table.Column<decimal>(type: "numeric", maxLength: 10, nullable: false),
-                    Canceled = table.Column<bool>(type: "boolean", maxLength: 10, nullable: false)
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SalesCarts", x => x.Id);
+                    table.PrimaryKey("PK_ProductsItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductsItems_Product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Product",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -84,7 +101,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                 name: "CartsProductsItems",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CartId = table.Column<Guid>(type: "uuid", nullable: false),
                     ProductId = table.Column<Guid>(type: "uuid", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false)
@@ -92,60 +109,83 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CartsProductsItems", x => x.Id);
+                    table.UniqueConstraint("AK_CartsProductsItems_CartId_ProductId", x => new { x.CartId, x.ProductId });
                     table.ForeignKey(
                         name: "FK_CartsProductsItems_Carts_CartId",
                         column: x => x.CartId,
                         principalTable: "Carts",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Product",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
-                    Title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Price = table.Column<decimal>(type: "numeric", maxLength: 10, nullable: false),
-                    Descripption = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Category = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    Image = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
-                    Rating = table.Column<string>(type: "jsonb", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Product", x => x.Id);                   
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProductsItems",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
-                    ProductId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Quantity = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductsItems", x => x.Id);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProductsItems_Product_ProductId",
+                        name: "FK_CartsProductsItems_Product_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Product",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "SalesCarts",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    SalesNumber = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "date", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "date", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TotalSales = table.Column<decimal>(type: "numeric", maxLength: 10, nullable: false),
+                    BranchId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CartId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Quantities = table.Column<int>(type: "int", nullable: false),
+                    UnitPrice = table.Column<decimal>(type: "numeric", maxLength: 10, nullable: false),
+                    Discounts = table.Column<decimal>(type: "numeric", maxLength: 3, nullable: false),
+                    TotalAmountItem = table.Column<decimal>(type: "numeric", maxLength: 10, nullable: false),
+                    Canceled = table.Column<bool>(type: "boolean", maxLength: 10, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SalesCarts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SalesCarts_Branch_Id",
+                        column: x => x.Id,
+                        principalTable: "Branch",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SalesCarts_Carts_CartId",
+                        column: x => x.CartId,
+                        principalTable: "Carts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SalesCarts_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
-                name: "IX_CartsProductsItems_CartId",
+                name: "IX_CartsProductsItems_ProductId",
                 table: "CartsProductsItems",
-                column: "CartId");
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductsItems_ProductId",
                 table: "ProductsItems",
                 column: "ProductId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SalesCarts_CartId",
+                table: "SalesCarts",
+                column: "CartId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SalesCarts_UserId",
+                table: "SalesCarts",
+                column: "UserId",
                 unique: true);
 
         }
@@ -158,10 +198,13 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                 name: "ProductsItems");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "SalesCarts");
 
             migrationBuilder.DropTable(
-                name: "Product");
+                name: "Branch");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "CartsProductsItems");
@@ -170,10 +213,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                 name: "Carts");
 
             migrationBuilder.DropTable(
-                name: "SalesCarts");
-
-            migrationBuilder.DropTable(
-                name: "Branch");
+                name: "Product");
         }
     }
 }

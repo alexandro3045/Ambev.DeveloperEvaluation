@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ambev.DeveloperEvaluation.WebApi.Migrations
 {
     [DbContext(typeof(DefaultContext))]
-    [Migration("20250215015646_DeveloperEvaluation")]
+    [Migration("20250217054504_DeveloperEvaluation")]
     partial class DeveloperEvaluation
     {
         /// <inheritdoc />
@@ -72,8 +72,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasDefaultValueSql("gen_random_uuid()");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("CartId")
                         .HasColumnType("uuid");
@@ -86,7 +85,9 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CartId");
+                    b.HasAlternateKey("CartId", "ProductId");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("CartsProductsItems", (string)null);
                 });
@@ -165,21 +166,18 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("gen_random_uuid()");
 
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("Canceled")
                         .HasMaxLength(10)
                         .HasColumnType("boolean");
 
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("date");
-
-                    b.Property<string>("Customer")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
-                    b.Property<string>("CustomerId")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<decimal>("Discounts")
                         .HasMaxLength(3)
@@ -187,6 +185,9 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
 
                     b.Property<int>("Quantities")
                         .HasColumnType("int");
+
+                    b.Property<int>("SalesNumber")
+                        .HasColumnType("integer");
 
                     b.Property<decimal>("TotalAmountItem")
                         .HasMaxLength(10)
@@ -203,7 +204,16 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("date");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CartId")
+                        .IsUnique();
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("SalesCarts", (string)null);
                 });
@@ -271,28 +281,23 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                         .HasForeignKey("Ambev.DeveloperEvaluation.Domain.Entities.Carts", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.SalesCarts", null)
-                        .WithOne("Carts")
-                        .HasForeignKey("Ambev.DeveloperEvaluation.Domain.Entities.Carts", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.CartsProductsItems", b =>
                 {
                     b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Carts", null)
                         .WithMany("CartsProductsItemns")
-                        .HasForeignKey("CartId");
-                });
-
-            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Product", b =>
-                {
-                    b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.CartsProductsItems", null)
-                        .WithOne("Product")
-                        .HasForeignKey("Ambev.DeveloperEvaluation.Domain.Entities.Product", "Id")
+                        .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.ProductsItems", b =>
@@ -308,13 +313,29 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
 
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.SalesCarts", b =>
                 {
+                    b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Carts", "Carts")
+                        .WithOne()
+                        .HasForeignKey("Ambev.DeveloperEvaluation.Domain.Entities.SalesCarts", "CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Branch", "Branch")
                         .WithMany()
                         .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.User", "User")
+                        .WithOne()
+                        .HasForeignKey("Ambev.DeveloperEvaluation.Domain.Entities.SalesCarts", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Branch");
+
+                    b.Navigation("Carts");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Carts", b =>
@@ -325,15 +346,6 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.CartsProductsItems", b =>
                 {
                     b.Navigation("Cart")
-                        .IsRequired();
-
-                    b.Navigation("Product")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.SalesCarts", b =>
-                {
-                    b.Navigation("Carts")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

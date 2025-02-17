@@ -1,15 +1,27 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Ambev.DeveloperEvaluation.ORM.Repositories.Extensions
+namespace Ambev.DeveloperEvaluation.Common.DBExtensions
 {
     public static class EfExtensions
     {
+
+        public static DbSet<TEntity> IncludeAllRecursively<TEntity>(this DbSet<TEntity> dbSet,
+    int maxDepth = int.MaxValue, bool addSeenTypesToIgnoreList = true, HashSet<Type>? ignoreTypes = null)
+    where TEntity : class
+        {
+            var type = typeof(TEntity);
+            var includes = new List<string>();
+            ignoreTypes ??= new HashSet<Type>();
+            GetIncludeTypes(ref includes, prefix: string.Empty, type, ref ignoreTypes, addSeenTypesToIgnoreList, maxDepth);
+            foreach (var include in includes)
+            {
+                dbSet.Include(include);
+            }
+
+            return dbSet;
+        }
+
         public static IQueryable<TEntity> IncludeAllRecursively<TEntity>(this IQueryable<TEntity> queryable,
             int maxDepth = int.MaxValue, bool addSeenTypesToIgnoreList = true, HashSet<Type>? ignoreTypes = null)
             where TEntity : class

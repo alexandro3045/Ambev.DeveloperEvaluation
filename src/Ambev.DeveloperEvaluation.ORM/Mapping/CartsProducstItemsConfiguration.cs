@@ -11,8 +11,8 @@ public class CartsProducstItemsConfiguration : IEntityTypeConfiguration<CartsPro
         builder
             .ToTable("CartsProductsItems");
 
-       builder
-            .HasKey(t => new { t.Id } );
+        builder
+             .HasKey(t => new { t.Id });
 
         builder
             .HasAlternateKey(t => new { t.CartId, t.ProductId });
@@ -43,7 +43,7 @@ public class CartsProducstItemsConfiguration : IEntityTypeConfiguration<CartsPro
 
         builder
             .HasOne(p => p.Product)
-            .WithOne()
-            .HasForeignKey<Product>(b => b.Id);
+            .WithMany()
+            .HasForeignKey(p => p.ProductId);
     }
 }

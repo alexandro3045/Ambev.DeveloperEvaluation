@@ -12,7 +12,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// <summary>
         /// Gets the sale number when the carts was created.
         /// </summary>
-        public int SaleNumber { get; set; }
+        public int SalesNumber { get; set; }
 
         /// <summary>
         /// Gets the date and time when the carts was created.
@@ -27,12 +27,12 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// <summary>
         /// Gets the Customer when the carts was created.
         /// </summary>
-        public string CustomerId { get; set; }
+        public Guid UserId { get; set; }
 
         /// <summary>
         /// Gets the Customer when the carts was created.
         /// </summary>
-        public string Customer { get; set; }
+        public User User { get; set; }
 
         /// <summary>
         /// Gets the total sales when the carts was created.
@@ -40,9 +40,19 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         public decimal TotalSales { get; set; }
 
         /// <summary>
+        /// Gets the branch idsales when the carts was created.
+        /// </summary>
+        public Guid BranchId { get; set; }
+
+        /// <summary>
         /// Gets the branch sales when the carts was created.
         /// </summary>
         public Branch Branch { get; set; }
+
+        /// <summary>
+        /// Gets the CartId when the saleCarts was created.
+        /// </summary>
+        public Guid CartId { get; set; }
 
         /// <summary>
         /// Gets the Carts when the SalsesCarts was created.

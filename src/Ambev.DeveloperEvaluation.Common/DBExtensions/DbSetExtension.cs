@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
-namespace Ambev.DeveloperEvaluation.ORM.Repositories.Extensions
+namespace Ambev.DeveloperEvaluation.Common.DBExtensions
 {
     public static class DbSetExtension
     {
