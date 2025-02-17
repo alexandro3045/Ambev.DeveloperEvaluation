@@ -16,10 +16,10 @@ public class CreateCartsProfile : Profile
         CreateMap<CartsProductsItems, ProductsItems>();
 
         CreateMap<CreateCartsCommand, Domain.Entities.Carts>()
-           .ForMember(dest => dest.CartsProductsItemns, static opt => opt.MapFrom(static src => src.Products.Select(p => new CartsProductsItems { ProductId = p.ProductId, Quantity = p.Quantity })));
+           .ForMember(dest => dest.CartsProductsItemns,  opt => opt.MapFrom( src => src.Products.Select(p => new CartsProductsItems { ProductId = p.ProductId, Quantity = p.Quantity })));
 
         CreateMap<Domain.Entities.Carts, CreateCartsResult>()
-          .ForMember(dest => dest.Date, static opt => opt.MapFrom(static src => src.CreatedAt))
-          .ForMember(dest => dest.Products, static opt => opt.MapFrom(static src => src.CartsProductsItemns.Select(p => new ProductsItems { ProductId = p.ProductId, Quantity = p.Quantity  }))); ;
+          .ForMember(dest => dest.Date,  opt => opt.MapFrom( src => src.CreatedAt))
+          .ForMember(dest => dest.Products,  opt => opt.MapFrom( src => src.CartsProductsItemns.Select(p => new CartsProductsItems { ProductId = p.ProductId, Quantity = p.Quantity  }))); ;
     }
 }

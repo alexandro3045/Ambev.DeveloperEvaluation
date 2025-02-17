@@ -4,6 +4,16 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
 {
     public class SalesCarts : BaseEntity
     {
+        public SalesCarts()
+        {
+            CreatedAt = DateTime.UtcNow;
+        }
+
+        /// <summary>
+        /// Gets the sale number when the carts was created.
+        /// </summary>
+        public int SaleNumber { get; set; }
+
         /// <summary>
         /// Gets the date and time when the carts was created.
         /// </summary>

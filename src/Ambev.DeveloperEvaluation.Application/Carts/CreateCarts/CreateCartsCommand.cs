@@ -55,6 +55,12 @@ public class CreateCartsCommand : IRequest<CreateCartsResult>
 
 public class CartItem
 {
+    public CartItem(Guid productId, int quantity)
+    {
+        ProductId = productId;
+        Quantity = quantity;
+    }
+
     public CartItem(Guid cartId, Guid productId, int quantity)
     {
         CartId = cartId;

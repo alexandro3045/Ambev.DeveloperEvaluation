@@ -14,7 +14,6 @@ using Ambev.DeveloperEvaluation.Application.Carts.GetListCarts;
 using Ambev.DeveloperEvaluation.WebApi.Carts.GetCarts.GetCarts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetListCarts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.UpdateCards;
-using Ambev.DeveloperEvaluation.WebApi.Carts.GetCarts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts;

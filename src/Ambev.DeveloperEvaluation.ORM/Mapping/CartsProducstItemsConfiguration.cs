@@ -15,7 +15,7 @@ public class CartsProducstItemsConfiguration : IEntityTypeConfiguration<CartsPro
             .HasKey(t => new { t.Id } );
 
         builder
-            .HasAlternateKey(t => new { t.Id, t.ProductId });
+            .HasAlternateKey(t => new { t.CartId, t.ProductId });
 
         builder
             .Property(u => u.Id)

@@ -19,9 +19,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
 
         public async Task<TEntity> CreateAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
-            _context.Set<TEntity>().Entry(entity).State = EntityState.Added;
-
-            await _context.Set<TEntity>().AddOrUpdateAsync(entity);
+            await _context.Set<TEntity>().AddAsync(entity, cancellationToken);
 
             await _context.SaveChangesAsync(cancellationToken);
 
@@ -30,7 +28,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
 
         public async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
-            _context.Set<TEntity>().Entry(entity).State = EntityState.Modified;
 
             await _context.Set<TEntity>().AddOrUpdateAsync(entity);
 
@@ -38,7 +35,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
 
             return entity;
         }
-
 
         public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
         {
@@ -66,7 +62,12 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
                 .SingleAsync(cancellationToken);
         }
 
-        public async Task<List<TEntity>> GetAllAsync(int page, int size, string order, string direction,
+        public async Task<List<TEntity>> GetByFilterAsync(string? columnFilters, CancellationToken cancellationToken = default)
+        {
+            return await GetAllAsync(default, default, default, default, columnFilters, cancellationToken);
+        }
+
+        public async Task<List<TEntity>> GetAllAsync(int page, int size, string? order, string? direction,
             string? columnFilters, CancellationToken cancellationToken = default)
         {
 
@@ -90,7 +91,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
                .Take(size);
             }
 
-            if (!string.IsNullOrEmpty(order))
+            if (!string.IsNullOrEmpty(order) && !string.IsNullOrEmpty(direction))
             {
                 source = source
                  .Skip((page - 1) * size)

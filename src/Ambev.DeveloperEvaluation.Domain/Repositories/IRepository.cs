@@ -40,12 +40,22 @@ public interface IRepository<TEntity> where TEntity : class
     /// <returns>The entity if found, null otherwise</returns>
     Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
+
+    /// <summary>
+    /// Retrieves a entity by their unique identifier
+    /// </summary>
+    /// <param name="ColumnFilters">Columns filters list of the entity</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The entity if found, null otherwise</returns>
+    Task<List<TEntity>> GetByFilterAsync(string? columnFilters, CancellationToken cancellationToken = default);
+
     /// <summary>
     /// Retrieves all entity
     /// </summary>
     /// <param name="page">Page of pagination to list of the entity</param>
     /// <param name="size">Size of pagination to list of the entity</param>
     /// <param name="order">Order of pagination to list of the entity</param>
+    /// <param name="ColumnFilters">Columns filters list of the entity</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The entity if found, null otherwise</returns>
     Task<List<TEntity>> GetAllAsync(int page, int size, string order, string direction, string? ColumnFilters, CancellationToken cancellationToken = default);
