@@ -19,7 +19,8 @@ public class CartsProducstItemsConfiguration : IEntityTypeConfiguration<CartsPro
 
         builder
             .Property(u => u.Id)
-            .HasColumnType("uuid");
+            .HasColumnType("uuid")
+            .HasDefaultValueSql("gen_random_uuid()");
 
         builder
             .Property(u => u.Quantity)
@@ -41,9 +42,21 @@ public class CartsProducstItemsConfiguration : IEntityTypeConfiguration<CartsPro
             .IsRequired()
             .HasColumnType("uuid");
 
+        builder.Property(u => u.UnitPrice)
+            .IsRequired()
+            .HasMaxLength(10);
+
+        builder.Property(u => u.TotalAmountItem)
+            .IsRequired()
+            .HasMaxLength(10);
+
+        builder.Property(u => u.Discounts)
+            .IsRequired()
+            .HasMaxLength(10);
+
         builder
             .HasOne(p => p.Product)
-            .WithMany()
-            .HasForeignKey(p => p.ProductId);
+            .WithOne()
+            .HasForeignKey<CartsProductsItems>(b => b.ProductId);
     }
 }

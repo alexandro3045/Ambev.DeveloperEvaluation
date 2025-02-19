@@ -1,3 +1,4 @@
+using Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 
 namespace Ambev.DeveloperEvaluation.Application.SalesCarts.GetSalesCarts;
@@ -8,22 +9,52 @@ namespace Ambev.DeveloperEvaluation.Application.SalesCarts.GetSalesCarts;
 public class GetSalesCartsResult
 {
     /// <summary>
-    /// Gets the Id when the carts was created.
+    /// Gets the sale number when the carts was created.
     /// </summary>
-    public required Guid Id { get; set; }
+    public int SalesNumber { get; set; }
 
     /// <summary>
     /// Gets the date and time when the carts was created.
     /// </summary>
-    public DateTime Date { get; set; }
+    public DateTime CreatedAt { get; set; }
 
     /// <summary>
-    /// Gets the UserId when the carts was created.
+    /// Gets the Customer when the carts was created.
     /// </summary>
-    public required string UserId { get; set; }
+    public Guid UserId { get; set; }
 
     /// <summary>
-    /// Gets the products when the carts was created.
+    /// Gets the Customer when the carts was created.
     /// </summary>
-    public required List<Product> Products { get; set; }
+    public User User { get; set; }
+
+    /// <summary>
+    /// Gets the total sales when the carts was created.
+    /// </summary>
+    public decimal TotalSalesAmount { get; set; }
+
+    /// <summary>
+    /// Gets the branch idsales when the carts was created.
+    /// </summary>
+    public Guid BranchId { get; set; }
+
+    /// <summary>
+    /// Gets the branch sales when the carts was created.
+    /// </summary>
+    public Branch Branch { get; set; }
+
+    /// <summary>
+    /// Gets the List from product.
+    /// </summary>
+    public required List<CartItemResult> Products { get; set; }
+
+    /// <summary>
+    /// Gets the quantities products when the carts was created.
+    /// </summary>
+    public int Quantities { get; set; }
+
+    /// <summary>
+    /// Gets the canceled item products when the carts was created.
+    /// </summary>
+    public bool Canceled { get; set; }
 }

@@ -41,10 +41,11 @@ public class SalesCartsConfiguration : IEntityTypeConfiguration<SalesCarts>
         builder
             .HasOne(sc => sc.User)
             .WithOne()
-            .HasForeignKey<SalesCarts>(b => b.UserId);
+            .HasForeignKey<SalesCarts>(b => b.UserId)
+            .IsRequired(false);
 
         builder
-            .Property(u => u.TotalSales)
+            .Property(u => u.TotalSalesAmount)
             .IsRequired()
             .HasMaxLength(10);
 
@@ -54,8 +55,9 @@ public class SalesCartsConfiguration : IEntityTypeConfiguration<SalesCarts>
 
         builder
             .HasOne(sc => sc.Branch)
-            .WithMany()
-            .HasForeignKey(b => b.Id);
+            .WithOne()
+            .HasForeignKey<SalesCarts>(b => b.BranchId)
+            .IsRequired(false);
 
         builder
             .Property(u => u.CartId)
@@ -64,26 +66,12 @@ public class SalesCartsConfiguration : IEntityTypeConfiguration<SalesCarts>
         builder
             .HasOne(sc => sc.Carts)
             .WithOne()
-            .HasForeignKey<SalesCarts>(b => b.CartId);
+            .HasForeignKey<SalesCarts>(b => b.CartId)
+            .IsRequired(false);
 
         builder
             .Property(u => u.Quantities)
             .HasColumnType("int");
-
-        builder
-            .Property(u => u.UnitPrice)
-            .IsRequired()
-            .HasMaxLength(10);
-
-        builder
-            .Property(u => u.Discounts)
-            .IsRequired()
-            .HasMaxLength(3);
-
-        builder
-            .Property(u => u.TotalAmountItem)
-            .IsRequired()
-            .HasMaxLength(10);
 
         builder
             .Property(u => u.Canceled)

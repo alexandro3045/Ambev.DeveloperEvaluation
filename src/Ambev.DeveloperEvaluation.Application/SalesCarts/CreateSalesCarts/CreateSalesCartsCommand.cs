@@ -1,4 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
+using Ambev.DeveloperEvaluation.Application.SalesCarts.Carts;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using MediatR;
 
@@ -17,30 +18,8 @@ namespace Ambev.DeveloperEvaluation.Application.SalesCarts.CreateSalesCarts;
 /// <see cref="AbstractValidator{T}"/> to ensure that the fields are correctly 
 /// populated and follow the required rules.
 /// </remarks>
-public class CreateSalesCartsCommand : IRequest<CreateSalesCartsResult>
+public class CreateSalesCartsCommand : SalesCartsCommand, IRequest<CreateSalesCartsResult>
 {
-    /// <summary>
-    /// Gets the SalesNumber sales when the carts was created.
-    /// </summary>
-    public required int SalesNumber { get; set; }
-
-    /// <summary>
-    /// Gets the branch sales when the carts was created.
-    /// </summary>
-    public Guid BranchId { get; set; }
-
-    public DateTime CreatedAt { get; set; }
-
-    /// <summary>
-    /// Gets the UserId when the carts was created.
-    /// </summary>
-    public string UserId { get; set; }
-
-    /// <summary>
-    /// Gets the products when the carts was created.
-    /// </summary>
-    public List<CartItem> Products { get; set; }
-
     /// <summary>
     /// Gets the Carts when the carts was created.
     /// </summary>

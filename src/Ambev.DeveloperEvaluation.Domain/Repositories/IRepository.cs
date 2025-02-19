@@ -1,5 +1,4 @@
-using Ambev.DeveloperEvaluation.Common.Filter;
-using Ambev.DeveloperEvaluation.Domain.Entities;
+using System.Linq.Expressions;
 
 namespace Ambev.DeveloperEvaluation.Domain.Repositories;
 
@@ -59,6 +58,14 @@ public interface IRepository<TEntity> where TEntity : class
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The entity if found, null otherwise</returns>
     Task<List<TEntity>> GetAllAsync(int page, int size, string order, string direction, string? ColumnFilters, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves all entity
+    /// </summary>
+    /// <param name="propertie">propertie filter of to list of the entity</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The entity if found, null otherwise</returns>
+    Task<List<TEntity>> GetByPropertyValueAsync(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken);
 
 
 }

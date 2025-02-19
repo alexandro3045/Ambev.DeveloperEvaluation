@@ -18,6 +18,7 @@ namespace Ambev.DeveloperEvaluation.Common.DBExtensions
             {
                 dbSet.Include(include);
             }
+            dbSet.Load();
 
             return dbSet;
         }

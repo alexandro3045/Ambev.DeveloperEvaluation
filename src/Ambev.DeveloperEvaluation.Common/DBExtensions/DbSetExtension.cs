@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Ambev.DeveloperEvaluation.Common.DBExtensions
 {
@@ -107,6 +108,13 @@ namespace Ambev.DeveloperEvaluation.Common.DBExtensions
             }
 
             return dbSet.Update(entity, includeOrExclude, propertyNames);
+        }
+
+        public static IQueryable<TEntity> GetAllLazyLoad<TEntity>(this DbSet<TEntity> dbSet, Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] children) where TEntity : class
+        {
+            children.ToList().ForEach(x => dbSet.Include(x).Load());
+
+            return dbSet;
         }
     }
 }

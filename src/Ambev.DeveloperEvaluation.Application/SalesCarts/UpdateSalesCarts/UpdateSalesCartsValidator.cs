@@ -21,7 +21,7 @@ public class UpdateSalesCartsValidator : AbstractValidator<UpdateSalesCartsComma
     /// </remarks>
     public UpdateSalesCartsValidator()
     {
-        RuleFor(x => x.CreatedAt)
+        RuleFor(x => x.UpdatedAt)
             .NotEmpty()
             .WithMessage(string.Format(message, "Date"));
 

@@ -60,7 +60,7 @@ public class SalesCartsController : BaseController
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-            return CreatedAtRoute("GetSalesCarts", new { id = response.Id }, _mapper.Map<CreateSalesCartsResponse>(response));
+            return Ok(_mapper.Map<CreateSalesCartsResponse>(response));
         }
         catch (Exception ex)
         {
@@ -90,7 +90,7 @@ public class SalesCartsController : BaseController
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-            return CreatedAtRoute("GetSalesCarts", new { id = response.Id }, _mapper.Map<UpdateSalesCartsResponse>(response));
+            return Ok(_mapper.Map<UpdateSalesCartsResponse>(response));
         }
         catch (Exception ex)
         {

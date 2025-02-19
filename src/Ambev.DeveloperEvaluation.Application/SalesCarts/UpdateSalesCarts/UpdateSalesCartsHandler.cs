@@ -11,6 +11,7 @@ namespace Ambev.DeveloperEvaluation.Application.SalesCarts.UpdateSalesCarts;
 public class UpdateCartsHandler : IRequestHandler<UpdateSalesCartsCommand, UpdateSalesCartsResult>
 {
     private readonly ISalesCartsRepository _SalesCartsRepository;
+    private readonly IProductsRepository _ProductsRepository;
     private readonly IMapper _mapper;
 
     /// <summary>
@@ -19,8 +20,10 @@ public class UpdateCartsHandler : IRequestHandler<UpdateSalesCartsCommand, Updat
     /// <param name="SalesCartsRepository">The Carts repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for UpdateCartsCommand</param>
-    public UpdateCartsHandler(ISalesCartsRepository SalesCartsRepository, IMapper mapper)
+    public UpdateCartsHandler(ISalesCartsRepository SalesCartsRepository, IProductsRepository ProductsRepository,
+        IMapper mapper)
     {
+        _ProductsRepository = ProductsRepository;
         _SalesCartsRepository = SalesCartsRepository;
         _mapper = mapper;
     }
@@ -39,9 +42,27 @@ public class UpdateCartsHandler : IRequestHandler<UpdateSalesCartsCommand, Updat
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
        
-        var Carts = _mapper.Map<Domain.Entities.Carts>(command);
+        var salesCarts = _mapper.Map<Domain.Entities.SalesCarts>(command);
 
-        var UpdatedCarts = await _SalesCartsRepository.UpdateAsync(Carts, cancellationToken);
+        var products = salesCarts.Carts.CartsProductsItemns.Select(x => x.ProductId).ToArray();
+
+        if (products.Length == 0)
+            throw new ValidationException("Products is required");
+
+        if (products.Length > 0)
+        {
+            _ProductsRepository
+                .GetAllProductsByIdsAsync(products, cancellationToken)
+                .WaitAsync(cancellationToken)
+                .GetAwaiter().GetResult().ForEach(item =>
+                {
+                    salesCarts.Carts.CartsProductsItemns.Find(p => p.ProductId == item.Id).Product = item;
+                });
+        }
+
+        salesCarts.CalculateCart();
+
+        var UpdatedCarts = await _SalesCartsRepository.UpdateAsync(salesCarts, cancellationToken);
         var result = _mapper.Map<UpdateSalesCartsResult>(UpdatedCarts);
         return result;
     }

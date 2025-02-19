@@ -9,12 +9,13 @@ public class CreateSalesCartsRequest
 {
     public CreateSalesCartsRequest()
     {
-        salesNumber = new Random().Next(1, int.MaxValue);
+        salesNumber = new Random().Next(int.MaxValue);
     }
+
     /// <summary>
     /// Gets the SalesNumber sales when the carts was created.
     /// </summary>
-    private int salesNumber ;
+    private int salesNumber;
 
     public required int SalesNumber
     {
@@ -34,5 +35,5 @@ public class CreateSalesCartsRequest
     /// <summary>
     /// Gets the Carts when the sales was created.
     /// </summary>
-    public CartsRequest Carts { get; set; }
+    public required CartsRequest Carts { get; set; }
 }

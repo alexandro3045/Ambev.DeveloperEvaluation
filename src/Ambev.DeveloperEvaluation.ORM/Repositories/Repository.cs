@@ -27,7 +27,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
 
         public async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
-            _context.Set<TEntity>().Entry(entity).State = EntityState.Modified;
 
             await _context.Set<TEntity>().AddOrUpdateAsync(entity);
 
@@ -45,6 +44,18 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             _context.Set<TEntity>().Remove(entity);
             await _context.SaveChangesAsync(cancellationToken);
             return true;
+        }
+
+        public async Task<List<TEntity>> GetByPropertyValueAsync(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default)
+        {
+            IQueryable<TEntity> source = _context.Set<TEntity>()
+            .AsQueryable();
+
+            source = source.Where(filter);
+
+            return await source
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
         }
 
         public async Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
@@ -74,8 +85,10 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             Expression<Func<TEntity, bool>> filters = null;
 
             IQueryable<TEntity> source = _context.Set<TEntity>()
-                .IncludeAllRecursively()
+                .IncludeAllRecursively(10)                
                 .AsQueryable();
+
+            source.Load();
 
             if (!string.IsNullOrEmpty(columnFilters))
             {
@@ -102,5 +115,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
         }
+
     }
 }

@@ -11,7 +11,8 @@ public interface IProductsRepository : IRepository<Product>
 
     Task<string[]> GetAllCategoriesAsync(CancellationToken cancellationToken = default);
 
-    Task<List<Product>?> GetByProductsIds(Guid[] productsids, CancellationToken cancellationToken = default);
+    Task<List<Product>?> GetAllProductsByIdsAsync(Guid[] productsids, CancellationToken cancellationToken = default);
 
     Task<List<Product>?> GetByCategoryAsync(string category, int page, int size, string order, string direction, CancellationToken cancellationToken = default);
+
 }

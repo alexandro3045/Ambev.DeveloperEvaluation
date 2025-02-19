@@ -30,7 +30,7 @@ public class BranchConfiguration : IEntityTypeConfiguration<Branch>
 
         builder
             .Property(u => u.UpdatedAt)
-            .IsRequired()
+            .IsRequired(false)
             .HasColumnType("date");
 
     }

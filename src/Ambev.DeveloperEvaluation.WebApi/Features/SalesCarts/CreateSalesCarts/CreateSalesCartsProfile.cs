@@ -4,6 +4,7 @@ using Ambev.DeveloperEvaluation.Application.SalesCarts.CreateSalesCarts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Branch.CreateBranchRequest;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
+using Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.CreateSalesCarts;
 
@@ -28,7 +29,11 @@ public class CreateSalesCartsProfile : Profile
 
         CreateMap<Domain.Entities.Carts, CreateSalesCartsResult>();
         
-        CreateMap<CreateSalesCartsResult, CreateSalesCartsResponse>();
+        CreateMap<CreateSalesCartsResult, CreateSalesCartsResponse>()
+            .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.CreatedAt))
+            .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products.Select(cp =>
+               new ItemProductResult( cp.ProductId, cp.Quantity, cp.TotalAmountItem, cp.UnitPrice))));
+        ;
 
     }
 }

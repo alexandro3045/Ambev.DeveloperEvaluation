@@ -19,8 +19,5 @@ public class UpdateSalesCartsRequestValidator : AbstractValidator<UpdateSalesCar
     public UpdateSalesCartsRequestValidator()
     {
         RuleFor(SalesCartss => SalesCartss.Id).NotEmpty();
-        RuleFor(SalesCartss => SalesCartss.UserId).NotEmpty().Length(1, 50);
-        RuleFor(SalesCartss => SalesCartss.Date).NotEmpty();
-        RuleFor(SalesCartss => SalesCartss.Products).NotEmpty();
     }
 }

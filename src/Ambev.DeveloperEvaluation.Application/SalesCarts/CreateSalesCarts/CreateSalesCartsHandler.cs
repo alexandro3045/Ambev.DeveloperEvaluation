@@ -2,6 +2,9 @@
 using MediatR;
 using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Ambev.DeveloperEvaluation.Domain.Entities;
+using System.Linq.Expressions;
+using System.Numerics;
 
 namespace Ambev.DeveloperEvaluation.Application.SalesCarts.CreateSalesCarts;
 
@@ -20,8 +23,8 @@ public class CreateSalesCartsHandler : IRequestHandler<CreateSalesCartsCommand, 
     /// <param name="SalesCartsRepository">The Carts repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for CreateCartsCommand</param>
-    public CreateSalesCartsHandler(ISalesCartsRepository SalesCartsRepository, 
-        IProductsRepository ProductsRepository, IMapper mapper)
+    public CreateSalesCartsHandler(ISalesCartsRepository SalesCartsRepository, IProductsRepository ProductsRepository
+        , IMapper mapper)
     {
         _ProductsRepository = ProductsRepository;
         _SalesCartsRepository = SalesCartsRepository;
@@ -43,20 +46,27 @@ public class CreateSalesCartsHandler : IRequestHandler<CreateSalesCartsCommand, 
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var products = await _ProductsRepository.GetByProductsIds
-            (command.Products.Select(x => x.ProductId).ToArray(), cancellationToken);
+        var salesCarts = _mapper.Map<Domain.Entities.SalesCarts>(command);
 
-        var salesCarts = _mapper.Map<Domain.Entities.Carts>(command);
+        var products = salesCarts.Carts.CartsProductsItemns.Select(x => x.ProductId).ToArray();
 
-        //salesCarts.CartsProductItems = products.Select(x => new Domain.Entities.CartsProductsItems
-        //{
-        //    Product = x,
-        //    Quantity = command.ProductsItems.First(y => y.ProductId == x.Id).Quantity
-        //}).ToList();
+        if(products.Length == 0)
+            throw new ValidationException("Products is required");
 
-        //salesCarts.CalculateCart();
+        if (products.Length > 0)
+        {
+            _ProductsRepository
+                .GetAllProductsByIdsAsync(products, cancellationToken)
+                .WaitAsync(cancellationToken)
+                .GetAwaiter().GetResult().ForEach(item =>
+                {
+                    salesCarts.Carts.CartsProductsItemns.Find(p => p.ProductId == item.Id).Product = item;
+                });
+        }    
 
-        var CreatedCarts = await _SalesCartsRepository.CreateAsync(salesCarts, cancellationToken);
+        salesCarts.CalculateCart();
+
+        var CreatedCarts = await _SalesCartsRepository.CreateAsync(salesCarts, cancellationToken);        
 
         var result = _mapper.Map<CreateSalesCartsResult>(CreatedCarts);
 

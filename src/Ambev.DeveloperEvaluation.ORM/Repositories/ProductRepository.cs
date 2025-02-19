@@ -22,7 +22,7 @@ public class ProductRepository : Repository<Product>, IProductsRepository
         return await _context.Products.FirstOrDefaultAsync(u => u.Title == title, cancellationToken);
     }
 
-    public async Task<List<Product>?> GetByProductsIds(Guid[] productsids, CancellationToken cancellationToken = default)
+    public async Task<List<Product>?> GetAllProductsByIdsAsync(Guid[] productsids, CancellationToken cancellationToken = default)
     {
         return await _context.Products.Where(r => productsids.Contains(r.Id)).ToListAsync(cancellationToken);
     }

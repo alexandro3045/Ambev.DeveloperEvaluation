@@ -80,6 +80,18 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("UnitPrice")
+                        .HasMaxLength(10)
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("TotalAmountItem")
+                        .HasMaxLength(10)
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("Discounts")
+                        .HasMaxLength(10)
+                        .HasColumnType("numeric");
+
                     b.HasKey("Id");
 
                     b.HasAlternateKey("CartId", "ProductId");
@@ -163,40 +175,11 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("gen_random_uuid()");
 
-                    b.Property<Guid>("BranchId")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("Canceled")
-                        .HasMaxLength(10)
-                        .HasColumnType("boolean");
-
-                    b.Property<Guid>("CartId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("SalesNumber")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("date");
-
-                    b.Property<decimal>("Discounts")
-                        .HasMaxLength(3)
-                        .HasColumnType("numeric");
-
-                    b.Property<int>("Quantities")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SalesNumber")
-                        .HasColumnType("integer");
-
-                    b.Property<decimal>("TotalAmountItem")
-                        .HasMaxLength(10)
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("TotalSales")
-                        .HasMaxLength(10)
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("UnitPrice")
-                        .HasMaxLength(10)
-                        .HasColumnType("numeric");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("date");
@@ -204,13 +187,26 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
+                    b.Property<decimal>("TotalSalesAmount")
+                        .HasMaxLength(10)
+                        .HasColumnType("numeric");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Quantities")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Canceled")
+                        .HasMaxLength(10)
+                        .HasColumnType("boolean");
+
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CartId")
-                        .IsUnique();
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.ToTable("SalesCarts", (string)null);
                 });

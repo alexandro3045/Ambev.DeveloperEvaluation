@@ -18,7 +18,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Descripption = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "date", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "date", nullable: false)
+                    UpdatedAt = table.Column<DateTime>(type: "date", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -71,7 +71,9 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     ProductId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Quantity = table.Column<int>(type: "integer", nullable: false)
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    UnitPrice = table.Column<decimal>(type: "numeric", maxLength: 10, nullable: false),
+                    TotalAmountItem = table.Column<decimal>(type: "numeric", maxLength: 10, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -104,7 +106,10 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CartId = table.Column<Guid>(type: "uuid", nullable: false),
                     ProductId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false)
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    UnitPrice = table.Column<decimal>(type: "numeric", nullable: false),
+                    TotalAmountItem = table.Column<decimal>(type: "numeric", nullable: false),
+                    Discounts = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -133,13 +138,10 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                     CreatedAt = table.Column<DateTime>(type: "date", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "date", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    TotalSales = table.Column<decimal>(type: "numeric", maxLength: 10, nullable: false),
+                    TotalSalesAmount = table.Column<decimal>(type: "numeric", maxLength: 10, nullable: false),
                     BranchId = table.Column<Guid>(type: "uuid", nullable: false),
                     CartId = table.Column<Guid>(type: "uuid", nullable: false),
                     Quantities = table.Column<int>(type: "int", nullable: false),
-                    UnitPrice = table.Column<decimal>(type: "numeric", maxLength: 10, nullable: false),
-                    Discounts = table.Column<decimal>(type: "numeric", maxLength: 3, nullable: false),
-                    TotalAmountItem = table.Column<decimal>(type: "numeric", maxLength: 10, nullable: false),
                     Canceled = table.Column<bool>(type: "boolean", maxLength: 10, nullable: false)
                 },
                 constraints: table =>
@@ -174,13 +176,13 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                 name: "IX_ProductsItems_ProductId",
                 table: "ProductsItems",
                 column: "ProductId",
-                unique: true);
+                unique: false);
 
             migrationBuilder.CreateIndex(
                 name: "IX_SalesCarts_CartId",
                 table: "SalesCarts",
                 column: "CartId",
-                unique: true);
+                unique: false);
 
             migrationBuilder.CreateIndex(
                 name: "IX_SalesCarts_UserId",

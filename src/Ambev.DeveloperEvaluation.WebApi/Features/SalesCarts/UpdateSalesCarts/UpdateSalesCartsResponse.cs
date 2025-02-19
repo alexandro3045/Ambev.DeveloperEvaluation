@@ -1,26 +1,12 @@
 
-using Ambev.DeveloperEvaluation.Domain.Entities;
-
+using Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.CreateSalesCarts;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.UpdateSalesCarts;
 
 /// <summary>
 /// API response model for UpdateSalesCarts operation
 /// </summary>
-public class UpdateSalesCartsResponse
+public class UpdateSalesCartsResponse : CreateSalesCartsResponse
 {
-    /// <summary>
-    /// Gets the date and time when the salescarts was created.
-    /// </summary>
-    public DateTime Date { get; set; }
-
-    /// <summary>
-    /// Gets the UserId when the salescarts was created.
-    /// </summary>
-    public required string UserId { get; set; }
-
-    /// <summary>
-    /// Gets the products when the salescarts was created.
-    /// </summary>
-    public required List<Product> Products { get; set; }
+    
 }

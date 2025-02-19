@@ -193,7 +193,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("numeric");
 
-                    b.Property<decimal>("TotalSales")
+                    b.Property<decimal>("TotalSalesAmount")
                         .HasMaxLength(10)
                         .HasColumnType("numeric");
 

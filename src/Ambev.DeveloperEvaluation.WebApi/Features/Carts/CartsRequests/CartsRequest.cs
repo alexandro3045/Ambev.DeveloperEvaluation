@@ -8,7 +8,7 @@ public class CartsRequest
     /// <summary>
     /// Gets the date and time when the carts was created.
     /// </summary>
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } =  DateTime.Now;
 
     /// <summary>
     /// Gets the UserId when the carts was created.
@@ -30,4 +30,19 @@ public class ItemProduct
     }
     public Guid ProductId { get; set; }
     public int Quantity { get; set; }
+}
+
+public class ItemProductResult : ItemProduct
+{
+    public ItemProductResult(Guid productId, int quantity, decimal unitPrice) : base(productId, quantity)
+    {
+        UnitPrice = unitPrice;
+    }
+    public ItemProductResult(Guid productId, int quantity, decimal totalAmountItem, decimal unitPrice) : base(productId, quantity)
+    {
+        TotalAmountItem = totalAmountItem;
+        UnitPrice = unitPrice;
+    }
+    public decimal TotalAmountItem { get; set; }
+    public decimal UnitPrice { get; set; }
 }

@@ -39,7 +39,7 @@ public class CreateCartsCommand : IRequest<CreateCartsResult>
     /// <summary>
     /// Gets the List from product.
     /// </summary>
-    public required List<CartItem> Products { get; set; }
+    public required List<CartItemResult> Products { get; set; }
 
     public virtual ValidationResultDetail Validate()
     {
@@ -51,6 +51,33 @@ public class CreateCartsCommand : IRequest<CreateCartsResult>
             Errors = result.Errors.Select(o => (ValidationErrorDetail)o)
         };
     }
+}
+
+public class CartItemResult
+{
+    public CartItemResult(Guid productId, int quantity, decimal unitPrice)
+    {
+        ProductId = productId;
+        Quantity = quantity;
+        UnitPrice = unitPrice;
+    }
+
+    public CartItemResult(Guid cartId, Guid productId, int quantity, decimal totalAmountItem,
+        decimal unitPrice
+        )
+    {
+        CartId = cartId;
+        ProductId = productId;
+        Quantity = quantity;
+        TotalAmountItem = totalAmountItem;
+        UnitPrice = unitPrice;
+    }
+
+    public Guid CartId { get; set; }
+    public Guid ProductId { get; set; }
+    public int Quantity { get; set; }
+    public decimal TotalAmountItem { get; set; }
+    public decimal UnitPrice { get; set; }
 }
 
 public class CartItem
