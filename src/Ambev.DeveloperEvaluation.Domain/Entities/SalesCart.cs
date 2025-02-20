@@ -104,6 +104,8 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
 
             Quantities = Carts.CartsProductsItems.Count;
             TotalSalesAmount = group.ToList().Sum(g => g.TotalSales);
+            Carts.CartsProductsItems.ForEach(item => { item.Product = null; });
+            Branch = null;
         }
     }
 }

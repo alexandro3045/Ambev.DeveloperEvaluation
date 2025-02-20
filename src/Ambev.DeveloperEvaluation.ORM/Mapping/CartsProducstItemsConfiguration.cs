@@ -16,8 +16,7 @@ public class CartsProducstItemsConfiguration : IEntityTypeConfiguration<CartsPro
 
         builder
             .Property(u => u.Id)
-            .HasColumnType("uuid")
-            .HasDefaultValueSql("gen_random_uuid()");
+            .HasColumnType("uuid");
 
         builder
             .Property(u => u.Quantity)
