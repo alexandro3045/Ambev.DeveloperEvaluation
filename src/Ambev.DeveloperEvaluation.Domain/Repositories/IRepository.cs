@@ -84,6 +84,18 @@ public interface IRepository<TEntity> where TEntity : class
     /// <summary>
     /// Retrieves all entity
     /// </summary>
+    /// <param name="page">Page of pagination to list of the entity</param>
+    /// <param name="size">Size of pagination to list of the entity</param>
+    /// <param name="order">Order of pagination to list of the entity</param>
+    /// <param name="ColumnFilters">Columns filters list of the entity</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <param name="IIncludableQueryable">Include debset</param>
+    /// <returns>The entity if found, null otherwise</returns>
+    Task<List<TEntity>> GetAllAsync(int page, int size, string order, string direction, string? ColumnFilters, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves all entity
+    /// </summary>
     /// <param name="propertie">propertie filter of to list of the entity</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The entity if found, null otherwise</returns>

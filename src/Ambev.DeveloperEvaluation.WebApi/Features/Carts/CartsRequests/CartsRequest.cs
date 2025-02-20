@@ -5,20 +5,20 @@
 /// </summary>
 public class CartsRequest
 {
-    /// <summary>
+   /// <summary>
     /// Gets the date and time when the carts was created.
     /// </summary>
-    public DateTime CreatedAt { get; set; } =  DateTime.Now;
+    public DateTime Date { get; set; } =  DateTime.Now;
 
     /// <summary>
     /// Gets the UserId when the carts was created.
     /// </summary>
-    public required string UserId { get; set; }
+    public string UserId { get; set; }
 
     /// <summary>
     /// Gets the products when the carts was created.
     /// </summary>
-    public required List<ItemProduct> Products { get; set; }
+    public List<ItemProduct> Products { get; set; }
 }
 
 public class ItemProduct

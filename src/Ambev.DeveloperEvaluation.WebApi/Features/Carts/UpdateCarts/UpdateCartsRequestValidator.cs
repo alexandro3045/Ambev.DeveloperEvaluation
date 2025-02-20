@@ -22,7 +22,7 @@ public class UpdateCartsRequestValidator : AbstractValidator<UpdateCartsRequest>
 
         RuleFor(Carts => Carts.UserId).NotEmpty().Length(1, 50);
 
-        RuleFor(Carts => Carts.CreatedAt).NotEmpty();
+        RuleFor(Carts => Carts.Date).NotEmpty();
 
         RuleFor(Carts => Carts.Products).NotEmpty();
     }

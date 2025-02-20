@@ -1,7 +1,6 @@
 
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
 
-
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.UpdateCarts;
 
 /// <summary>

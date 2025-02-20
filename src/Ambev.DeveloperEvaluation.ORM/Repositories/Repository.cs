@@ -1,6 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Common.Filter;
 using Ambev.DeveloperEvaluation.Common.QueryExpression;
-using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Common.DBExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -69,7 +68,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-
         public async Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             IQueryable<TEntity> source = _context.Set<TEntity>()
@@ -121,7 +119,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
                 .IncludeAllRecursively(10)                
                 .AsQueryable();
 
-            source.Load();
 
             if (!string.IsNullOrEmpty(columnFilters))
             {
@@ -149,5 +146,44 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
                 .ToListAsync(cancellationToken);
         }
 
+        public async Task<List<TEntity>> GetAllAsync(int page, int size, string order, string direction, string? ColumnFilters, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, CancellationToken cancellationToken = default)
+        {
+            Expression<Func<TEntity, bool>> filters = null;
+
+            IQueryable<TEntity> source = _context.Set<TEntity>()
+                .IncludeAllRecursively(10)
+                .AsQueryable();
+
+
+            if (!string.IsNullOrEmpty(ColumnFilters))
+            {
+                filters = CustomExpressionFilter<TEntity>.CustomFilterColumn(ColumnFilters, typeof(TEntity).Name);
+
+                source = source.Where(filters);
+            }
+
+            if (include != null)
+            {
+                source = include(source);
+            }
+
+            if (page > 0 && size > 0)
+            {
+                source = source
+               .Skip((page - 1) * size)
+               .Take(size);
+            }
+
+            if (!string.IsNullOrEmpty(order) && !string.IsNullOrEmpty(direction))
+            {
+                source = source
+                 .Skip((page - 1) * size)
+                 .OrderBySource(order, direction);
+            }
+
+            return await source
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
+        }
     }
 }

@@ -19,11 +19,10 @@ public class UpdateCartsProfile : Profile
     {
          CreateMap<UpdateCartsRequest, UpdateCartsCommand>()
             .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products.Select(p => new CartItem(src.Id, p.ProductId, p.Quantity))))
-            .ForMember(dest => dest.CreatedAt, static opt => opt.MapFrom(static src => src.CreatedAt != default ? src.CreatedAt : DateTime.Now));
+            .ForMember(dest => dest.CreatedAt, static opt => opt.MapFrom(static src => src.Date != default ? src.Date : DateTime.Now));
 
 
         CreateMap<UpdateCartsResult, UpdateCartsResponse>()
-            .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.Date))
           .ForMember(dest => dest.Products,  opt => opt.MapFrom( src => src.Products.Select( p => new ItemProduct(p.ProductId,p.Quantity) )));
     }
 }

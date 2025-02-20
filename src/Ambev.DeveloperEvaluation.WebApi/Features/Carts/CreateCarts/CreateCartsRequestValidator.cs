@@ -20,7 +20,7 @@ public class CreateCartsRequestValidator : AbstractValidator<CartsRequest>
     public CreateCartsRequestValidator()
     {
         RuleFor(Carts => Carts.UserId).NotEmpty();
-        RuleFor(Carts => Carts.CreatedAt).NotEmpty();
+        RuleFor(Carts => Carts.Date).NotEmpty();
         RuleFor(Carts => Carts.Products).NotEmpty();
     }
 }
