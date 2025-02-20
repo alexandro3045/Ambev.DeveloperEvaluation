@@ -39,7 +39,7 @@ public class CreateCartsCommand : IRequest<CreateCartsResult>
     /// <summary>
     /// Gets the List from product.
     /// </summary>
-    public required List<CartItemResult> Products { get; set; }
+    public required List<CartItem> Products { get; set; }
 
     public virtual ValidationResultDetail Validate()
     {

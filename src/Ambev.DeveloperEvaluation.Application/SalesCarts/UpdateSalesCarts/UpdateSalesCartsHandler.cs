@@ -44,7 +44,7 @@ public class UpdateCartsHandler : IRequestHandler<UpdateSalesCartsCommand, Updat
        
         var salesCarts = _mapper.Map<Domain.Entities.SalesCarts>(command);
 
-        var products = salesCarts.Carts.CartsProductsItemns.Select(x => x.ProductId).ToArray();
+        var products = salesCarts.Carts.CartsProductsItems.Select(x => x.ProductId).ToArray();
 
         if (products.Length == 0)
             throw new ValidationException("Products is required");
@@ -56,7 +56,7 @@ public class UpdateCartsHandler : IRequestHandler<UpdateSalesCartsCommand, Updat
                 .WaitAsync(cancellationToken)
                 .GetAwaiter().GetResult().ForEach(item =>
                 {
-                    salesCarts.Carts.CartsProductsItemns.Find(p => p.ProductId == item.Id).Product = item;
+                    salesCarts.Carts.CartsProductsItems.Find(p => p.ProductId == item.Id).Product = item;
                 });
         }
 

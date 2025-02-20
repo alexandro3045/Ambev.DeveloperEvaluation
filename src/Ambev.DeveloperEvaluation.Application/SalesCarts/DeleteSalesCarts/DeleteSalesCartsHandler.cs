@@ -34,11 +34,12 @@ public class DeleteSalesCartsHandler : IRequestHandler<DeleteSalesCartsCommand, 
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
-            throw new ValidationException(validationResult.Errors);
+            throw new ValidationException(validationResult.Errors);       
+        
+        var successDelete = await _SalesCartsRepository.DeleteAsync(request.Id, cancellationToken);
 
-        var success = await _SalesCartsRepository.DeleteAsync(request.Id, cancellationToken);
-        if (!success)
-            throw new KeyNotFoundException($"Carts with ID {request.Id} not found");
+        if (!successDelete)
+            throw new KeyNotFoundException($"Sales not deleted with ID {request.Id} ");
 
         return new DeleteSalesCartsResponse { Success = true };
     }

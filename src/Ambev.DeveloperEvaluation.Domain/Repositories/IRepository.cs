@@ -1,4 +1,7 @@
+using MediatR;
+using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
+using System.Threading;
 
 namespace Ambev.DeveloperEvaluation.Domain.Repositories;
 
@@ -31,6 +34,15 @@ public interface IRepository<TEntity> where TEntity : class
     /// <returns>True if the entity was deleted, false if not found</returns>
     Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
 
+
+    /// <summary>
+    /// Deletes a entity from the repository
+    /// </summary>
+    /// <param name="TEntity">The TEntity to delete</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>True if the entity was deleted, false if not found</returns>
+    Task<bool> DeleteAsync(TEntity entity, CancellationToken cancellationToken = default);
+
     /// <summary>
     /// Retrieves a entity by their unique identifier
     /// </summary>
@@ -38,6 +50,16 @@ public interface IRepository<TEntity> where TEntity : class
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The entity if found, null otherwise</returns>
     Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+
+
+    /// <summary>
+    /// Retrieves a entity by their unique identifier
+    /// </summary>
+    /// <param name="id">The unique identifier of the entity</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <param name="IIncludableQueryable">Include debset</param>
+    /// <returns>The entity if found, null otherwise</returns>
+    Task<TEntity> GetByIdAsync(Guid id, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,CancellationToken cancellationToken = default);
 
 
     /// <summary>

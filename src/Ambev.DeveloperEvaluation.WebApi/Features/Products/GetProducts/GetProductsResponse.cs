@@ -38,7 +38,7 @@ public class GetProductsResponse
     /// <summary>
     /// Gets the image from product.
     /// </summary>
-    public byte[] Image { get; set; }
+    public string Image { get; set; }
 
     [Column(TypeName = "jsonb")]
     public Rating Rating { get; set; }

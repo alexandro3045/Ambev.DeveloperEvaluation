@@ -30,10 +30,10 @@ public class CartsConfiguration : IEntityTypeConfiguration<Carts>
             .HasColumnType("date");
 
         builder
-            .HasMany(sc => sc.CartsProductsItemns)
+            .HasMany(sc => sc.CartsProductsItems)
             .WithOne()
             .HasForeignKey(b => b.CartId)
-            .HasPrincipalKey(e => e.Id)
-            .IsRequired(false);
+            .HasPrincipalKey(e => e.Id);
+
     }
 }

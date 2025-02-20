@@ -286,7 +286,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.CartsProductsItems", b =>
                 {
                     b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Carts", null)
-                        .WithMany("CartsProductsItemns")
+                        .WithMany("CartsProductsItems")
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -340,7 +340,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
 
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Carts", b =>
                 {
-                    b.Navigation("CartsProductsItemns");
+                    b.Navigation("CartsProductsItems");
                 });
 
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.CartsProductsItems", b =>

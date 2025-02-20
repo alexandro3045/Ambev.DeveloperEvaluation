@@ -23,12 +23,12 @@ public class UpdateSalesCartsProfile : Profile
          {
              UserId = src.UserId,
              CreatedAt = src.CreatedAt,
-             CartsProductsItemns = src.Products.Select(cp =>
+             CartsProductsItems = src.Products.Select(cp =>
              new CartsProductsItems { ProductId = cp.ProductId, Quantity = cp.Quantity }).ToList()
          }));
 
         CreateMap<Domain.Entities.SalesCarts, UpdateSalesCartsResult>()
-            .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Carts.CartsProductsItemns.Select(cp =>
+            .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Carts.CartsProductsItems.Select(cp =>
                new CartItemResult(cp.CartId, cp.ProductId, cp.Quantity, cp.TotalAmountItem, cp.UnitPrice))));
     }
 }

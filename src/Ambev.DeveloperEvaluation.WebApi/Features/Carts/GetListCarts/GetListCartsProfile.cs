@@ -23,7 +23,7 @@ public class GetListCartProfile : Profile
               request.Direction, request.ColumnFilters));
 
         CreateMap<GetListCartsResult, GetListCartsResponse>()
-            .ForMember(dest => dest.ListCarts, static opt => opt.MapFrom(static src => src.ListCarts.Select(p => new CartsResponse { Id = p.Id, UserId = p.UserId, CreatedAt = p.CreatedAt, Products = p.CartsProductsItemns.Select(i => new ItemProduct(i.ProductId, i.Quantity)).ToList() })));
+            .ForMember(dest => dest.ListCarts, static opt => opt.MapFrom(static src => src.ListCarts.Select(p => new CartsResponse { Id = p.Id, UserId = p.UserId, CreatedAt = p.CreatedAt, Products = p.CartsProductsItems.Select(i => new ItemProduct(i.ProductId, i.Quantity)).ToList() })));
 
         CreateMap<List<CartsProductsItems>, List<ItemProduct>>()
             .ConvertUsing(src => src.Select(c => new ItemProduct(c.ProductId, c.Quantity)).ToList());

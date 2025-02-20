@@ -45,14 +45,14 @@ public class UpdateCartsHandler : IRequestHandler<UpdateCartsCommand, UpdateCart
        
         var Carts = _mapper.Map<Domain.Entities.Carts>(command);
         
-        Carts.CartsProductsItemns.Clear();
+        Carts.CartsProductsItems.Clear();
 
         command.Products.ForEach(async cartItem=>
         {
             _CartsProductsItemsRepository
                .GetByFilterAsync($"CartId={cartItem.CartId}&ProductId={cartItem.ProductId}", cancellationToken).ConfigureAwait(true)
                .GetAwaiter().GetResult().ForEach(async Item => {
-                   Carts.CartsProductsItemns.Add(new CartsProductsItems { Id = Item.Id, CartId = Item.CartId, ProductId = Item.ProductId, Quantity = Item.Quantity });
+                   Carts.CartsProductsItems.Add(new CartsProductsItems { CartId = Item.CartId, ProductId = Item.ProductId, Quantity = Item.Quantity });
                });
         });
 

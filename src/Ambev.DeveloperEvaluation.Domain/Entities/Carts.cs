@@ -22,6 +22,6 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// <summary>
         /// Gets the products when the carts was created.
         /// </summary>
-        public virtual List<CartsProductsItems> CartsProductsItemns { get; set; } = new();
+        public virtual List<CartsProductsItems> CartsProductsItems { get; set; }
     }
 }

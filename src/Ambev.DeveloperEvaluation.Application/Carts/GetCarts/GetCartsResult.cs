@@ -25,5 +25,5 @@ public class GetCartsResult
     /// <summary>
     /// Gets the products when the carts was created.
     /// </summary>
-    public required List<CartsProductsItems> CartsProductsItemns { get; set; }
+    public required List<CartsProductsItems> CartsProductsItems { get; set; }
 }

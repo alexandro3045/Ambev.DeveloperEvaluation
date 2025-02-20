@@ -3,17 +3,20 @@ using System;
 using Ambev.DeveloperEvaluation.ORM;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Ambev.DeveloperEvaluation.WebApi.Migrations
+namespace Ambev.DeveloperEvaluation.ORM.Migrations
 {
     [DbContext(typeof(DefaultContext))]
-    partial class DefaultContextModelSnapshot : ModelSnapshot
+    [Migration("20250219161748_DeveloperEvaluation")]
+    partial class DeveloperEvaluation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,7 +40,6 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .IsRequired()
                         .HasColumnType("date");
 
                     b.HasKey("Id");
@@ -69,10 +71,15 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<Guid>("CartId")
                         .HasColumnType("uuid");
+
+                    b.Property<decimal>("Discounts")
+                        .HasMaxLength(10)
+                        .HasColumnType("numeric");
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uuid");
@@ -80,15 +87,11 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("UnitPrice")
-                        .HasMaxLength(10)
-                        .HasColumnType("numeric");
-
                     b.Property<decimal>("TotalAmountItem")
                         .HasMaxLength(10)
                         .HasColumnType("numeric");
 
-                    b.Property<decimal>("Discounts")
+                    b.Property<decimal>("UnitPrice")
                         .HasMaxLength(10)
                         .HasColumnType("numeric");
 
@@ -96,7 +99,8 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
 
                     b.HasAlternateKey("CartId", "ProductId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductId")
+                        .IsUnique();
 
                     b.ToTable("CartsProductsItems", (string)null);
                 });
@@ -175,11 +179,28 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("gen_random_uuid()");
 
-                    b.Property<int>("SalesNumber")
-                        .HasColumnType("int");
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("Canceled")
+                        .HasMaxLength(10)
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("date");
+
+                    b.Property<int>("Quantities")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SalesNumber")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("TotalSalesAmount")
+                        .HasMaxLength(10)
+                        .HasColumnType("numeric");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("date");
@@ -187,26 +208,16 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
-                    b.Property<decimal>("TotalSalesAmount")
-                        .HasMaxLength(10)
-                        .HasColumnType("numeric");
-
-                    b.Property<Guid>("BranchId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CartId")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("Quantities")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Canceled")
-                        .HasMaxLength(10)
-                        .HasColumnType("boolean");
-
-
                     b.HasKey("Id");
 
+                    b.HasIndex("BranchId")
+                        .IsUnique();
+
+                    b.HasIndex("CartId")
+                        .IsUnique();
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("SalesCarts", (string)null);
                 });
@@ -285,8 +296,8 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                         .IsRequired();
 
                     b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
+                        .WithOne()
+                        .HasForeignKey("Ambev.DeveloperEvaluation.Domain.Entities.CartsProductsItems", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -306,23 +317,21 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
 
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.SalesCarts", b =>
                 {
+                    b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Branch", "Branch")
+                        .WithOne()
+                        .HasForeignKey("Ambev.DeveloperEvaluation.Domain.Entities.SalesCarts", "BranchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Carts", "Carts")
                         .WithOne()
                         .HasForeignKey("Ambev.DeveloperEvaluation.Domain.Entities.SalesCarts", "CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Branch", "Branch")
-                        .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.User", "User")
                         .WithOne()
-                        .HasForeignKey("Ambev.DeveloperEvaluation.Domain.Entities.SalesCarts", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Ambev.DeveloperEvaluation.Domain.Entities.SalesCarts", "UserId");
 
                     b.Navigation("Branch");
 
