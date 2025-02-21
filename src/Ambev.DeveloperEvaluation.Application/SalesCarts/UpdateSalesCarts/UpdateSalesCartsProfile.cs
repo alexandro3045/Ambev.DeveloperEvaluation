@@ -23,6 +23,7 @@ public class UpdateSalesCartsProfile : Profile
          {
              UserId = src.UserId,
              CreatedAt = src.CreatedAt,
+             Id = src.CartId,
              CartsProductsItems = src.Products.Select(cp =>
              new CartsProductsItems { ProductId = cp.ProductId, Quantity = cp.Quantity }).ToList()
          }));

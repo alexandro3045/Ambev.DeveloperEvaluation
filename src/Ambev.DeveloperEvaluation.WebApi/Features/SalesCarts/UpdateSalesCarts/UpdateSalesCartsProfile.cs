@@ -20,8 +20,7 @@ public class UpdateSalesCartsProfile : Profile
     /// </summary>
     public UpdateSalesCartsProfile()
     {
-        CreateMap<CreateBranchRequest, Domain.Entities.Branch>()
-           .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
+        CreateMap<CreateBranchRequest, Domain.Entities.Branch>();
 
         CreateMap<ItemProduct, Product>();
 
@@ -33,7 +32,7 @@ public class UpdateSalesCartsProfile : Profile
         CreateMap<Domain.Entities.Carts, UpdateSalesCartsResult>();
 
         CreateMap<UpdateSalesCartsResult, UpdateSalesCartsResponse>()
-            .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.CreatedAt))
+            .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.UpdatedAt))
             .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products.Select(cp =>
                new ItemProductResult(cp.ProductId, cp.Quantity, cp.TotalAmountItem, cp.UnitPrice))));
     }
