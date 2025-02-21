@@ -5,7 +5,12 @@
 /// </summary>
 public class CartsRequest
 {
-   /// <summary>
+    /// <summary>
+    /// Gets the Id when the carts was created/updated.
+    /// </summary>
+    public Guid Id { get; set; }
+
+    /// <summary>
     /// Gets the date and time when the carts was created.
     /// </summary>
     public DateTime Date { get; set; } =  DateTime.Now;

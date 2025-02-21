@@ -31,7 +31,8 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
             builder
                 .HasOne(p=> p.Product)
                 .WithOne()
-                .HasForeignKey<ProductsItems>(b => b.ProductId);
+                .HasForeignKey<ProductsItems>(b => b.ProductId)
+                .IsRequired(false);
         }
     }
 }

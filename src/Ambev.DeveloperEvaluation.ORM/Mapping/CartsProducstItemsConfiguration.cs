@@ -31,7 +31,8 @@ public class CartsProducstItemsConfiguration : IEntityTypeConfiguration<CartsPro
         builder
             .HasOne(p => p.Cart)
             .WithOne()
-            .HasForeignKey<Carts>(b => b.Id);
+            .HasForeignKey<Carts>(b => b.Id)
+            .IsRequired(false);
 
         builder
             .Property(u => u.ProductId)
@@ -41,7 +42,8 @@ public class CartsProducstItemsConfiguration : IEntityTypeConfiguration<CartsPro
         builder
             .HasOne(p => p.Product)
             .WithOne()
-            .HasForeignKey<Product>(b => b.Id);
+            .HasForeignKey<Product>(b => b.Id)
+            .IsRequired(false);
 
         builder.Property(u => u.UnitPrice)
             .IsRequired()

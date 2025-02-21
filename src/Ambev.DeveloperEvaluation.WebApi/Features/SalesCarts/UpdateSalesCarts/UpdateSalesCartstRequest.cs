@@ -8,9 +8,9 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.UpdateSalesCarts;
 public class UpdateSalesCartsRequest : CreateSalesCartsRequest
 {
     /// <summary>
-    /// Gets or sets the id.
+    /// Gets the Id when the carts was created.
     /// </summary>
-    public required string Id { get; set; }
+    public required Guid Id { get; set; }
 
     /// <summary>
     /// Gets the date and time when the carts was updated.

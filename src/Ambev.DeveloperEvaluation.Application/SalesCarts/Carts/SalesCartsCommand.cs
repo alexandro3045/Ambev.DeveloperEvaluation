@@ -15,6 +15,11 @@ namespace Ambev.DeveloperEvaluation.Application.SalesCarts.Carts
         /// </summary>
         public Guid BranchId { get; set; }
 
+        /// <summary>
+        /// Gets the cartID sales when the carts was created/updated.
+        /// </summary>
+        public Guid CartId { get; set; }
+
         public DateTime CreatedAt { get; set; }
 
         /// <summary>

@@ -56,7 +56,8 @@ public class SalesCartsConfiguration : IEntityTypeConfiguration<SalesCarts>
         builder
             .HasOne(sc => sc.Branch)
             .WithOne()
-            .HasForeignKey<SalesCarts>(b => b.BranchId);
+            .HasForeignKey<SalesCarts>(b => b.BranchId)
+            .IsRequired(false);
 
         builder
             .Property(u => u.CartId)
@@ -65,7 +66,8 @@ public class SalesCartsConfiguration : IEntityTypeConfiguration<SalesCarts>
         builder
             .HasOne(sc => sc.Carts)
             .WithOne()
-            .HasForeignKey<SalesCarts>(b => b.CartId);
+            .HasForeignKey<SalesCarts>(b => b.CartId)
+            .IsRequired(false);
 
         builder
             .Property(u => u.Quantities)

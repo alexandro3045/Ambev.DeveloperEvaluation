@@ -19,7 +19,12 @@ namespace Ambev.DeveloperEvaluation.Application.SalesCarts.UpdateSalesCarts;
 /// populated and follow the required rules.
 /// </remarks>
 public class UpdateSalesCartsCommand : SalesCartsCommand, IRequest<UpdateSalesCartsResult>
-{    
+{
+    /// <summary>
+    /// Gets the Id when the Salescarts was updated.
+    /// </summary>
+    public required Guid Id { get; set; }
+
     /// <summary>
     /// Gets the date and time when the carts was updated.
     /// </summary>

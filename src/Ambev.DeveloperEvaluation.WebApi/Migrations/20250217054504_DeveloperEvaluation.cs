@@ -187,8 +187,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_SalesCarts_UserId",
                 table: "SalesCarts",
-                column: "UserId",
-                unique: true);
+                column: "UserId");
 
         }
 

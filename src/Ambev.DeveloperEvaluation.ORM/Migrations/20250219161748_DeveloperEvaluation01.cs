@@ -168,32 +168,27 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_CartsProductsItems_ProductId",
                 table: "CartsProductsItems",
-                column: "ProductId",
-                unique: true);
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductsItems_ProductId",
                 table: "ProductsItems",
-                column: "ProductId",
-                unique: true);
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SalesCarts_BranchId",
                 table: "SalesCarts",
-                column: "BranchId",
-                unique: true);
+                column: "BranchId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SalesCarts_CartId",
                 table: "SalesCarts",
-                column: "CartId",
-                unique: true);
+                column: "CartId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SalesCarts_UserId",
                 table: "SalesCarts",
-                column: "UserId",
-                unique: true);
+                column: "UserId");
 
         }
 

@@ -2,6 +2,7 @@
 using MediatR;
 using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 
 namespace Ambev.DeveloperEvaluation.Application.SalesCarts.UpdateSalesCarts;
 
@@ -11,6 +12,7 @@ namespace Ambev.DeveloperEvaluation.Application.SalesCarts.UpdateSalesCarts;
 public class UpdateCartsHandler : IRequestHandler<UpdateSalesCartsCommand, UpdateSalesCartsResult>
 {
     private readonly ISalesCartsRepository _SalesCartsRepository;
+    private readonly ICartsProductsItemsRepository _CartsProductsItemsRepository;
     private readonly IProductsRepository _ProductsRepository;
     private readonly IMapper _mapper;
 
@@ -20,12 +22,15 @@ public class UpdateCartsHandler : IRequestHandler<UpdateSalesCartsCommand, Updat
     /// <param name="SalesCartsRepository">The Carts repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for UpdateCartsCommand</param>
-    public UpdateCartsHandler(ISalesCartsRepository SalesCartsRepository, IProductsRepository ProductsRepository,
-        IMapper mapper)
+    public UpdateCartsHandler(ISalesCartsRepository SalesCartsRepository, 
+        ICartsProductsItemsRepository CartsProductsItemsRepository,
+        IMapper mapper,
+        IProductsRepository productsRepository)
     {
-        _ProductsRepository = ProductsRepository;
+        _CartsProductsItemsRepository = CartsProductsItemsRepository;
         _SalesCartsRepository = SalesCartsRepository;
         _mapper = mapper;
+        _ProductsRepository = productsRepository;
     }
 
     /// <summary>
@@ -44,21 +49,16 @@ public class UpdateCartsHandler : IRequestHandler<UpdateSalesCartsCommand, Updat
        
         var salesCarts = _mapper.Map<Domain.Entities.SalesCarts>(command);
 
-        var products = salesCarts.Carts.CartsProductsItems.Select(x => x.ProductId).ToArray();
-
-        if (products.Length == 0)
-            throw new ValidationException("Products is required");
-
-        if (products.Length > 0)
-        {
-            _ProductsRepository
-                .GetAllProductsByIdsAsync(products, cancellationToken)
-                .WaitAsync(cancellationToken)
-                .GetAwaiter().GetResult().ForEach(item =>
-                {
-                    salesCarts.Carts.CartsProductsItems.Find(p => p.ProductId == item.Id).Product = item;
-                });
-        }
+        salesCarts.Carts.CartsProductsItems.Clear();
+        command.Products.ForEach(async cartItem =>
+        { 
+            _CartsProductsItemsRepository
+               .GetByCartIdProducIdAsync(salesCarts.CartId,cartItem.ProductId, cancellationToken)
+               .GetAwaiter().GetResult().ForEach(async Item =>
+               {
+                   salesCarts.Carts.CartsProductsItems.Add(new CartsProductsItems { Id = Item.Id, CartId = Item.CartId, ProductId = cartItem.ProductId, Quantity = cartItem.Quantity, Product = Item.Product });
+               });
+        });
 
         salesCarts.CalculateCart();
 
@@ -67,3 +67,4 @@ public class UpdateCartsHandler : IRequestHandler<UpdateSalesCartsCommand, Updat
         return result;
     }
 }
+

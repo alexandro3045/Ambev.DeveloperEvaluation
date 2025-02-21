@@ -5,10 +5,10 @@ using Ambev.DeveloperEvaluation.Common.DBExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories
 {
-
     public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         protected readonly DefaultContext _context;
@@ -185,5 +185,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
         }
-    }
+
+   }
 }

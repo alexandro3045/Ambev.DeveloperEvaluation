@@ -9,5 +9,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
     {
 
         Task<List<CartsProductsItems>> GetByCartIdAsync(Guid cartId, CancellationToken cancellationToken = default);
+
+        Task<List<CartsProductsItems>> GetByCartIdProducIdAsync(Guid cartId, Guid productId, CancellationToken cancellationToken = default);
     }
 }

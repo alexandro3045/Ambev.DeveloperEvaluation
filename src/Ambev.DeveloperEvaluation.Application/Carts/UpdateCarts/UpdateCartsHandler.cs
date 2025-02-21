@@ -52,7 +52,7 @@ public class UpdateCartsHandler : IRequestHandler<UpdateCartsCommand, UpdateCart
             _CartsProductsItemsRepository
                .GetByFilterAsync($"CartId={cartItem.CartId}&ProductId={cartItem.ProductId}", cancellationToken).ConfigureAwait(true)
                .GetAwaiter().GetResult().ForEach(async Item => {
-                   Carts.CartsProductsItems.Add(new CartsProductsItems { Id = Item.Id, CartId = Item.CartId, ProductId = Item.ProductId, Quantity = cartItem.Quantity });
+                   Carts.CartsProductsItems.Add(new CartsProductsItems { Id = Item.Id, CartId = Item.CartId, ProductId = cartItem.ProductId, Quantity = cartItem.Quantity });
                });
         });
 

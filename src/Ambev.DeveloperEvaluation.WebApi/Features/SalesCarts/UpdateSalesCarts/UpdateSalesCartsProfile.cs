@@ -27,7 +27,8 @@ public class UpdateSalesCartsProfile : Profile
 
         CreateMap<UpdateSalesCartsRequest, UpdateSalesCartsCommand>()
          .ForMember(dest => dest.Products, act => act.MapFrom(src => src.Carts.Products))
-         .ForMember(dest => dest.UserId, act => act.MapFrom(src => src.Carts.UserId));
+         .ForMember(dest => dest.UserId, act => act.MapFrom(src => src.Carts.UserId))
+         .ForMember(dest => dest.CartId, act => act.MapFrom(src => src.Carts.Id));
 
         CreateMap<Domain.Entities.Carts, UpdateSalesCartsResult>();
 
