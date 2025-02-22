@@ -73,14 +73,12 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         {
             var group = Carts.CartsProductsItems.GroupBy(x => x.ProductId).Select(g=>
             {
-                int Quantities = g.ToList().Where(c=>c.Canceled == false).Sum(x => x.Quantity ) > 20 ? 0 : g.ToList().Sum(x => x.Quantity);
-                Quantities = Quantities > 20 ? 20 : Quantities;
-                decimal UnitPrice = g.ToList().Where(c => c.Canceled == false).Sum(x => x.Product.Price);
+                var item = g.FirstOrDefault();
+                int Quantities = CalculteQuantity(item);
+                decimal UnitPrice = item.Product.Price;
 
-                decimal TotalAmountItem = UnitPrice * Quantities;
-                decimal TotalSales = Quantities <= 20 ? UnitPrice * Quantities : 0;
-                decimal Discounts = Quantities >= 4 && Quantities < 10 ? (TotalSales / 100 * 10)
-                                : Quantities >= 10 && Quantities <= 20 ? (TotalSales / 100 * 20) : 0;                
+                decimal TotalAmountItem, TotalSales, Discounts;
+                CalculateReturn(item.Canceled, Quantities, UnitPrice, out TotalAmountItem, out TotalSales, out Discounts);
 
                 return new
                 {
@@ -92,12 +90,29 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
                     Discounts,
                     UnitPrice
                 };
+
+                static int CalculteQuantity(CartsProductsItems? item)
+                => item != null && item.Quantity > 20 ? 20 : item.Quantity ;               
+
+                static void CalculateReturn(bool canceled,int Quantities, decimal UnitPrice, out decimal TotalAmountItem, out decimal TotalSales, out decimal Discounts)
+                {
+                    TotalAmountItem = UnitPrice * Quantities;
+                    TotalSales = CalculateTotalSales(canceled, Quantities, UnitPrice);
+                    Discounts = CalculateDiscounts(Quantities, TotalSales);
+
+                    static decimal CalculateTotalSales(bool canceled, int Quantities, decimal UnitPrice)
+                                          =>  canceled ? 0 : Quantities <= 20 ? UnitPrice * Quantities : 0;
+
+                    static decimal CalculateDiscounts(int Quantities, decimal TotalSales)
+                      => Quantities >= 4 && Quantities < 10 ? (TotalSales / 100 * 10)
+                                                            : Quantities >= 10 && Quantities <= 20 ? (TotalSales / 100 * 20) : 0;
+                    
+                }
             });
 
             group.ToList().ForEach(Product =>
             {
-                Carts.CartsProductsItems.FindAll(p => p.ProductId == Product.Chave
-                     && p.Canceled == false).ForEach(item =>
+                Carts.CartsProductsItems.FindAll(p => p.ProductId == Product.Chave).ForEach(item =>
                      {
                          item.TotalAmountItem = Product.TotalAmountItem;
                          item.Quantity = Product.Quantities;

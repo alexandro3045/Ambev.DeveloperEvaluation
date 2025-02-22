@@ -25,11 +25,11 @@ public class UpdateSalesCartsProfile : Profile
              CreatedAt = src.CreatedAt,
              Id = src.CartId,
              CartsProductsItems = src.Products.Select(cp =>
-             new CartsProductsItems { ProductId = cp.ProductId, Quantity = cp.Quantity }).ToList()
+             new CartsProductsItems { ProductId = cp.ProductId, Quantity = cp.Quantity, Canceled = cp.Canceled }).ToList()
          }));
 
         CreateMap<Domain.Entities.SalesCarts, UpdateSalesCartsResult>()
             .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Carts.CartsProductsItems.Select(cp =>
-               new CartItemResult(cp.CartId, cp.ProductId, cp.Quantity, cp.TotalAmountItem, cp.UnitPrice))));
+               new CartItemResult(cp.CartId, cp.ProductId, cp.Quantity, cp.TotalAmountItem, cp.UnitPrice, cp.Discounts,cp.Canceled))));
     }
 }

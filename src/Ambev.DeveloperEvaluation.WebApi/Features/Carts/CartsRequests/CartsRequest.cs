@@ -44,12 +44,14 @@ public class ItemProductResult : ItemProduct
     public ItemProductResult(Guid productId, int quantity, decimal unitPrice, bool canceled) : base(productId, quantity  )
     {
         UnitPrice = unitPrice;
+        Canceled = canceled;
     }
 
     public ItemProductResult(Guid productId, int quantity, decimal totalAmountItem, decimal unitPrice, bool canceled) : base(productId, quantity)
     {
         TotalAmountItem = totalAmountItem;
         UnitPrice = unitPrice;
+        Canceled = canceled;
     }
 
     public ItemProductResult(Guid productId, int quantity, decimal totalAmountItem, decimal unitPrice, bool canceled, decimal discounts) : base(productId, quantity)
@@ -57,6 +59,7 @@ public class ItemProductResult : ItemProduct
         TotalAmountItem = totalAmountItem;
         UnitPrice = unitPrice;
         Discounts = discounts;
+        Canceled = canceled;
     }
 
     public decimal TotalAmountItem { get; set; }

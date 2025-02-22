@@ -7,6 +7,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.UpdateSalesCarts;
 /// </summary>
 public class UpdateSalesCartsRequestValidator : AbstractValidator<UpdateSalesCartsRequest>
 {
+    private string message = $"{0} cannot be an empty field.";
     /// <summary>
     /// Initializes a new instance of the CreateSalesCartsRequestValidator with defined validation rules.
     /// </summary>
@@ -18,7 +19,20 @@ public class UpdateSalesCartsRequestValidator : AbstractValidator<UpdateSalesCar
     /// </remarks>
     public UpdateSalesCartsRequestValidator()
     {
-        RuleFor(SalesCarts => SalesCarts.salesNumber).NotEmpty()
-            .WithMessage("O número da venda não pode ser um campo vazio.");
+        RuleFor(x => x.BranchId)
+        .NotEmpty()
+        .WithMessage(string.Format(message, "Branch"));
+
+        RuleFor(x => x.Carts.Products)
+            .NotEmpty()
+            .WithMessage(string.Format(message, "Products"));
+
+        RuleFor(x => x.UserId)
+            .NotEmpty()
+            .WithMessage(string.Format(message, "User Id"));
+
+        RuleFor(SalesCarts => SalesCarts.salesNumber)
+            .NotEmpty()
+            .WithMessage(string.Format(message, "Sales Number"));
     }
 }

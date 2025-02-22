@@ -8,7 +8,7 @@ namespace Ambev.DeveloperEvaluation.Application.SalesCarts.UpdateSalesCarts;
 public class UpdateSalesCartsValidator : AbstractValidator<UpdateSalesCartsCommand>
 {
 
-    private string message = "{0} the list is required";
+    private string message = $"{0} cannot be an empty field.";
 
     /// <summary>
     /// Initializes a new instance of the CreateCartsRequestValidator with defined validation rules.
@@ -27,10 +27,14 @@ public class UpdateSalesCartsValidator : AbstractValidator<UpdateSalesCartsComma
 
         RuleFor(x => x.Products)
             .NotEmpty()
-            .WithMessage(string.Format(message, "ProductsItems"));
+            .WithMessage(string.Format(message, "Products"));
 
         RuleFor(x => x.UserId)
             .NotEmpty()
-            .WithMessage(string.Format(message, "UserId"));
+            .WithMessage(string.Format(message, "User Id"));
+
+        RuleFor(x => x.SalesNumber)
+         .NotEmpty()
+         .WithMessage(string.Format(message, "Sales Number"));
     }
 }

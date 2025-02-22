@@ -8,13 +8,12 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.SalesCartsRequest
 public class SalesCartsRequestUpdate : BaseSalesCartsRequest
 {
     /// <summary>
-    /// Gets the Id when the carts was created/updated.
+    /// Gets the canceled and time when the carts was updated.
     /// </summary>
-    public Guid Id { get; set; }
+    public bool Canceled { get; set; }
 
     /// <summary>
     /// Gets the CartsRequestUpdate when the carts was updated.
     /// </summary>
     public required CartsRequestUpdate Carts { get; init; }
-
 }
