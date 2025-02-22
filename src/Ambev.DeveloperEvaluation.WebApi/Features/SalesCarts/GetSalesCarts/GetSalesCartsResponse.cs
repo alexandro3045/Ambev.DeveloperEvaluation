@@ -1,4 +1,5 @@
 using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
 
 namespace Ambev.DeveloperEvaluation.WebApi.SalesCarts.GetSalesCarts;
 
@@ -9,24 +10,42 @@ public class GetSalesCartsResponse
 {
 
     /// <summary>
-    /// Gets the Id when the salescarts was created.
+    /// Gets the sale number when the carts was created.
     /// </summary>
-    public required Guid Id { get; set; }
-
+    public int SalesNumber { get; set; }
 
     /// <summary>
-    /// Gets the UserId when the salescarts was created.
+    /// Gets the date and time when the carts was created.
+    /// </summary>
+    public DateTime Date { get; set; }
+
+    /// <summary>
+    /// Gets the Customer when the carts was created.
     /// </summary>
     public required string UserId { get; set; }
 
     /// <summary>
-    /// Gets the date and time when the salescarts was created.
+    /// Gets the total sales when the carts was created.
     /// </summary>
-    public DateTime Date { get; set; }
-
+    public decimal TotalSalesAmount { get; set; }
 
     /// <summary>
-    /// Gets the products when the salescarts was created.
+    /// Gets the branch idsales when the carts was created.
     /// </summary>
-    public required List<Product> Products { get; set; }
+    public Guid BranchId { get; set; }
+
+    /// <summary>
+    /// Gets the List from product.
+    /// </summary>
+    public required List<ItemProductResult> Products { get; set; }
+
+    /// <summary>
+    /// Gets the quantities products when the carts was created.
+    /// </summary>
+    public int Quantities { get; set; }
+
+    /// <summary>
+    /// Gets the canceled item products when the carts was created.
+    /// </summary>
+    public bool Canceled { get; set; }
 }

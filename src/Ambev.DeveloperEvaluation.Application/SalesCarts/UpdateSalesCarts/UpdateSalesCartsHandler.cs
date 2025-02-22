@@ -3,6 +3,7 @@ using MediatR;
 using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Domain.Entities;
+using FluentValidation.Results;
 
 namespace Ambev.DeveloperEvaluation.Application.SalesCarts.UpdateSalesCarts;
 
@@ -22,7 +23,7 @@ public class UpdateCartsHandler : IRequestHandler<UpdateSalesCartsCommand, Updat
     /// <param name="SalesCartsRepository">The Carts repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for UpdateCartsCommand</param>
-    public UpdateCartsHandler(ISalesCartsRepository SalesCartsRepository, 
+    public UpdateCartsHandler(ISalesCartsRepository SalesCartsRepository,
         ICartsProductsItemsRepository CartsProductsItemsRepository,
         IMapper mapper,
         IProductsRepository productsRepository)
@@ -33,32 +34,35 @@ public class UpdateCartsHandler : IRequestHandler<UpdateSalesCartsCommand, Updat
         _ProductsRepository = productsRepository;
     }
 
-    /// <summary>
-    /// Handles the UpdateSalesCartsCommand request
-    /// </summary>
-    /// <param name="command">The UpdateCarts command</param>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The Updated Sales Carts details</returns>
+
     public async Task<UpdateSalesCartsResult> Handle(UpdateSalesCartsCommand command, CancellationToken cancellationToken)
     {
-        var validator = new UpdateSalesCartsValidator();
-        var validationResult = await validator.ValidateAsync(command, cancellationToken);
+        var validationResult = command.Validate();
 
         if (!validationResult.IsValid)
-            throw new ValidationException(validationResult.Errors);
-       
+        {
+            throw new ValidationException("Campos:", validationResult.Errors.Select(e => new ValidationFailure(e.Error, e.Detail)).ToList());
+        }
+
         var salesCarts = _mapper.Map<Domain.Entities.SalesCarts>(command);
 
+        var existingSalesCarts = await _SalesCartsRepository.GetByPropertyValueAsync(p => p.SalesNumber == salesCarts.SalesNumber, cancellationToken);
+        var salesCartSingle = existingSalesCarts.SingleOrDefault();
+        if (salesCartSingle != null)
+        {
+            salesCarts.Id = salesCartSingle.Id;
+            salesCarts.CartId = salesCartSingle.CartId;
+        };
+
         salesCarts.Carts.CartsProductsItems.Clear();
-        command.Products.ForEach(async cartItem =>
-        { 
-            _CartsProductsItemsRepository
-               .GetByCartIdProducIdAsync(salesCarts.CartId,cartItem.ProductId, cancellationToken)
-               .GetAwaiter().GetResult().ForEach(async Item =>
-               {
-                   salesCarts.Carts.CartsProductsItems.Add(new CartsProductsItems { Id = Item.Id, CartId = Item.CartId, ProductId = cartItem.ProductId, Quantity = cartItem.Quantity, Product = Item.Product });
-               });
-        });
+        foreach (var cartItem in command.Products)
+        {
+            var items = await _CartsProductsItemsRepository.GetByCartIdProducIdAsync(salesCarts.CartId, cartItem.ProductId, cancellationToken);
+            items.ForEach(Item =>
+            {
+                salesCarts.Carts.CartsProductsItems.Add(new CartsProductsItems { Id = Item.Id, CartId = Item.CartId, ProductId = cartItem.ProductId, Quantity = cartItem.Quantity, Product = Item.Product, Canceled = cartItem.Canceled });
+            });
+        }
 
         salesCarts.CalculateCart();
 

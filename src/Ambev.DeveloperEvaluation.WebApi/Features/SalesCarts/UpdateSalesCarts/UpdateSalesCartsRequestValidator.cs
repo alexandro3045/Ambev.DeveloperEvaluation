@@ -3,7 +3,7 @@
 namespace Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.UpdateSalesCarts;
 
 /// <summary>
-/// Validator for UpdateSalesCartsRequest that defines validation rules for Carts creation.
+/// Validator for UpdateSalesCartsRequest that defines validation rules for SalesCarts update.
 /// </summary>
 public class UpdateSalesCartsRequestValidator : AbstractValidator<UpdateSalesCartsRequest>
 {
@@ -18,6 +18,7 @@ public class UpdateSalesCartsRequestValidator : AbstractValidator<UpdateSalesCar
     /// </remarks>
     public UpdateSalesCartsRequestValidator()
     {
-        RuleFor(SalesCartss => SalesCartss.Id).NotEmpty();
+        RuleFor(SalesCarts => SalesCarts.salesNumber).NotEmpty()
+            .WithMessage("O número da venda não pode ser um campo vazio.");
     }
 }

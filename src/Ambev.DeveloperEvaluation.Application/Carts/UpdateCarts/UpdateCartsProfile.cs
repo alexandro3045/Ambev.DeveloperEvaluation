@@ -18,7 +18,7 @@ public class UpdateCartsProfile : Profile
         CreateMap<CartItem, CartsProductsItems>();
 
         CreateMap<UpdateCartsCommand, Domain.Entities.Carts>()
-            .ForMember(dest => dest.CartsProductsItems,  opt => opt.MapFrom( src => src.Products.Select(p => new CartItem (p.CartId, p.ProductId, p.Quantity))));
+            .ForMember(dest => dest.CartsProductsItems,  opt => opt.MapFrom( src => src.Products.Select(p => new CartItem (p.CartId, p.ProductId, p.Quantity,p.Canceled))));
 
         CreateMap<UpdateCartsCommand, GetCartsResult>();
 

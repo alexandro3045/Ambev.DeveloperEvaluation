@@ -1,10 +1,7 @@
-using Ambev.DeveloperEvaluation.Application.SalesCarts.CreateSalesCarts;
 using Ambev.DeveloperEvaluation.Application.SalesCarts.UpdateSalesCarts;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.WebApi.Features.Branch.CreateBranchRequest;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
-using Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.CreateCarts;
-using Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.CreateSalesCarts;
 using Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.UpdateSalesCarts;
 using AutoMapper;
 
@@ -26,15 +23,14 @@ public class UpdateSalesCartsProfile : Profile
 
         CreateMap<UpdateSalesCartsRequest, UpdateSalesCartsCommand>()
          .ForMember(dest => dest.Products, act => act.MapFrom(src => src.Carts.Products))
-         .ForMember(dest => dest.UserId, act => act.MapFrom(src => src.Carts.UserId))
-         .ForMember(dest => dest.CartId, act => act.MapFrom(src => src.Carts.Id));
+         .ForMember(dest => dest.CartId, act => act.MapFrom(src => src.Id));
 
         CreateMap<Domain.Entities.Carts, UpdateSalesCartsResult>();
 
         CreateMap<UpdateSalesCartsResult, UpdateSalesCartsResponse>()
             .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.UpdatedAt))
             .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products.Select(cp =>
-               new ItemProductResult(cp.ProductId, cp.Quantity, cp.TotalAmountItem, cp.UnitPrice))));
+               new ItemProductResult(cp.ProductId, cp.Quantity, cp.TotalAmountItem, cp.UnitPrice, false))));
     }
 }
 

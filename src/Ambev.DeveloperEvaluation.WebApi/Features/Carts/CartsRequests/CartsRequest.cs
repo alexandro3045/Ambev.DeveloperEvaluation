@@ -18,12 +18,12 @@ public class CartsRequest
     /// <summary>
     /// Gets the UserId when the carts was created.
     /// </summary>
-    public string UserId { get; set; }
+    public required string UserId { get; set; }
 
     /// <summary>
     /// Gets the products when the carts was created.
     /// </summary>
-    public List<ItemProduct> Products { get; set; }
+    public required List<ItemProduct> Products { get; set; }
 }
 
 public class ItemProduct
@@ -35,19 +35,31 @@ public class ItemProduct
     }
     public Guid ProductId { get; set; }
     public int Quantity { get; set; }
+    public bool Canceled { get; set; }
 }
 
 public class ItemProductResult : ItemProduct
 {
-    public ItemProductResult(Guid productId, int quantity, decimal unitPrice) : base(productId, quantity)
+
+    public ItemProductResult(Guid productId, int quantity, decimal unitPrice, bool canceled) : base(productId, quantity  )
     {
         UnitPrice = unitPrice;
     }
-    public ItemProductResult(Guid productId, int quantity, decimal totalAmountItem, decimal unitPrice) : base(productId, quantity)
+
+    public ItemProductResult(Guid productId, int quantity, decimal totalAmountItem, decimal unitPrice, bool canceled) : base(productId, quantity)
     {
         TotalAmountItem = totalAmountItem;
         UnitPrice = unitPrice;
     }
+
+    public ItemProductResult(Guid productId, int quantity, decimal totalAmountItem, decimal unitPrice, bool canceled, decimal discounts) : base(productId, quantity)
+    {
+        TotalAmountItem = totalAmountItem;
+        UnitPrice = unitPrice;
+        Discounts = discounts;
+    }
+
     public decimal TotalAmountItem { get; set; }
     public decimal UnitPrice { get; set; }
+    public decimal Discounts { get; set; }
 }

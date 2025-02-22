@@ -6,7 +6,4 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.UpdateSalesCarts;
 /// <summary>
 /// API response model for UpdateSalesCarts operation
 /// </summary>
-public class UpdateSalesCartsResponse : CreateSalesCartsResponse
-{
-    
-}
+public class UpdateSalesCartsResponse : CreateSalesCartsResponse { }

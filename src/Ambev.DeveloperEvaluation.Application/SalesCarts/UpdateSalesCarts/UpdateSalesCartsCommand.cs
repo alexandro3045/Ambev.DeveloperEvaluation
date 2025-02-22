@@ -28,7 +28,7 @@ public class UpdateSalesCartsCommand : SalesCartsCommand, IRequest<UpdateSalesCa
     /// <summary>
     /// Gets the date and time when the carts was updated.
     /// </summary>
-    public DateTime UpdatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
     /// <summary>
     /// Gets the canceled and time when the carts was updated.
@@ -37,9 +37,8 @@ public class UpdateSalesCartsCommand : SalesCartsCommand, IRequest<UpdateSalesCa
 
     public ValidationResultDetail Validate()
     {
-        var result = Validate();
-
         var validator = new UpdateSalesCartsValidator();
+        var result = validator.Validate(this);
 
         return new ValidationResultDetail
         {

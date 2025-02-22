@@ -7,12 +7,5 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.UpdateCards;
 /// </summary>
 public class UpdateCartsRequest : CartsRequest 
 {
-    public UpdateCartsRequest(string userId, List<ItemProduct> products) 
-    {
-    }
-
-    /// <summary>
-    /// Gets the Id when the carts was created.
-    /// </summary>
-    public required Guid Id { get; set; }
+    public UpdateCartsRequest(string userId, List<ItemProduct> products) { }
 }

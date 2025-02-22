@@ -71,15 +71,16 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
 
         public void CalculateCart()
         {
-
             var group = Carts.CartsProductsItems.GroupBy(x => x.ProductId).Select(g=>
             {
-                int Quantities = g.ToList().Sum(x => x.Quantity) > 20 ? 0 : g.ToList().Sum(x => x.Quantity);
-                decimal TotalAmountItem = g.ToList().Sum(x => x.Product.Price) * Quantities;
-                decimal TotalSales = Quantities <= 20 ? g.ToList().Sum(x => x.Product.Price) * Quantities : 0;
+                int Quantities = g.ToList().Where(c=>c.Canceled == false).Sum(x => x.Quantity ) > 20 ? 0 : g.ToList().Sum(x => x.Quantity);
+                Quantities = Quantities > 20 ? 20 : Quantities;
+                decimal UnitPrice = g.ToList().Where(c => c.Canceled == false).Sum(x => x.Product.Price);
+
+                decimal TotalAmountItem = UnitPrice * Quantities;
+                decimal TotalSales = Quantities <= 20 ? UnitPrice * Quantities : 0;
                 decimal Discounts = Quantities >= 4 && Quantities < 10 ? (TotalSales / 100 * 10)
-                                : Quantities >= 10 && Quantities <= 20 ? (TotalSales / 100 * 20) : 0;
-                decimal UnitPrice = g.ToList().Sum(x => x.Product.Price);
+                                : Quantities >= 10 && Quantities <= 20 ? (TotalSales / 100 * 20) : 0;                
 
                 return new
                 {
@@ -95,17 +96,18 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
 
             group.ToList().ForEach(Product =>
             {
-               var item =  Carts.CartsProductsItems.Find(p => p.ProductId == Product.Chave);
-                item.TotalAmountItem = Product.TotalAmountItem;
-                item.Quantity = Product.Quantities;
-                item.UnitPrice = Product.UnitPrice;
-                item.Discounts = Product.Discounts;
+                Carts.CartsProductsItems.FindAll(p => p.ProductId == Product.Chave
+                     && p.Canceled == false).ForEach(item =>
+                     {
+                         item.TotalAmountItem = Product.TotalAmountItem;
+                         item.Quantity = Product.Quantities;
+                         item.UnitPrice = Product.UnitPrice;
+                         item.Discounts = Product.Discounts;
+                     });
             });
 
             Quantities = Carts.CartsProductsItems.Count;
             TotalSalesAmount = group.ToList().Sum(g => g.TotalSales);
-            Carts.CartsProductsItems.ForEach(item => { item.Product = null; });
-            Branch = null;
         }
     }
 }

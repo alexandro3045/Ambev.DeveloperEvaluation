@@ -41,8 +41,8 @@ public class CartsProducstItemsConfiguration : IEntityTypeConfiguration<CartsPro
 
         builder
             .HasOne(p => p.Product)
-            .WithOne()
-            .HasForeignKey<Product>(b => b.Id)
+            .WithMany()
+            .HasForeignKey(b => b.ProductId)
             .IsRequired(false);
 
         builder.Property(u => u.UnitPrice)

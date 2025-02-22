@@ -147,8 +147,14 @@ public class SalesCartsController : BaseController
     public async Task<IActionResult> GetListSalesCarts([FromQuery] int page = 1, [FromQuery] int size = 10, [FromQuery] string? order = "CreatedAt", [FromQuery] string? direction = "asc",
           [FromQuery] string? columnFilters = default, CancellationToken cancellationToken = default)
     {
-        var request = new GetListSalesCartsRequest { Page = page, Size = size, Order = order, 
-                  ColumnFilters = columnFilters, Direction = direction };
+        var request = new GetListSalesCartsRequest
+        {
+            Page = page,
+            Size = size,
+            Order = order,
+            ColumnFilters = columnFilters,
+            Direction = direction
+        };
 
         var validator = new GetListSalesCartsRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
@@ -161,7 +167,8 @@ public class SalesCartsController : BaseController
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-            return OkPaginated(new PaginatedList<Domain.Entities.Carts?>(response.ListSalesCarts, response.ListSalesCarts.Count, page, size));
+            var nullableList = response.ListSalesCarts.Cast<Domain.Entities.Carts?>().ToList();
+            return OkPaginated(new PaginatedList<Domain.Entities.Carts?>(nullableList, nullableList.Count, page, size));
         }
         catch (Exception ex)
         {

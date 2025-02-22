@@ -73,28 +73,46 @@ public class CartItemResult
         UnitPrice = unitPrice;
     }
 
+    public CartItemResult(Guid cartId, Guid productId, int quantity, decimal totalAmountItem, decimal unitPrice, decimal discounts) :
+        this(cartId, productId, quantity, totalAmountItem, unitPrice)
+    {
+        Discounts = discounts;
+    }
+
+    public CartItemResult(Guid cartId, Guid productId, int quantity, decimal totalAmountItem, decimal unitPrice, decimal discounts, bool canceled) : 
+        this(cartId, productId, quantity, totalAmountItem, unitPrice, discounts)
+    {
+        Canceled = canceled;
+    }
+
     public Guid CartId { get; set; }
     public Guid ProductId { get; set; }
     public int Quantity { get; set; }
     public decimal TotalAmountItem { get; set; }
     public decimal UnitPrice { get; set; }
+    public decimal Discounts { get; set; }
+    public bool Canceled { get; set; }
 }
 
 public class CartItem
 {
-    public CartItem(Guid productId, int quantity)
-    {
-        ProductId = productId;
-        Quantity = quantity;
-    }
 
-    public CartItem(Guid cartId, Guid productId, int quantity)
+    public CartItem(Guid cartId, Guid productId, int quantity, bool canceled)
     {
         CartId = cartId;
         ProductId = productId;
         Quantity = quantity;
+        Canceled = canceled;
+    }
+ 
+    public CartItem(Guid productId, int quantity, bool canceled)
+    {
+        ProductId = productId;
+        Quantity = quantity;
+        Canceled = canceled;
     }
     public Guid CartId { get; set; }
     public Guid ProductId { get; set; }
     public int Quantity { get; set; }
+    public bool Canceled { get; set; }
 }

@@ -23,7 +23,7 @@ public class CreateSalesCartsProfile : Profile
 
         CreateMap<Domain.Entities.SalesCarts, CreateSalesCartsResult>()
             .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Carts.CartsProductsItems.Select(cp =>
-               new CartItemResult(cp.CartId, cp.ProductId,cp.Quantity,cp.TotalAmountItem, cp.UnitPrice ))));
+               new CartItemResult(cp.CartId, cp.ProductId,cp.Quantity,cp.TotalAmountItem, cp.UnitPrice,cp.Discounts,cp.Canceled ))));
 
     }
 }

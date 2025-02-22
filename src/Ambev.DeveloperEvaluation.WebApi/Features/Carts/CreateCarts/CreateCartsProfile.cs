@@ -18,7 +18,7 @@ public class CreateCartsProfile : Profile
             .ReverseMap();
 
         CreateMap<CartsRequest, CreateCartsCommand>()
-            .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products.Select(p => new CartItem ( p.ProductId, p.Quantity ))))
+            .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products.Select(p => new CartItem ( p.ProductId, p.Quantity,p.Canceled ))))
             .ForMember(dest => dest.CreatedAt, static opt => opt.MapFrom(static src => src.Date != default ? src.Date : DateTime.Now));
 
         CreateMap<Domain.Entities.ProductsItems, ItemProduct>()
@@ -26,7 +26,7 @@ public class CreateCartsProfile : Profile
             .ForMember(dest => dest.Quantity, static opt => opt.MapFrom(static src => src.Quantity));
 
         CreateMap<CreateCartsResult, CartsResponse>()
-         .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products.Select(p => new CartItem(p.ProductId, p.Quantity))));
+         .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products.Select(p => new ItemProduct(p.ProductId, p.Quantity))));
 
         CreateMap<CartsRequest, CreateCartsCommand>()
             .ForMember(dest => dest.CreatedAt, static opt => opt.MapFrom(static src => src.Date != default ? src.Date : DateTime.Now));

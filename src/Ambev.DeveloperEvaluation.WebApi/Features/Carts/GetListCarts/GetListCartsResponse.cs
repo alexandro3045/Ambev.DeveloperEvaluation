@@ -15,7 +15,7 @@ public class GetListCartsResponse
             Id = c.Id,
             Date = c.CreatedAt,
             UserId = c.UserId,
-            Products = c.CartsProductsItems?.Select(p => new ItemProduct(p.ProductId, p.Quantity)).ToList()
+            Products = c.CartsProductsItems?.Select(p => new ItemProduct(p.ProductId, p.Quantity)).ToList() ?? []
         }).ToList();
     }
 

@@ -21,7 +21,6 @@ public class GetCartsProfile : Profile
         CreateMap<Domain.Entities.Carts, GetCartsResult>();
 
         CreateMap<GetCartsResult, CartsResponse>()
-
-            .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.CartsProductsItems.Select(p => new ItemProduct( p.ProductId, p.Quantity)))); ; ;
+            .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.CartsProductsItems.Select(p => new ItemProduct( p.ProductId, p.Quantity))));
     }
 }
