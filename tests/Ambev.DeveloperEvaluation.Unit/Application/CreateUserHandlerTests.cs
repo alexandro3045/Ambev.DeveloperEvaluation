@@ -48,8 +48,11 @@ public class CreateUserHandlerTests
             Password = command.Password,
             Email = command.Email,
             Phone = command.Phone,
-            Status = command.Status,
-            Role = command.Role
+            Status = DeveloperEvaluation.Domain.Enums.UserStatus.Active,
+            Role = command.Role,
+            Address = command.Address,
+            CreatedAt = DateTime.Now,
+            Name = command.Name
         };
 
         var result = new CreateProductsResult
