@@ -8,6 +8,8 @@ using AutoMapper;
 using FluentAssertions;
 using NSubstitute;
 using Xunit;
+using Moq;
+using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Unit.Application;
 
@@ -19,7 +21,10 @@ public class CreateUserHandlerTests
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
     private readonly IPasswordHasher _passwordHasher;
+    //private readonly IRequestHandler<CreateUserCommand, CreateUserResult> _handler;
+
     private readonly CreateUserHandler _handler;
+    private readonly IBaseRequest _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CreateUserHandlerTests"/> class.
@@ -31,6 +36,16 @@ public class CreateUserHandlerTests
         _mapper = Substitute.For<IMapper>();
         _passwordHasher = Substitute.For<IPasswordHasher>();
         _handler = new CreateUserHandler(_userRepository, _mapper, _passwordHasher);
+        _command = CreateUserHandlerTestData.GenerateValidCommand();
+        Setup();
+    }
+
+    private void Setup()
+    {
+        var _command = new Mock<CreateUserHandler>();
+        _userRepository.ClearReceivedCalls();
+        _mapper.ClearReceivedCalls();
+        _passwordHasher.ClearReceivedCalls();
     }
 
     /// <summary>
@@ -55,17 +70,16 @@ public class CreateUserHandlerTests
             Name = command.Name
         };
 
-        var result = new CreateProductsResult
-        {
-            Id = user.Id,
-        };
-
+        var result = new CreateUserResult(user.Id, user.UserName, user.Name,
+            user.Address, user.Email, user.Phone, user.Role, user.Status );
 
         _mapper.Map<User>(command).Returns(user);
-        _mapper.Map<CreateProductsResult>(user).Returns(result);
+
+        _mapper.Map<CreateUserResult>(user).Returns(result);
 
         _userRepository.CreateAsync(Arg.Any<User>(), Arg.Any<CancellationToken>())
             .Returns(user);
+
         _passwordHasher.HashPassword(Arg.Any<string>()).Returns("hashedPassword");
 
         // When
