@@ -1,5 +1,6 @@
 using Bogus;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Reflection;
 
 namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities.TestData;
 
@@ -39,35 +40,7 @@ public static class SalesCartsTestData
         return SalesCartsFaker.Generate();
     }
 
-    /// <summary>
-    /// Generates a valid SalesCarts entity with randomized data.
-    /// The generated SalesCarts will have all properties populated with valid values
-    /// that meet the system's validation requirements.
-    /// </summary>
-    /// <returns>A invalidvalid SalesCarts entity with randomly generated data.</returns>
-    public static DeveloperEvaluation.Domain.Entities.SalesCarts GenerateInValidProductsSalesCarts()
-    {
-        var SalesCarts = GenerateValidSalesCarts();
 
-        SalesCarts.Carts.CartsProductsItems.Clear();
-
-        return SalesCarts;
-    }
-
-    /// <summary>
-    /// Generates a valid SalesCarts entity with randomized data.
-    /// The generated SalesCarts will have all properties populated with valid values
-    /// that meet the system's validation requirements.
-    /// </summary>
-    /// <returns>A invalidvalid SalesCarts entity with randomly generated data.</returns>
-    public static DeveloperEvaluation.Domain.Entities.SalesCarts GenerateInValidUserIdSalesCarts()
-    {
-        var SalesCarts = GenerateValidSalesCarts();
-
-        SalesCarts.UserId = Guid.Empty;
-
-        return SalesCarts;
-    }
 
     /// <summary>
     /// Generates a valid SalesCarts entity with randomized data.
@@ -85,33 +58,24 @@ public static class SalesCartsTestData
     }
 
     /// <summary>
-    /// Generates a valid SalesCarts entity with randomized data.
-    /// The generated SalesCarts will have all properties populated with valid values
+    /// Generates a valid Product entity with randomized data.
+    /// The generated Product will have all properties populated with valid values
     /// that meet the system's validation requirements.
     /// </summary>
-    /// <returns>A invalidvalid SalesCarts entity with randomly generated data.</returns>
-    public static DeveloperEvaluation.Domain.Entities.SalesCarts GenerateInValidSalesNumberSalesCarts()
+    /// <returns>A invalidvalid Product entity with randomly generated data.</returns>
+    public static DeveloperEvaluation.Domain.Entities.SalesCarts GenerateInValidSalesCarts(string property, object? value = null)
     {
-        var SalesCarts = GenerateValidSalesCarts();
+        var salecarts = GenerateValidSalesCarts();
 
-        SalesCarts.SalesNumber = null;
 
-        return SalesCarts;
-    }
+        PropertyInfo? propertyInfo = salecarts.GetType().GetProperty(property);
+        
+        if (propertyInfo != null)
+        {
+            propertyInfo.SetValue(salecarts, value);
+        }
 
-    /// <summary>
-    /// Generates a valid SalesCarts entity with randomized data.
-    /// The generated SalesCarts will have all properties populated with valid values
-    /// that meet the system's validation requirements.
-    /// </summary>
-    /// <returns>A invalidvalid SalesCarts entity with randomly generated data.</returns>
-    public static DeveloperEvaluation.Domain.Entities.SalesCarts GenerateInValidCartsSalesCarts()
-    {
-        var SalesCarts = GenerateValidSalesCarts();
-
-        SalesCarts.Carts = new DeveloperEvaluation.Domain.Entities.Carts();
-
-        return SalesCarts;
+        return salecarts;
     }
 
     /// <summary>

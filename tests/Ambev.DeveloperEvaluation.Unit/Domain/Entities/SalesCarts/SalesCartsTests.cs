@@ -32,9 +32,9 @@ public class SalesCartsTests
     [Fact(DisplayName = "Validation should fail for invalid SalesCarts Products")]
     public void Given_InvalidSalesCartsData_When_InValidatedProducts_Then_ShouldReturnInvalid()
     {
+        // Arrange CartsProductsItems
         // Arrange
-        // Arrange
-        var SalesCarts = SalesCartsTestData.GenerateInValidProductsSalesCarts();
+        var SalesCarts = SalesCartsTestData.GenerateInValidSalesCarts("Carts", new DeveloperEvaluation.Domain.Entities.Carts() );
 
         // Act
         var result = SalesCarts.Validate();
@@ -53,7 +53,7 @@ public class SalesCartsTests
     {
         // Arrange
         // Arrange
-        var SalesCarts = SalesCartsTestData.GenerateInValidUserIdSalesCarts();
+        var SalesCarts = SalesCartsTestData.GenerateInValidSalesCarts("UserId");
 
         // Act
         var result = SalesCarts.Validate();
@@ -71,7 +71,7 @@ public class SalesCartsTests
     {
         // Arrange
         // Arrange
-        var SalesCarts = SalesCartsTestData.GenerateInValidBranchIdSalesCarts();
+        var SalesCarts = SalesCartsTestData.GenerateInValidSalesCarts("BranchId", Guid.Empty);
 
         // Act
         var result = SalesCarts.Validate();
@@ -89,7 +89,7 @@ public class SalesCartsTests
     {
         // Arrange
         // Arrange
-        var SalesCarts = SalesCartsTestData.GenerateInValidSalesNumberSalesCarts();
+        var SalesCarts = SalesCartsTestData.GenerateInValidSalesCarts("SalesNumber");
 
         // Act
         var result = SalesCarts.Validate();
@@ -106,7 +106,7 @@ public class SalesCartsTests
     public void Given_InvalidSalesCartsData_When_InValidatedCarts_Then_ShouldReturnInvalid()
     {
         // Arrange
-        var SalesCarts = SalesCartsTestData.GenerateInValidCartsSalesCarts();
+        var SalesCarts = SalesCartsTestData.GenerateInValidSalesCarts("Carts", new DeveloperEvaluation.Domain.Entities.Carts());
 
         // Act
         var result = SalesCarts.Validate();

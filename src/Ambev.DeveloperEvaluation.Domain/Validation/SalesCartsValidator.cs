@@ -5,9 +5,13 @@ namespace Ambev.DeveloperEvaluation.Domain.Validation;
 
 public class SalesCartsValidator : AbstractValidator<SalesCarts>
 {
-    private string _message = $" {0} must not be empty.";
+    private string _message = " {0} must not be empty.";
     public SalesCartsValidator()
-    {
+    {   
+
+         RuleFor(SalesCarts => SalesCarts.SalesNumber)
+            .NotEmpty()
+            .WithMessage(string.Format(_message, "SalesNumber"));
 
         RuleFor(SalesCarts => SalesCarts.CartId)
             .NotEmpty()
@@ -22,10 +26,12 @@ public class SalesCartsValidator : AbstractValidator<SalesCarts>
             .WithMessage(string.Format(_message, "BranchId"));
 
         RuleFor(SalesCarts => SalesCarts.Carts)
+            .NotNull()
             .NotEmpty()
             .WithMessage(string.Format(_message, "Carts"));
 
         RuleFor(SalesCarts => SalesCarts.Carts.CartsProductsItems)
+            .NotNull()
             .NotEmpty()
             .WithMessage(string.Format(_message, "Carts products Items"));
 
