@@ -1,29 +1,22 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Products.CreateProducts;
 using Ambev.DeveloperEvaluation.Application.Productss.CreateProducts;
-using Ambev.DeveloperEvaluation.Application.Users.CreateUser;
-using Ambev.DeveloperEvaluation.Common.Security;
-using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
-using Ambev.DeveloperEvaluation.ORM.Repositories;
 using Ambev.DeveloperEvaluation.Unit.Application.TestData;
 using AutoMapper;
 using FluentAssertions;
-using MediatR;
-using Moq;
 using NSubstitute;
-using OneOf.Types;
 using Xunit;
 
 namespace Ambev.DeveloperEvaluation.Unit.Application.Product
 {
-       
-    public class CreateProductHandlerTests
+
+    public class CreateCartstHandlerTests
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
         private readonly CreateProductsHandler _handler;
 
-        public CreateProductHandlerTests()
+        public CreateCartstHandlerTests()
         {
             _productRepository = Substitute.For<IProductRepository>();
             _mapper = Substitute.For<IMapper>();
