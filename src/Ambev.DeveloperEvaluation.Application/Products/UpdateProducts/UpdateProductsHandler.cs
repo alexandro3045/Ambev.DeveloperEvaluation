@@ -12,7 +12,7 @@ namespace Ambev.DeveloperEvaluation.Application.Productss.UpdateProducts;
 /// </summary>
 public class UpdateProductHandler : IRequestHandler<UpdateProductsCommand, UpdateProductResult>
 {
-    private readonly IProductsRepository _ProductsRepository;
+    private readonly IProductRepository _ProductsRepository;
     private readonly IMapper _mapper;
 
     /// <summary>
@@ -21,7 +21,7 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductsCommand, Updat
     /// <param name="ProductsRepository">The ProductsItems repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for UpdateProductsCommand</param>
-    public UpdateProductHandler(IProductsRepository ProductsRepository, IMapper mapper)
+    public UpdateProductHandler(IProductRepository ProductsRepository, IMapper mapper)
     {
         _ProductsRepository = ProductsRepository;
         _mapper = mapper;

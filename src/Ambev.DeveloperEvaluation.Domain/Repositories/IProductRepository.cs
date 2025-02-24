@@ -5,7 +5,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories;
 /// <summary>
 /// Repository interface for User entity operations
 /// </summary>
-public interface IProductsRepository : IRepository<Product>
+public interface IProductRepository : IRepository<Product>
 {
     Task<Product?> GetByTitleAsync(string title, CancellationToken cancellationToken = default);
 

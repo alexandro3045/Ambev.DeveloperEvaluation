@@ -31,7 +31,7 @@ public class CreateProductsResult
     /// <summary>
     /// Gets the description from product.
     /// </summary>
-    public string Descripption { get; set; }
+    public string Description { get; set; }
 
     /// <summary>
     /// Gets the category from product.

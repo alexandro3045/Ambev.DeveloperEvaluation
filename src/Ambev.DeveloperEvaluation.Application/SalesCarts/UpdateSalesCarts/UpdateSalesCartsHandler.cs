@@ -14,7 +14,7 @@ public class UpdateCartsHandler : IRequestHandler<UpdateSalesCartsCommand, Updat
 {
     private readonly ISalesCartsRepository _SalesCartsRepository;
     private readonly ICartsProductsItemsRepository _CartsProductsItemsRepository;
-    private readonly IProductsRepository _ProductsRepository;
+    private readonly IProductRepository _ProductsRepository;
     private readonly IMapper _mapper;
 
     /// <summary>
@@ -26,7 +26,7 @@ public class UpdateCartsHandler : IRequestHandler<UpdateSalesCartsCommand, Updat
     public UpdateCartsHandler(ISalesCartsRepository SalesCartsRepository,
         ICartsProductsItemsRepository CartsProductsItemsRepository,
         IMapper mapper,
-        IProductsRepository productsRepository)
+        IProductRepository productsRepository)
     {
         _CartsProductsItemsRepository = CartsProductsItemsRepository;
         _SalesCartsRepository = SalesCartsRepository;

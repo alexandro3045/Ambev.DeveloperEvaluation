@@ -12,7 +12,7 @@ namespace Ambev.DeveloperEvaluation.Application.Categories.GetListCategories;
 /// </summary>
 public class GetListCategoriesHandler : IRequestHandler<GetListCategoriesCommand, GetListCategoriesResult>
 {
-    private readonly IProductsRepository _ProductsRepository;
+    private readonly IProductRepository _ProductsRepository;
     private readonly IMapper _mapper;
 
     /// <summary>
@@ -22,7 +22,7 @@ public class GetListCategoriesHandler : IRequestHandler<GetListCategoriesCommand
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for GetCategoriesCommand</param>
     public GetListCategoriesHandler(
-        IProductsRepository ProductsRepository,
+        IProductRepository ProductsRepository,
         IMapper mapper)
     {
         _ProductsRepository = ProductsRepository;

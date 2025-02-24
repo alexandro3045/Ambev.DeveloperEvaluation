@@ -21,9 +21,7 @@ public class CreateUserHandlerTests
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
     private readonly IPasswordHasher _passwordHasher;
-
     private readonly CreateUserHandler _handler;
-    private readonly IBaseRequest _command;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CreateUserHandlerTests"/> class.
@@ -35,13 +33,11 @@ public class CreateUserHandlerTests
         _mapper = Substitute.For<IMapper>();
         _passwordHasher = Substitute.For<IPasswordHasher>();
         _handler = new CreateUserHandler(_userRepository, _mapper, _passwordHasher);
-        _command = CreateUserHandlerTestData.GenerateValidCommand();
         Setup();
     }
 
     private void Setup()
     {
-        var _command = new Mock<CreateUserHandler>();
         _userRepository.ClearReceivedCalls();
         _mapper.ClearReceivedCalls();
         _passwordHasher.ClearReceivedCalls();

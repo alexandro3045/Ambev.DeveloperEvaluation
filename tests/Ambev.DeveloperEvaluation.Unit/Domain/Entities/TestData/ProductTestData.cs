@@ -1,4 +1,5 @@
 using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Unit.Extensions;
 using Bogus;
 using System.Reflection;
 
@@ -28,7 +29,7 @@ public static class ProductTestData
     private static readonly Faker<DeveloperEvaluation.Domain.Entities.Product> ProductFaker = new Faker<DeveloperEvaluation.Domain.Entities.Product>()
         .RuleFor(u => u.Id, f => GetId())
         .RuleFor(u => u.CreatedAt, f => DateTime.Now)
-        .RuleFor(u => u.Price, f => new Faker().Random.Decimal(1,299))
+        .RuleFor(u => u.Price, f => new Faker().Random.Decimal(0.00m, 99.00m, 2))
         .RuleFor(u => u.Category, f => new Faker().Internet.DomainName())
         .RuleFor(u => u.Description, f => new Faker().Finance.AccountName())
         .RuleFor(u => u.Image, f => new Faker().Image.ToString())

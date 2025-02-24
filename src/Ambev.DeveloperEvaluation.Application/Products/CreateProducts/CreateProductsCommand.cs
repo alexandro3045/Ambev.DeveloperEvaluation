@@ -38,7 +38,7 @@ public class CreateProductsCommand : IRequest<CreateProductsResult>
     /// <summary>
     /// Gets the description from product.
     /// </summary>
-    public string Descripption { get; set; }
+    public string Description { get; set; }
 
     /// <summary>
     /// Gets the category from product.
@@ -51,7 +51,7 @@ public class CreateProductsCommand : IRequest<CreateProductsResult>
     public string Image { get; set; }
 
     [Column(TypeName = "jsonb")]
-    public Rating Rating { get; set; }
+    public required Rating Rating { get; set; }
 
     public virtual ValidationResultDetail Validate()
     {

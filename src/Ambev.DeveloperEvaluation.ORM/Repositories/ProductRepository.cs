@@ -6,9 +6,9 @@ using System.Linq;
 namespace Ambev.DeveloperEvaluation.ORM.Repositories;
 
 /// <summary>
-/// Implementation of IProductsRepository using Entity Framework Core
+/// Implementation of IProductRepository using Entity Framework Core
 /// </summary>
-public class ProductRepository : Repository<Product>, IProductsRepository
+public class ProductRepository : Repository<Product>, IProductRepository
 {
     public ProductRepository(DefaultContext context) : base(context) {  }
 

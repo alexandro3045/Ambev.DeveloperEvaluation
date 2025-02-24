@@ -11,7 +11,7 @@ namespace Ambev.DeveloperEvaluation.Application.Productss.DeleteProducts;
 /// </summary>
 public class DeleteProductsHandler : IRequestHandler<DeleteProductsCommand, DeleteProductsResponse>
 {
-    private readonly IProductsRepository _ProductsRepository;
+    private readonly IProductRepository _ProductsRepository;
 
     /// <summary>
     /// Initializes a new instance of DeleteProductsHandler
@@ -19,7 +19,7 @@ public class DeleteProductsHandler : IRequestHandler<DeleteProductsCommand, Dele
     /// <param name="ProductsRepository">The ProductsItems repository</param>
     /// <param name="validator">The validator for DeleteProductsCommand</param>
     public DeleteProductsHandler(
-        IProductsRepository ProductsRepository)
+        IProductRepository ProductsRepository)
     {
         _ProductsRepository = ProductsRepository;
     }
