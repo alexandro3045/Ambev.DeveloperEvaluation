@@ -10,13 +10,13 @@ using Xunit;
 namespace Ambev.DeveloperEvaluation.Unit.Application.Carts
 {
 
-    public class CreateCartstHandlerTests
+    public class CreateSalesCartstHandlerTests
     {
         private readonly ICartsRepository _CartsRepository;
         private readonly IMapper _mapper;
         private readonly CreateCartsHandler _handler;
 
-        public CreateCartstHandlerTests()
+        public CreateSalesCartstHandlerTests()
         {
             _CartsRepository = Substitute.For<ICartsRepository>();
             _mapper = Substitute.For<IMapper>();
@@ -34,7 +34,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Carts
         public async Task Handle_ValidRequest_ReturnsSuccessResponse()
         {
             // Given
-            var command = CreateCartstHandlerTestData.GenerateValidCommand();
+            var command = CreateCartsHandlerTestData.GenerateValidCommand();
 
             var Carts = new DeveloperEvaluation.Domain.Entities.Carts
             {

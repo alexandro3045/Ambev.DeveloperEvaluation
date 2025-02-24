@@ -14,7 +14,6 @@ namespace Ambev.DeveloperEvaluation.Application.SalesCarts.CreateSalesCarts;
 public class CreateSalesCartsHandler : IRequestHandler<CreateSalesCartsCommand, CreateSalesCartsResult>
 {
     private readonly ISalesCartsRepository _SalesCartsRepository;
-    private readonly IProductRepository _ProductsRepository;
     private readonly IMapper _mapper;
 
     /// <summary>
@@ -23,10 +22,8 @@ public class CreateSalesCartsHandler : IRequestHandler<CreateSalesCartsCommand, 
     /// <param name="SalesCartsRepository">The Carts repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for CreateCartsCommand</param>
-    public CreateSalesCartsHandler(ISalesCartsRepository SalesCartsRepository, IProductRepository ProductsRepository
-        , IMapper mapper)
+    public CreateSalesCartsHandler(ISalesCartsRepository SalesCartsRepository, IMapper mapper)
     {
-        _ProductsRepository = ProductsRepository;
         _SalesCartsRepository = SalesCartsRepository;
         _mapper = mapper;
     }
@@ -47,8 +44,6 @@ public class CreateSalesCartsHandler : IRequestHandler<CreateSalesCartsCommand, 
             throw new ValidationException(validationResult.Errors);
 
         var salesCarts = _mapper.Map<Domain.Entities.SalesCarts>(command);
-
-        var products = salesCarts.Carts.CartsProductsItems.Select(x => x.ProductId).ToArray();
 
         salesCarts.CalculateCart();
 
