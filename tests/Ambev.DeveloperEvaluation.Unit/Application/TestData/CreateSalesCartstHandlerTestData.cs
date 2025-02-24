@@ -1,5 +1,6 @@
 using Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
 using Ambev.DeveloperEvaluation.Application.SalesCarts.CreateSalesCarts;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Unit.Domain.Entities.TestData;
 using Bogus;
 
@@ -15,6 +16,19 @@ public static class CreateSalesCartsHandlerTestData
 {
     private static Guid Id = Guid.NewGuid();
 
+    private static Guid _CartId;
+    public static Guid CartId
+    {
+        get
+        {
+            if (_CartId == null)
+            {
+               _CartId = new Guid();
+            }
+            return _CartId;
+        }
+    }
+
     /// <summary>
     /// Configures the Faker to generate valid Product entities.
     /// The generated SalesCarts will have valid:
@@ -29,14 +43,12 @@ public static class CreateSalesCartsHandlerTestData
         .RuleFor(u => u.SalesNumber, f => SalesCartsTestData.GenerateSalesNumber())
         .RuleFor(u => u.UserId, f => CartsTestData.GenerateUserId().ToString())
         .RuleFor(u => u.BranchId, f => CartsTestData.GenerateBranchId())
-        .RuleFor(u => u.CartId, f => CartsTestData.GetId())
+        .RuleFor(u => u.CartId, f => CartId)
         .RuleFor(u => u.Products, f => new List<CartItem>
-            {
-                new CartItem(Guid.NewGuid(), Guid.NewGuid() , 4, false),
-                new CartItem(Guid.NewGuid(), Guid.NewGuid() , 10, false),
-                new CartItem(Guid.NewGuid(), Guid.NewGuid() , 20, false),
-                new CartItem(Guid.NewGuid(), Guid.NewGuid() , 30, false)
-            });
+        {
+            new CartItem(CartId, new Guid() , 4, false),
+            new CartItem(CartId, new Guid() , 10, false),
+        });
 
     public static Guid GetId()
     {

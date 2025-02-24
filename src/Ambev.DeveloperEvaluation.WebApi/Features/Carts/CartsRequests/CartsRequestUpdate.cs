@@ -13,7 +13,7 @@ public class CartsRequestUpdate
     /// <summary>
     /// Gets the date and time when the carts was created.
     /// </summary>
-    public DateTime Date { get; set; } =  DateTime.Now;
+    public DateTime Date { get; set; } = DateTime.Now;
 
     /// <summary>
     /// Gets the UserId when the carts was created.

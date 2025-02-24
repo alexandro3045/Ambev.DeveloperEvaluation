@@ -1,6 +1,6 @@
-using MediatR;
-using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using FluentValidation;
+using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.SalesCarts.DeleteSalesCarts;
 
@@ -34,8 +34,8 @@ public class DeleteSalesCartsHandler : IRequestHandler<DeleteSalesCartsCommand, 
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
-            throw new ValidationException(validationResult.Errors);       
-        
+            throw new ValidationException(validationResult.Errors);
+
         var successDelete = await _SalesCartsRepository.DeleteAsync(request.Id, cancellationToken);
 
         if (!successDelete)

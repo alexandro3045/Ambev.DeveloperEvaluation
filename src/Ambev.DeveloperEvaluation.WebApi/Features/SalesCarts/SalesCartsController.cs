@@ -1,19 +1,19 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
-using Ambev.DeveloperEvaluation.WebApi.Common;
-using Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.CreateSalesCarts;
-using Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.GetSalesCarts;
-using Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.DeleteSalesCarts;
-using Ambev.DeveloperEvaluation.Application.SalesCarts.GetSalesCarts;
+﻿using Ambev.DeveloperEvaluation.Application.SalesCarts.CreateSalesCarts;
 using Ambev.DeveloperEvaluation.Application.SalesCarts.DeleteSalesCarts;
-using Ambev.DeveloperEvaluation.Application.SalesCarts.CreateSalesCarts;
-using Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.UpdateSalesCarts;
-using Ambev.DeveloperEvaluation.Application.SalesCarts.UpdateSalesCarts;
 using Ambev.DeveloperEvaluation.Application.SalesCarts.GetListSalesCarts;
-using Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.GetListSalesCarts;
-using Ambev.DeveloperEvaluation.WebApi.SalesCarts.GetSalesCarts;
+using Ambev.DeveloperEvaluation.Application.SalesCarts.GetSalesCarts;
+using Ambev.DeveloperEvaluation.Application.SalesCarts.UpdateSalesCarts;
+using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.CreateCarts;
+using Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.CreateSalesCarts;
+using Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.DeleteSalesCarts;
+using Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.GetListSalesCarts;
+using Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.GetSalesCarts;
+using Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.UpdateSalesCarts;
+using Ambev.DeveloperEvaluation.WebApi.SalesCarts.GetSalesCarts;
+using AutoMapper;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts;
 

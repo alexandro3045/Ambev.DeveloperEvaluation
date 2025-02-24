@@ -1,5 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
-using Ambev.DeveloperEvaluation.Application.SalesCarts.Carts;
+﻿using Ambev.DeveloperEvaluation.Application.SalesCarts.Carts;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using MediatR;
 

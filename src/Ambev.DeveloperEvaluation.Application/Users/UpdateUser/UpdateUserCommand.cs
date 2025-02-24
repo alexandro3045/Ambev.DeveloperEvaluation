@@ -20,7 +20,7 @@ namespace Ambev.DeveloperEvaluation.Application.Users.UpdateUser;
 /// <see cref="AbstractValidator{T}"/> to ensure that the fields are correctly 
 /// populated and follow the required rules.
 /// </remarks>
-public class UpdateUserCommand :  IRequest<UpdateUserResult>
+public class UpdateUserCommand : IRequest<UpdateUserResult>
 {
     /// <summary>
     /// Gets or sets the id of the user to be update.

@@ -1,5 +1,4 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Products.UpdateProducts;
-using Ambev.DeveloperEvaluation.Application.Productss.CreateProducts;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using MediatR;
@@ -42,7 +41,7 @@ public class UpdateProductsCommand : IRequest<UpdateProductResult>
     /// <summary>
     /// Gets the description from product.
     /// </summary>
-    public string Descripption { get; set; }
+    public string Description { get; set; }
 
     /// <summary>
     /// Gets the category from product.

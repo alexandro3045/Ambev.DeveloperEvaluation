@@ -29,7 +29,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
                 .Property(u => u.Quantity);
 
             builder
-                .HasOne(p=> p.Product)
+                .HasOne(p => p.Product)
                 .WithOne()
                 .HasForeignKey<ProductsItems>(b => b.ProductId)
                 .IsRequired(false);

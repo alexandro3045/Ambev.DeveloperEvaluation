@@ -1,8 +1,8 @@
-﻿using AutoMapper;
-using MediatR;
-using FluentValidation;
+﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
-using Ambev.DeveloperEvaluation.Domain.Entities;
+using AutoMapper;
+using FluentValidation;
+using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCarts;
 
@@ -42,21 +42,22 @@ public class UpdateCartsHandler : IRequestHandler<UpdateCartsCommand, UpdateCart
 
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
-       
+
         var Carts = _mapper.Map<Domain.Entities.Carts>(command);
-        
+
         Carts.CartsProductsItems.Clear();
 
-        command.Products.ForEach(async cartItem=>
+        command.Products.ForEach(async cartItem =>
         {
             _CartsProductsItemsRepository
                .GetByFilterAsync($"CartId={cartItem.CartId}&ProductId={cartItem.ProductId}", cancellationToken).ConfigureAwait(true)
-               .GetAwaiter().GetResult().ForEach(async Item => {
+               .GetAwaiter().GetResult().ForEach(async Item =>
+               {
                    Carts.CartsProductsItems.Add(new CartsProductsItems { Id = Item.Id, CartId = Item.CartId, ProductId = cartItem.ProductId, Quantity = cartItem.Quantity });
                });
         });
 
-        
+
         var UpdatedCarts = await _CartsRepository.UpdateAsync(Carts, cancellationToken);
 
         var result = _mapper.Map<UpdateCartsResult>(UpdatedCarts);

@@ -1,7 +1,7 @@
-﻿using Ambev.DeveloperEvaluation.Common.Filter;
+﻿using Ambev.DeveloperEvaluation.Common.DBExtensions;
+using Ambev.DeveloperEvaluation.Common.Filter;
 using Ambev.DeveloperEvaluation.Common.QueryExpression;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
-using Ambev.DeveloperEvaluation.Common.DBExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
@@ -54,7 +54,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
 
             await _context.SaveChangesAsync(cancellationToken);
 
-           return true;
+            return true;
         }
 
         public async Task<List<TEntity>> GetByPropertyValueAsync(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default)
@@ -117,7 +117,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             Expression<Func<TEntity, bool>> filters = null;
 
             IQueryable<TEntity> source = _context.Set<TEntity>()
-                .IncludeAllRecursively(10)                
+                .IncludeAllRecursively(10)
                 .AsQueryable();
 
 
@@ -187,5 +187,5 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-   }
+    }
 }

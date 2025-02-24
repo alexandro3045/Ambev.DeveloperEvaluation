@@ -1,7 +1,7 @@
-using System.ComponentModel.DataAnnotations.Schema;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Validation;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
 
@@ -35,7 +35,7 @@ public class Product : BaseEntity
     /// <summary>
     /// Gets the image from product.
     /// </summary>
-    public string Image { get;     set; }
+    public string Image { get; set; }
 
     [Column(TypeName = "jsonb")]
     public Rating Rating { get; set; }

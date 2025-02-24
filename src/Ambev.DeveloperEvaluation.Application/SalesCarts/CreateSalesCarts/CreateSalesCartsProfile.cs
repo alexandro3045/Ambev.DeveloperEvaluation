@@ -17,14 +17,29 @@ public class CreateSalesCartsProfile : Profile
     {
         CreateMap<CreateSalesCartsCommand, Domain.Entities.SalesCarts>()
              .ForMember(dest => dest.Carts, opt => opt.MapFrom(src =>
-             new Domain.Entities.Carts { UserId = src.UserId, CreatedAt = src.CreatedAt,
+             new Domain.Entities.Carts
+             {
+                 UserId = src.UserId,
+                 CreatedAt = src.CreatedAt,
                  CartsProductsItems = src.Products.Select(cp =>
-                 new CartsProductsItems { ProductId = cp.ProductId, Quantity = cp.Quantity }).ToList()}));
+                 new CartsProductsItems { ProductId = cp.ProductId, Quantity = cp.Quantity }).ToList()
+             }));
 
         CreateMap<Domain.Entities.SalesCarts, CreateSalesCartsResult>()
-            .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Carts.CartsProductsItems.Select(cp =>
-               new CartItemResult(cp.CartId, cp.ProductId,cp.Quantity,cp.TotalAmountItem, cp.UnitPrice,cp.Discounts,cp.Canceled ))));
-
+            .ConstructUsing(src => new CreateSalesCartsResult
+            (
+                 src.SalesNumber ?? 0,
+                 src.CreatedAt,
+                 src.UserId,
+                 src.TotalSalesAmount,
+                 src.BranchId,
+                 src.Carts.CartsProductsItems.Select(cpi =>
+                 new CartItemResult(cpi.CartId, cpi.ProductId, cpi.Quantity, cpi.TotalAmountItem,
+                    cpi.UnitPrice, cpi.Discounts, cpi.Canceled)).ToList(),
+                 src.Quantities,
+                 src.Canceled,
+                 src.CartId
+            ));
     }
 }
 

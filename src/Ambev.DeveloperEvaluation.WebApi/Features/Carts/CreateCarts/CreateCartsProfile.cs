@@ -1,6 +1,6 @@
-using AutoMapper;
 using Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
+using AutoMapper;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.CreateCarts;
 
@@ -18,7 +18,7 @@ public class CreateCartsProfile : Profile
             .ReverseMap();
 
         CreateMap<CartsRequest, CreateCartsCommand>()
-            .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products.Select(p => new CartItem ( p.ProductId, p.Quantity,p.Canceled ))))
+            .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products.Select(p => new CartItem(p.ProductId, p.Quantity, p.Canceled))))
             .ForMember(dest => dest.CreatedAt, static opt => opt.MapFrom(static src => src.Date != default ? src.Date : DateTime.Now));
 
         CreateMap<Domain.Entities.ProductsItems, ItemProduct>()

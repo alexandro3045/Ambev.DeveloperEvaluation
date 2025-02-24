@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
 
 /// <summary>

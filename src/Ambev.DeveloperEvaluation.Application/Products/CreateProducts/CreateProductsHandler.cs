@@ -1,8 +1,8 @@
-﻿using AutoMapper;
-using MediatR;
-using FluentValidation;
+﻿using Ambev.DeveloperEvaluation.Application.Products.CreateProducts;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
-using Ambev.DeveloperEvaluation.Application.Products.CreateProducts;
+using AutoMapper;
+using FluentValidation;
+using MediatR;
 namespace Ambev.DeveloperEvaluation.Application.Productss.CreateProducts;
 
 /// <summary>

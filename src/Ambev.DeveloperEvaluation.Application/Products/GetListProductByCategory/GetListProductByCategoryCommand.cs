@@ -1,5 +1,4 @@
 using Ambev.DeveloperEvaluation.Application.Products.GetListProducts;
-using Ambev.DeveloperEvaluation.Common.Filter;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.GetListProductsByCategory;

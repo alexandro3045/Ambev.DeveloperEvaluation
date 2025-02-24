@@ -1,4 +1,3 @@
-using Ambev.DeveloperEvaluation.Application.Carts.GetCarts;
 using Ambev.DeveloperEvaluation.Application.Carts.GetListCarts;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;

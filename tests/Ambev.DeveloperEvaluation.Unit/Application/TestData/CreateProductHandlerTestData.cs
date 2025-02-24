@@ -27,7 +27,7 @@ public static class CreateProductHandlerTestData
     /// </summary>
     private static readonly Faker<CreateProductsCommand> createProductHandlerFaker = new Faker<CreateProductsCommand>()
         .RuleFor(u => u.Id, f => GetId())
-        .RuleFor(u => u.Price, f => new Faker().Random.Decimal(0.00m, 99.00m,2))
+        .RuleFor(u => u.Price, f => new Faker().Random.Decimal(0.00m, 99.00m, 2))
         .RuleFor(u => u.Category, f => new Faker().Internet.DomainName())
         .RuleFor(u => u.Description, f => new Faker().Finance.AccountName())
         .RuleFor(u => u.Image, f => new Faker().Image.ToString())

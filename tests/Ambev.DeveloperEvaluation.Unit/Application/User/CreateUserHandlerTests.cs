@@ -6,9 +6,6 @@ using AutoMapper;
 using FluentAssertions;
 using NSubstitute;
 using Xunit;
-using Moq;
-using MediatR;
-using Ambev.DeveloperEvaluation.Domain.Entities;
 
 
 namespace Ambev.DeveloperEvaluation.Unit.Application.User;

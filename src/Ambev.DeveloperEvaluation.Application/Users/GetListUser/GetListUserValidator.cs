@@ -15,7 +15,7 @@ public class GetListUserValidator : AbstractValidator<GetListUserCommand>
     {
         RuleFor(x => x.Page)
             .NotEmpty()
-            .WithMessage(string.Format(message,"Page"));
+            .WithMessage(string.Format(message, "Page"));
 
         RuleFor(x => x.Order)
             .NotEmpty()

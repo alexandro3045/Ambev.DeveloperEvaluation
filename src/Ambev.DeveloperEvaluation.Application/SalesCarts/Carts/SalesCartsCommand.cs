@@ -3,7 +3,7 @@
 
 namespace Ambev.DeveloperEvaluation.Application.SalesCarts.Carts
 {
-    public  class SalesCartsCommand
+    public class SalesCartsCommand
     {
         /// <summary>
         /// Gets the SalesNumber sales when the carts was created.

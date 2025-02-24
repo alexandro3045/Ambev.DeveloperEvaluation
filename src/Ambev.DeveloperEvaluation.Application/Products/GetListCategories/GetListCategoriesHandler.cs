@@ -1,9 +1,8 @@
+using Ambev.DeveloperEvaluation.Application.Products.GetListCategorias;
+using Ambev.DeveloperEvaluation.Application.Products.GetListCategories;
+using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using MediatR;
-using FluentValidation;
-using Ambev.DeveloperEvaluation.Domain.Repositories;
-using Ambev.DeveloperEvaluation.Application.Products.GetListCategories;
-using Ambev.DeveloperEvaluation.Application.Products.GetListCategorias;
 
 namespace Ambev.DeveloperEvaluation.Application.Categories.GetListCategories;
 

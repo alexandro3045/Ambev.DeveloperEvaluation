@@ -13,6 +13,6 @@ public class GetListCartsProfile : Profile
     public GetListCartsProfile()
     {
         CreateMap<List<Domain.Entities.Carts>, GetListCartsResult>()
-            .ConstructUsing(listCarts => new GetListCartsResult(listCarts)); 
+            .ConstructUsing(listCarts => new GetListCartsResult(listCarts));
     }
 }

@@ -14,7 +14,7 @@ public class CreateBranchRequest
     /// <summary>
     /// Gets the description from branch.
     /// </summary>
-    public string Descripption { get; set; }
+    public string Description { get; set; }
 
     /// <summary>
     /// Gets the date and time when the branch was created.

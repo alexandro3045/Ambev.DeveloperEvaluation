@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -16,7 +15,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Descripption = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "date", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "date", nullable: true)
                 },
@@ -32,7 +31,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     Title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Price = table.Column<decimal>(type: "numeric", maxLength: 10, nullable: false),
-                    Descripption = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Category = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     Image = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
                     Rating = table.Column<string>(type: "jsonb", nullable: false),

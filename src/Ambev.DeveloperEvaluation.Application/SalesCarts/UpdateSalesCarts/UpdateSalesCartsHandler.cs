@@ -1,9 +1,9 @@
-﻿using AutoMapper;
-using MediatR;
-using FluentValidation;
+﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
-using Ambev.DeveloperEvaluation.Domain.Entities;
+using AutoMapper;
+using FluentValidation;
 using FluentValidation.Results;
+using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.SalesCarts.UpdateSalesCarts;
 

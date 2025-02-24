@@ -7,15 +7,15 @@ public class SalesCartsValidator : AbstractValidator<SalesCarts>
 {
     private string _message = " {0} must not be empty.";
     public SalesCartsValidator()
-    {   
+    {
 
-         RuleFor(SalesCarts => SalesCarts.SalesNumber)
-            .NotEmpty()
-            .WithMessage(string.Format(_message, "SalesNumber"));
+        RuleFor(SalesCarts => SalesCarts.SalesNumber)
+           .NotEmpty()
+           .WithMessage(string.Format(_message, "SalesNumber"));
 
         RuleFor(SalesCarts => SalesCarts.CartId)
             .NotEmpty()
-            .WithMessage(string.Format(_message,"CartId"));
+            .WithMessage(string.Format(_message, "CartId"));
 
         RuleFor(SalesCarts => SalesCarts.UserId)
            .NotEmpty()

@@ -1,5 +1,4 @@
 using Bogus;
-using System.Security.Principal;
 
 namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities.TestData;
 
@@ -10,7 +9,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities.TestData;
 /// </summary>
 public static class CartsTestData
 {
-    private static Guid Id = Guid.NewGuid();    
+    private static Guid Id = Guid.NewGuid();
 
     /// <summary>
     /// Configures the Faker to generate valid Carts entities.
@@ -27,15 +26,20 @@ public static class CartsTestData
             new List<DeveloperEvaluation.Domain.Entities.CartsProductsItems>
             {
                 new DeveloperEvaluation.Domain.Entities.CartsProductsItems
-                            { CartId = Guid.NewGuid(), Id = Guid.NewGuid(), Canceled = false, ProductId =  Guid.NewGuid(), Quantity = 1, UnitPrice = 100},
-                        new DeveloperEvaluation.Domain.Entities.CartsProductsItems 
-                            { CartId = Guid.NewGuid(), Id = Guid.NewGuid(), Canceled = false, ProductId =  Guid.NewGuid(), Quantity = 4, UnitPrice = 200},
+                            { CartId = Guid.NewGuid(), Id = Guid.NewGuid(), Canceled = false, ProductId =  Guid.NewGuid(), Quantity = 1, UnitPrice = 100 
+                                , Product = new DeveloperEvaluation.Domain.Entities.Product{ Price = 100 } },
                         new DeveloperEvaluation.Domain.Entities.CartsProductsItems
-                            { CartId = Guid.NewGuid(), Id = Guid.NewGuid(), Canceled = false, ProductId =  Guid.NewGuid(), Quantity = 10, UnitPrice = 300},
+                            { CartId = Guid.NewGuid(), Id = Guid.NewGuid(), Canceled = false, ProductId =  Guid.NewGuid(), Quantity = 4, UnitPrice = 200
+                                    , Product = new DeveloperEvaluation.Domain.Entities.Product{ Price = 200 }},
                         new DeveloperEvaluation.Domain.Entities.CartsProductsItems
-                            { CartId = Guid.NewGuid(), Id = Guid.NewGuid(), Canceled = false, ProductId =  Guid.NewGuid(), Quantity = 20, UnitPrice = 400},
+                            { CartId = Guid.NewGuid(), Id = Guid.NewGuid(), Canceled = false, ProductId =  Guid.NewGuid(), Quantity = 10, UnitPrice = 300
+                        , Product = new DeveloperEvaluation.Domain.Entities.Product { Price = 300 }},
                         new DeveloperEvaluation.Domain.Entities.CartsProductsItems
-                            { CartId = Guid.NewGuid(), Id = Guid.NewGuid(), Canceled = false, ProductId =  Guid.NewGuid(), Quantity = 30, UnitPrice = 500},
+                            { CartId = Guid.NewGuid(), Id = Guid.NewGuid(), Canceled = false, ProductId =  Guid.NewGuid(), Quantity = 20, UnitPrice = 400, 
+                                Product = new DeveloperEvaluation.Domain.Entities.Product { Price = 400 }},
+                        new DeveloperEvaluation.Domain.Entities.CartsProductsItems
+                            { CartId = Guid.NewGuid(), Id = Guid.NewGuid(), Canceled = false, ProductId =  Guid.NewGuid(), Quantity = 30, UnitPrice = 500, 
+                                Product = new DeveloperEvaluation.Domain.Entities.Product { Price = 500 }},
             })
         .RuleFor(u => u.Id, f => GetId())
         .RuleFor(u => u.CreatedAt, f => DateTime.Now)
@@ -68,7 +72,7 @@ public static class CartsTestData
         var Carts = GenerateValidCarts();
 
         Carts.CartsProductsItems.Clear();
-        
+
         return Carts;
     }
 

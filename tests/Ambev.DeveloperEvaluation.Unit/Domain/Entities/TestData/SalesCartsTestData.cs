@@ -1,5 +1,4 @@
 using Bogus;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Reflection;
 
 namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities.TestData;
@@ -11,7 +10,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities.TestData;
 /// </summary>
 public static class SalesCartsTestData
 {
-   /// <summary>
+    /// <summary>
     /// Configures the Faker to generate valid SalesCarts entities.
     /// The generated SalesCartss will have valid:
     /// - SalesCartsname (using internet SalesCartsnames)
@@ -69,7 +68,7 @@ public static class SalesCartsTestData
 
 
         PropertyInfo? propertyInfo = salecarts.GetType().GetProperty(property);
-        
+
         if (propertyInfo != null)
         {
             propertyInfo.SetValue(salecarts, value);
@@ -87,6 +86,6 @@ public static class SalesCartsTestData
     /// <returns>A username that exceeds the maximum length limit.</returns>
     public static int GenerateSalesNumber()
     {
-        return new Faker().Random.Int(1,9999);
+        return new Faker().Random.Int(1, 9999);
     }
 }

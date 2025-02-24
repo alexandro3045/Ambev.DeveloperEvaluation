@@ -26,8 +26,8 @@ public class CreateCartsCommandValidator : AbstractValidator<CreateCartsCommand>
 
         RuleFor(Carts => Carts.CreatedAt)
             .NotEmpty()
-            .WithMessage(string.Format(message, "CreatedAt")); 
-        
+            .WithMessage(string.Format(message, "CreatedAt"));
+
         RuleFor(Carts => Carts.Products)
             .NotEmpty()
             .WithMessage(string.Format(message, "ProductsItems"));

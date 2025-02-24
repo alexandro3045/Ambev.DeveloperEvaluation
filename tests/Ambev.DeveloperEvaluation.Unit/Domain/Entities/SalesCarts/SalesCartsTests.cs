@@ -34,7 +34,7 @@ public class SalesCartsTests
     {
         // Arrange CartsProductsItems
         // Arrange
-        var SalesCarts = SalesCartsTestData.GenerateInValidSalesCarts("Carts", new DeveloperEvaluation.Domain.Entities.Carts() );
+        var SalesCarts = SalesCartsTestData.GenerateInValidSalesCarts("Carts", new DeveloperEvaluation.Domain.Entities.Carts());
 
         // Act
         var result = SalesCarts.Validate();

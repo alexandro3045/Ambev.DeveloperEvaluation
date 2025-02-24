@@ -1,7 +1,7 @@
-using AutoMapper;
-using MediatR;
-using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using AutoMapper;
+using FluentValidation;
+using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.GetListProducts;
 
@@ -41,7 +41,7 @@ public class GetListProductHandler : IRequestHandler<GetListProductCommand, GetL
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var listProduct = await _ProductsRepository.GetAllAsync(request.Page, request.Size, request.Order, 
+        var listProduct = await _ProductsRepository.GetAllAsync(request.Page, request.Size, request.Order,
                request.Direction, request.ColumnFilters, cancellationToken);
 
         return _mapper.Map<GetListProductResult>(listProduct);

@@ -15,7 +15,7 @@ public class GetListCategoriesResult
     {
         if (categories.Length == 0) return;
         Categories = new string[categories.Length];
-        for(int i = 0; i < categories.Length; i++)
+        for (int i = 0; i < categories.Length; i++)
         {
             Categories[i] = categories[i];
         }

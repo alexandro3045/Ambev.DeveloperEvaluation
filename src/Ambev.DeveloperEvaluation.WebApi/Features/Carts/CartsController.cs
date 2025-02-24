@@ -1,20 +1,20 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
-using Ambev.DeveloperEvaluation.WebApi.Common;
-using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CreateCarts;
-using Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetCarts;
-using Ambev.DeveloperEvaluation.WebApi.Features.Carts.DeleteCarts;
-using Ambev.DeveloperEvaluation.Application.Carts.GetCarts;
+﻿using Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
 using Ambev.DeveloperEvaluation.Application.Carts.DeleteCarts;
-using Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
-using Ambev.DeveloperEvaluation.WebApi.Features.Carts.UpdateCarts;
-using Ambev.DeveloperEvaluation.Application.Carts.UpdateCarts;
+using Ambev.DeveloperEvaluation.Application.Carts.GetCarts;
 using Ambev.DeveloperEvaluation.Application.Carts.GetListCarts;
+using Ambev.DeveloperEvaluation.Application.Carts.UpdateCarts;
 using Ambev.DeveloperEvaluation.WebApi.Carts.GetCarts.GetCarts;
+using Ambev.DeveloperEvaluation.WebApi.Common;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CreateCarts;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.DeleteCarts;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetCarts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetListCarts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.UpdateCards;
-using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.UpdateCarts;
+using AutoMapper;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts;
 
@@ -153,7 +153,9 @@ public class CartsController : BaseController
             Page = page,
             Size = size,
             Order = order,
-            ColumnFilters = columnFilters, Direction = direction };
+            ColumnFilters = columnFilters,
+            Direction = direction
+        };
 
         var validator = new GetListCartsRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
@@ -168,8 +170,8 @@ public class CartsController : BaseController
             var response = await _mediator.Send(command, cancellationToken);
 
             var mappedResponse = _mapper.Map<GetListCartsResponse>(response);
-           
-           return OkPaginated(new PaginatedList<CartsResponse?>(mappedResponse?.ListCarts, mappedResponse.ListCarts.Count, page, size));
+
+            return OkPaginated(new PaginatedList<CartsResponse?>(mappedResponse?.ListCarts, mappedResponse.ListCarts.Count, page, size));
         }
         catch (Exception ex)
         {

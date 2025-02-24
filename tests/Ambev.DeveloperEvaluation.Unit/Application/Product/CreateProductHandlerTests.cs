@@ -47,7 +47,8 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Product
                 Rating = command.Rating
             };
 
-            var result = new CreateProductsResult {
+            var result = new CreateProductsResult
+            {
                 Id = product.Id,
                 Price = product.Price,
                 Category = product.Category,
@@ -66,7 +67,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Product
 
             // When
             var response = await _handler.Handle(command, CancellationToken.None);
-            
+
             // Then
             var createProductResult = await _handler.Handle(command, CancellationToken.None);
 

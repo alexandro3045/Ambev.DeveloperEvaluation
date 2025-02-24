@@ -23,7 +23,7 @@ public class UpdateProductsValidator : AbstractValidator<UpdateProductsCommand>
     {
         RuleFor(Products => Products.Title).NotEmpty().Length(1, 50);
         RuleFor(Products => Products.Price).NotEmpty();
-        RuleFor(Products => Products.Descripption).NotEmpty().Length(1, 100);
+        RuleFor(Products => Products.Description).NotEmpty().Length(1, 100);
         RuleFor(Products => Products.Category).NotEmpty().Length(1, 100);
         RuleFor(Products => Products.Image).NotEmpty();
         RuleFor(Products => Products.Rating).NotEmpty();

@@ -28,7 +28,7 @@ public class SalesCartsConfiguration : IEntityTypeConfiguration<SalesCarts>
             .Property(u => u.CreatedAt)
             .IsRequired()
             .HasColumnType("date");
-        
+
         builder
             .Property(u => u.UpdatedAt)
             .IsRequired()

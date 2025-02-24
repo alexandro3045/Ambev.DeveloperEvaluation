@@ -34,7 +34,7 @@ public static class ProductTestData
         .RuleFor(u => u.Description, f => new Faker().Finance.AccountName())
         .RuleFor(u => u.Image, f => new Faker().Image.ToString())
         .RuleFor(u => u.Title, f => new Faker().Commerce.ProductName())
-        .RuleFor(u => u.Rating, f => new Rating { Count = new Faker().Random.Int(), Rate = new Faker().Random.Decimal() } );
+        .RuleFor(u => u.Rating, f => new Rating { Count = new Faker().Random.Int(), Rate = new Faker().Random.Decimal() });
 
     public static Guid GetId()
     {
@@ -61,7 +61,7 @@ public static class ProductTestData
     public static DeveloperEvaluation.Domain.Entities.Product GenerateInValidProductsProduct()
     {
         var Product = GenerateValidProduct();
-      
+
         return Product;
     }
 

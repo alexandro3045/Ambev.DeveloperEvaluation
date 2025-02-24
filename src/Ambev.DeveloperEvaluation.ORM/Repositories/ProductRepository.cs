@@ -1,7 +1,6 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories;
 
@@ -10,7 +9,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories;
 /// </summary>
 public class ProductRepository : Repository<Product>, IProductRepository
 {
-    public ProductRepository(DefaultContext context) : base(context) {  }
+    public ProductRepository(DefaultContext context) : base(context) { }
 
     public async Task<string[]> GetAllCategoriesAsync(CancellationToken cancellationToken = default)
     {

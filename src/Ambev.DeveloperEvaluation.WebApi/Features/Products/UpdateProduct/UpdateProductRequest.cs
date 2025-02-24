@@ -26,7 +26,7 @@ public class UpdateProductRequest
     /// <summary>
     /// Gets the description from product.
     /// </summary>
-    public required string Descripption { get; set; }
+    public required string Description { get; set; }
 
     /// <summary>
     /// Gets the category from product.

@@ -1,8 +1,8 @@
-﻿using AutoMapper;
-using MediatR;
-using FluentValidation;
+﻿using Ambev.DeveloperEvaluation.Application.Products.UpdateProducts;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
-using Ambev.DeveloperEvaluation.Application.Products.UpdateProducts;
+using AutoMapper;
+using FluentValidation;
+using MediatR;
 
 
 namespace Ambev.DeveloperEvaluation.Application.Productss.UpdateProducts;
@@ -40,7 +40,7 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductsCommand, Updat
 
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
-       
+
         var Products = _mapper.Map<Domain.Entities.Product>(command);
 
         var UpdatedProducts = await _ProductsRepository.UpdateAsync(Products, cancellationToken);

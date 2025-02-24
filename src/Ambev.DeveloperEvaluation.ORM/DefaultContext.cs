@@ -1,7 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
 using System.Reflection;
 
 namespace Ambev.DeveloperEvaluation.ORM;
@@ -20,7 +18,7 @@ public class DefaultContext : DbContext
 
     public DefaultContext(DbContextOptions<DefaultContext> options) : base(options)
     {
-      }
+    }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -35,6 +33,6 @@ public class DefaultContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        base.OnModelCreating(modelBuilder);    
+        base.OnModelCreating(modelBuilder);
     }
 }

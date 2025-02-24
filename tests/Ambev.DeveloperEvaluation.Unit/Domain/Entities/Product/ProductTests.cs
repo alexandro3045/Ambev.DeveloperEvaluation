@@ -51,7 +51,7 @@ public class ProductTests
     public void Given_InvalidProductData_When_InValidatedPrice_Then_ShouldReturnInvalid()
     {
         // Arrange
-        var Product = ProductTestData.GenerateInValidProduct("Price",0);
+        var Product = ProductTestData.GenerateInValidProduct("Price", 0);
 
         // Act
         var result = Product.Validate();

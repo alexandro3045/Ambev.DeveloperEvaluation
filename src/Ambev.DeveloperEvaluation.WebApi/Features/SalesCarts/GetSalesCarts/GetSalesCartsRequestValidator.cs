@@ -1,4 +1,3 @@
-using Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.GetSalesCarts;
 using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.GetSalesCarts;

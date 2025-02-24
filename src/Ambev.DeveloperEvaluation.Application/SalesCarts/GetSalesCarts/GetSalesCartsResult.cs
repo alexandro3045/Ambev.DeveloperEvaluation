@@ -46,7 +46,7 @@ public class GetSalesCartsResult
     /// <summary>
     /// Gets the List from product.
     /// </summary>
-    public required List<CartItemResult> Products { get; set; }
+    public List<CartItemResult> Products { get; set; }
 
     /// <summary>
     /// Gets the quantities products when the carts was created.

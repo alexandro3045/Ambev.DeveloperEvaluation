@@ -1,7 +1,6 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories
 {
@@ -15,14 +14,15 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
                          join Products in _context.Products on ProductsItems.ProductId equals Products.Id
                          join Carts in _context.Carts on ProductsItems.CartId equals Carts.Id
                          where ProductsItems.CartId == cartId
-                               select  new CartsProductsItems { 
-                                   Product = Products,
-                                   CartId = ProductsItems.CartId,
-                                   ProductId = ProductsItems.ProductId,
-                                   Quantity = ProductsItems.Quantity,
-                                   Id = ProductsItems.Id,
-                                   Cart = Carts
-                               } ;
+                         select new CartsProductsItems
+                         {
+                             Product = Products,
+                             CartId = ProductsItems.CartId,
+                             ProductId = ProductsItems.ProductId,
+                             Quantity = ProductsItems.Quantity,
+                             Id = ProductsItems.Id,
+                             Cart = Carts
+                         };
 
             result.Include(p => p.Product);
 

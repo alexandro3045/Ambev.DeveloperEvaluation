@@ -45,7 +45,7 @@ public record GetListSalesCartsCommand : IRequest<GetListSalesCartsResult>
         Size = size;
         Order = order;
         Direction = direction;
-        ColumnFilters = columnFilters; 
+        ColumnFilters = columnFilters;
     }
 }
 

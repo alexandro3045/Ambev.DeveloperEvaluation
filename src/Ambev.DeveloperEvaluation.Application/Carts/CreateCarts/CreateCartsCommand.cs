@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using Ambev.DeveloperEvaluation.Common.Validation;
-using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Common.Validation;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
@@ -79,7 +77,7 @@ public class CartItemResult
         Discounts = discounts;
     }
 
-    public CartItemResult(Guid cartId, Guid productId, int quantity, decimal totalAmountItem, decimal unitPrice, decimal discounts, bool canceled) : 
+    public CartItemResult(Guid cartId, Guid productId, int quantity, decimal totalAmountItem, decimal unitPrice, decimal discounts, bool canceled) :
         this(cartId, productId, quantity, totalAmountItem, unitPrice, discounts)
     {
         Canceled = canceled;
@@ -104,7 +102,7 @@ public class CartItem
         Quantity = quantity;
         Canceled = canceled;
     }
- 
+
     public CartItem(Guid productId, int quantity, bool canceled)
     {
         ProductId = productId;

@@ -1,6 +1,6 @@
-using AutoMapper;
-using Ambev.DeveloperEvaluation.Application.Productss.CreateProducts;
 using Ambev.DeveloperEvaluation.Application.Products.CreateProducts;
+using Ambev.DeveloperEvaluation.Application.Productss.CreateProducts;
+using AutoMapper;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProducts;
 

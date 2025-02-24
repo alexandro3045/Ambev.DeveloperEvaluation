@@ -55,7 +55,7 @@ public interface IRepository<TEntity> where TEntity : class
     /// <param name="cancellationToken">Cancellation token</param>
     /// <param name="IIncludableQueryable">Include debset</param>
     /// <returns>The entity if found, null otherwise</returns>
-    Task<TEntity> GetByIdAsync(Guid id, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,CancellationToken cancellationToken = default);
+    Task<TEntity> GetByIdAsync(Guid id, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a entity by their unique identifier

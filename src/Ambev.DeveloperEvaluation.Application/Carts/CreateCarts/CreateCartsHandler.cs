@@ -1,7 +1,7 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using Ambev.DeveloperEvaluation.Domain.Repositories;
+using AutoMapper;
 using FluentValidation;
-using Ambev.DeveloperEvaluation.Domain.Repositories;
+using MediatR;
 
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
@@ -46,7 +46,7 @@ public class CreateCartsHandler : IRequestHandler<CreateCartsCommand, CreateCart
         var createdCarts = await _CartsRepository.CreateAsync(Carts, cancellationToken);
 
         var result = _mapper.Map<CreateCartsResult>(createdCarts);
-        
+
         return result;
     }
 }

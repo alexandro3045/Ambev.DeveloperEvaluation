@@ -1,7 +1,7 @@
-using AutoMapper;
-using MediatR;
-using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using AutoMapper;
+using FluentValidation;
+using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.GetCarts;
 
@@ -41,7 +41,7 @@ public class GetProductHandler : IRequestHandler<GetCartsCommand, GetCartsResult
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var Carts = await _CartsRepository.GetByIdAsync(request.Id,  cancellationToken);
+        var Carts = await _CartsRepository.GetByIdAsync(request.Id, cancellationToken);
         if (Carts == null)
             throw new KeyNotFoundException($"Carts with ID {request.Id} not found");
 

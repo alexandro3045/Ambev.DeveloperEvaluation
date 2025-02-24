@@ -18,6 +18,6 @@ public class GetListSalesCartProfile : Profile
             .ConstructUsing(request => new GetListSalesCartsCommand(request.Page, request.Size, request.Order,
               request.Direction, request.ColumnFilters));
 
-         CreateMap<GetListSalesCartsResult, GetListSalesCartsResponse>();
+        CreateMap<GetListSalesCartsResult, GetListSalesCartsResponse>();
     }
 }

@@ -1,7 +1,7 @@
-﻿using AutoMapper;
+﻿using Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
 using Ambev.DeveloperEvaluation.Application.SalesCarts.CreateSalesCarts;
-using Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
 using Ambev.DeveloperEvaluation.Domain.Entities;
+using AutoMapper;
 
 namespace Ambev.DeveloperEvaluation.Application.SalesCarts.UpdateSalesCarts;
 
@@ -30,6 +30,6 @@ public class UpdateSalesCartsProfile : Profile
 
         CreateMap<Domain.Entities.SalesCarts, UpdateSalesCartsResult>()
             .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Carts.CartsProductsItems.Select(cp =>
-               new CartItemResult(cp.CartId, cp.ProductId, cp.Quantity, cp.TotalAmountItem, cp.UnitPrice, cp.Discounts,cp.Canceled))));
+               new CartItemResult(cp.CartId, cp.ProductId, cp.Quantity, cp.TotalAmountItem, cp.UnitPrice, cp.Discounts, cp.Canceled))));
     }
 }

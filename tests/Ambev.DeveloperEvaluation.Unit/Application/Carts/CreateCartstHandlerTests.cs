@@ -23,7 +23,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Carts
             _handler = new CreateCartsHandler(_CartsRepository, _mapper);
             Setup();
         }
-       
+
         private void Setup()
         {
             _CartsRepository.ClearReceivedCalls();
@@ -41,12 +41,13 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Carts
                 Id = command.Id,
                 CreatedAt = DateTime.Now,
                 UserId = command.UserId,
-                CartsProductsItems  = command.Products.Select(p=> 
-                new CartsProductsItems 
+                CartsProductsItems = command.Products.Select(p =>
+                new CartsProductsItems
                 { CartId = p.CartId, ProductId = p.ProductId, Quantity = p.Quantity }).ToList()
             };
 
-            var result = new CreateCartsResult {
+            var result = new CreateCartsResult
+            {
                 Id = Carts.Id,
                 Date = Carts.CreatedAt,
                 UserId = Carts.UserId,
@@ -62,7 +63,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Carts
 
             // When
             var response = await _handler.Handle(command, CancellationToken.None);
-            
+
             // Then
             var createCartsResult = await _handler.Handle(command, CancellationToken.None);
 

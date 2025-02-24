@@ -1,4 +1,3 @@
-using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 using Bogus;
 
@@ -30,7 +29,7 @@ public static class ActiveUserSpecificationTestData
             UserName = f.Name.FirstName(),
             Status = f.PickRandom<UserStatus>(),
             Phone = $"+55{f.Random.Number(11, 99)}{f.Random.Number(100000000, 999999999)}",
-            Role = f.PickRandom<UserRole> ()
+            Role = f.PickRandom<UserRole>()
         });
 
     /// <summary>

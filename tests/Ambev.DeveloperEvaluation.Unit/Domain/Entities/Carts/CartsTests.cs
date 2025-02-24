@@ -62,5 +62,5 @@ public class SalesCartsTests
         Assert.False(result.IsValid);
         Assert.NotEmpty(result.Errors);
 
-    }    
+    }
 }
