@@ -4,7 +4,7 @@ using Ambev.DeveloperEvaluation.Unit.Domain.Specifications.TestData;
 using FluentAssertions;
 using Xunit;
 
-namespace Ambev.DeveloperEvaluation.Unit.Domain.Specifications
+namespace Ambev.DeveloperEvaluation.Unit.Domain.Specifications.User
 {
     public class ActiveUserSpecificationTests
     {

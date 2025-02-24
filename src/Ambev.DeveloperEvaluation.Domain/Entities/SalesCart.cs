@@ -1,4 +1,6 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Common;
+﻿using Ambev.DeveloperEvaluation.Common.Validation;
+using Ambev.DeveloperEvaluation.Domain.Common;
+using Ambev.DeveloperEvaluation.Domain.Validation;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities
 {
@@ -12,7 +14,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// <summary>
         /// Gets the sale number when the carts was created.
         /// </summary>
-        public int SalesNumber { get; set; }
+        public int? SalesNumber { get; set; }
 
         /// <summary>
         /// Gets the date and time when the carts was created.
@@ -62,7 +64,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// <summary>
         /// Gets the quantities products when the carts was created.
         /// </summary>
-        public int Quantities { get; set; }
+        public int? Quantities { get; set; }
 
         /// <summary>
         /// Gets the canceled item products when the carts was created.
@@ -75,7 +77,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             {
                 var item = g.FirstOrDefault();
                 int Quantities = CalculteQuantity(item);
-                decimal UnitPrice = item.Product.Price;
+                decimal UnitPrice = item.UnitPrice;
 
                 decimal TotalAmountItem, TotalSales, Discounts;
                 CalculateReturn(item.Canceled, Quantities, UnitPrice, out TotalAmountItem, out TotalSales, out Discounts);
@@ -124,5 +126,34 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             Quantities = Carts.CartsProductsItems.Count;
             TotalSalesAmount = group.ToList().Sum(g => g.TotalSales);
         }
+
+        /// <summary>
+        /// Performs validation of the user entity using the UserValidator rules.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="ValidationResultDetail"/> containing:
+        /// - IsValid: Indicates whether all validation rules passed
+        /// - Errors: Collection of validation errors if any rules failed
+        /// </returns>
+        /// <remarks>
+        /// <listheader>The validation includes checking:</listheader>
+        /// <list type="bullet">Username format and length</list>
+        /// <list type="bullet">Email format</list>
+        /// <list type="bullet">Phone number format</list>
+        /// <list type="bullet">Password complexity requirements</list>
+        /// <list type="bullet">Role validity</list>
+        /// 
+        /// </remarks>
+        public ValidationResultDetail Validate()
+        {
+            var validator = new SalesCartsValidator();
+            var result = validator.Validate(this);
+            return new ValidationResultDetail
+            {
+                IsValid = result.IsValid,
+                Errors = result.Errors.Select(o => (ValidationErrorDetail)o)
+            };
+        }
+
     }
 }

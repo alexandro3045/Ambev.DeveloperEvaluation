@@ -50,20 +50,6 @@ public class CreateSalesCartsHandler : IRequestHandler<CreateSalesCartsCommand, 
 
         var products = salesCarts.Carts.CartsProductsItems.Select(x => x.ProductId).ToArray();
 
-        if(products.Length == 0)
-            throw new ValidationException("Products is required");
-
-        if (products.Length > 0)
-        {
-            _ProductsRepository
-                .GetAllProductsByIdsAsync(products, cancellationToken)
-                .WaitAsync(cancellationToken)
-                .GetAwaiter().GetResult().ForEach(item =>
-                {
-                    salesCarts.Carts.CartsProductsItems.Find(p => p.ProductId == item.Id).Product = item;
-                });
-        }    
-
         salesCarts.CalculateCart();
 
         var CreatedCarts = await _SalesCartsRepository.CreateAsync(salesCarts, cancellationToken);        

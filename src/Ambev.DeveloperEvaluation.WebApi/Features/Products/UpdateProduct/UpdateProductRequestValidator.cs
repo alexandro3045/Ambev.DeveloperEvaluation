@@ -26,7 +26,7 @@ public class UpdateProductRequestValidator : AbstractValidator<UpdateProductRequ
     /// Validation rules include:
     /// - Title:Required, length between 1 and 50 characters
     /// - Price: Required
-    /// - Descripption: Required, length between 1 and 100 characters
+    /// - Description: Required, length between 1 and 100 characters
     /// - Category: Required, length between 1 and 100 characters
     /// - Image: Required
     /// - Rating: Required

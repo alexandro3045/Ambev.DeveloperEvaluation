@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Common;
+using Ambev.DeveloperEvaluation.Domain.Validation;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
 
@@ -23,7 +25,7 @@ public class Product : BaseEntity
     /// <summary>
     /// Gets the description from product.
     /// </summary>
-    public string Descripption { get; set; }
+    public string Description { get; set; }
 
     /// <summary>
     /// Gets the category from product.
@@ -47,5 +49,34 @@ public class Product : BaseEntity
     /// Gets the date and time of the last update to the produts information.
     /// </summary>
     public DateTime? UpdatedAt { get; set; }
+
+    /// <summary>
+    /// Performs validation of the user entity using the UserValidator rules.
+    /// </summary>
+    /// <returns>
+    /// A <see cref="ValidationResultDetail"/> containing:
+    /// - IsValid: Indicates whether all validation rules passed
+    /// - Errors: Collection of validation errors if any rules failed
+    /// </returns>
+    /// <remarks>
+    /// <listheader>The validation includes checking:</listheader>
+    /// <list type="bullet">Title format and length</list>
+    /// <list type="bullet">price number format</list>
+    /// <list type="bullet">Description </list>
+    /// <list type="bullet">Category complexity requirements</list>
+    /// <list type="bullet">Image validity</list>
+    /// <list type="bullet">Rating validity</list>
+    /// <list type="bullet">CareateAt validity</list>
+    /// </remarks>
+    public ValidationResultDetail Validate()
+    {
+        var validator = new ProductValidator();
+        var result = validator.Validate(this);
+        return new ValidationResultDetail
+        {
+            IsValid = result.IsValid,
+            Errors = result.Errors.Select(o => (ValidationErrorDetail)o)
+        };
+    }
 
 }
