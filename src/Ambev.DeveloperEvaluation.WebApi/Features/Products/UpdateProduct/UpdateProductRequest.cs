@@ -26,7 +26,7 @@ public class UpdateProductRequest
     /// <summary>
     /// Gets the description from product.
     /// </summary>
-    public required string Descripption { get; set; }
+    public required string Description { get; set; }
 
     /// <summary>
     /// Gets the category from product.
@@ -36,7 +36,7 @@ public class UpdateProductRequest
     /// <summary>
     /// Gets the image from product.
     /// </summary>
-    public required byte[] Image { get; set; }
+    public required string Image { get; set; }
 
     /// <summary>
     /// Gets the rating from product.

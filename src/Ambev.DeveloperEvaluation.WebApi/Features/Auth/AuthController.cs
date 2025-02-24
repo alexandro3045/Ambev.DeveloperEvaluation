@@ -1,9 +1,9 @@
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
+using Ambev.DeveloperEvaluation.Application.Auth.AuthenticateUser;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Auth.AuthenticateUserFeature;
-using Ambev.DeveloperEvaluation.Application.Auth.AuthenticateUser;
+using AutoMapper;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Auth;
 
@@ -52,6 +52,6 @@ public class AuthController : BaseController
         if (response == null)
             return Unauthorized();
 
-        return Ok( _mapper.Map<AuthenticateUserResponse>(response) );
+        return Ok(_mapper.Map<AuthenticateUserResponse>(response));
     }
 }

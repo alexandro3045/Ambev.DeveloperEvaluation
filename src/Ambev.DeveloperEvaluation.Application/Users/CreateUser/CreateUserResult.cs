@@ -12,6 +12,18 @@ namespace Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 /// </remarks>
 public class CreateUserResult
 {
+    public CreateUserResult(Guid id, string userName, Name name, Address address, string email, string phone, UserRole role, UserStatus status)
+    {
+        Id = id;
+        UserName = userName;
+        Name = name;
+        Address = address;
+        Email = email;
+        Phone = phone;
+        Role = role;
+        Status = status;
+    }
+
     /// <summary>
     /// Gets or sets the unique identifier of the newly created user.
     /// </summary>

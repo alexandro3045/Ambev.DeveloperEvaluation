@@ -1,7 +1,7 @@
-using AutoMapper;
-using MediatR;
-using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using AutoMapper;
+using FluentValidation;
+using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.GetListProducts;
 
@@ -10,17 +10,17 @@ namespace Ambev.DeveloperEvaluation.Application.Products.GetListProducts;
 /// </summary>
 public class GetListProductHandler : IRequestHandler<GetListProductCommand, GetListProductResult>
 {
-    protected readonly IProductsRepository _ProductsRepository;
+    protected readonly IProductRepository _ProductsRepository;
     protected readonly IMapper _mapper;
 
     /// <summary>
     /// Initializes a new instance of GetListProductsHandler
     /// </summary>
-    /// <param name="ProductsRepository">The Products repository</param>
+    /// <param name="ProductsRepository">The ProductsItems repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for GetProductsCommand</param>
     public GetListProductHandler(
-        IProductsRepository ProductsRepository,
+        IProductRepository ProductsRepository,
         IMapper mapper)
     {
         _ProductsRepository = ProductsRepository;
@@ -32,7 +32,7 @@ public class GetListProductHandler : IRequestHandler<GetListProductCommand, GetL
     /// </summary>
     /// <param name="request">The GetProducts command</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The Products details if found</returns>
+    /// <returns>The ProductsItems details if found</returns>
     public virtual async Task<GetListProductResult> Handle(GetListProductCommand request, CancellationToken cancellationToken)
     {
         var validator = new GetListProductValidator();
@@ -41,7 +41,7 @@ public class GetListProductHandler : IRequestHandler<GetListProductCommand, GetL
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var listProduct = await _ProductsRepository.GetAllAsync(request.Page, request.Size, request.Order, 
+        var listProduct = await _ProductsRepository.GetAllAsync(request.Page, request.Size, request.Order,
                request.Direction, request.ColumnFilters, cancellationToken);
 
         return _mapper.Map<GetListProductResult>(listProduct);

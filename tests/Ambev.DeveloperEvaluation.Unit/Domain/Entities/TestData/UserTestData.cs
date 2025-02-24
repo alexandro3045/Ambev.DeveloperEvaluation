@@ -1,4 +1,3 @@
-using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 using Bogus;
 
@@ -21,7 +20,7 @@ public static class UserTestData
     /// - Status (Active or Suspended)
     /// - Role (Customer or Admin)
     /// </summary>
-    private static readonly Faker<User> UserFaker = new Faker<User>()
+    private static readonly Faker<DeveloperEvaluation.Domain.Entities.User> UserFaker = new Faker<DeveloperEvaluation.Domain.Entities.User>()
         .RuleFor(u => u.UserName, f => f.Internet.UserName())
         .RuleFor(u => u.Password, f => $"Test@{f.Random.Number(100, 999)}")
         .RuleFor(u => u.Email, f => f.Internet.Email())
@@ -35,7 +34,7 @@ public static class UserTestData
     /// that meet the system's validation requirements.
     /// </summary>
     /// <returns>A valid User entity with randomly generated data.</returns>
-    public static User GenerateValidUser()
+    public static DeveloperEvaluation.Domain.Entities.User GenerateValidUser()
     {
         return UserFaker.Generate();
     }

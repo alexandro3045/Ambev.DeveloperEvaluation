@@ -1,8 +1,8 @@
-﻿using AutoMapper;
-using MediatR;
-using FluentValidation;
+﻿using Ambev.DeveloperEvaluation.Application.Products.UpdateProducts;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
-using Ambev.DeveloperEvaluation.Application.Products.UpdateProducts;
+using AutoMapper;
+using FluentValidation;
+using MediatR;
 
 
 namespace Ambev.DeveloperEvaluation.Application.Productss.UpdateProducts;
@@ -12,16 +12,16 @@ namespace Ambev.DeveloperEvaluation.Application.Productss.UpdateProducts;
 /// </summary>
 public class UpdateProductHandler : IRequestHandler<UpdateProductsCommand, UpdateProductResult>
 {
-    private readonly IProductsRepository _ProductsRepository;
+    private readonly IProductRepository _ProductsRepository;
     private readonly IMapper _mapper;
 
     /// <summary>
     /// Initializes a new instance of UpdateProductsHandler
     /// </summary>
-    /// <param name="ProductsRepository">The Products repository</param>
+    /// <param name="ProductsRepository">The ProductsItems repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for UpdateProductsCommand</param>
-    public UpdateProductHandler(IProductsRepository ProductsRepository, IMapper mapper)
+    public UpdateProductHandler(IProductRepository ProductsRepository, IMapper mapper)
     {
         _ProductsRepository = ProductsRepository;
         _mapper = mapper;
@@ -32,7 +32,7 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductsCommand, Updat
     /// </summary>
     /// <param name="command">The UpdateProducts command</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The Updated Products details</returns>
+    /// <returns>The Updated ProductsItems details</returns>
     public async Task<UpdateProductResult> Handle(UpdateProductsCommand command, CancellationToken cancellationToken)
     {
         var validator = new UpdateProductsValidator();
@@ -40,7 +40,7 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductsCommand, Updat
 
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
-       
+
         var Products = _mapper.Map<Domain.Entities.Product>(command);
 
         var UpdatedProducts = await _ProductsRepository.UpdateAsync(Products, cancellationToken);

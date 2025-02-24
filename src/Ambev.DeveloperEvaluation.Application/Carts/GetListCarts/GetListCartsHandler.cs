@@ -1,7 +1,7 @@
-using AutoMapper;
-using MediatR;
-using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using AutoMapper;
+using FluentValidation;
+using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.GetListCarts;
 
@@ -41,7 +41,7 @@ public class GetListCartsHandler : IRequestHandler<GetListCartsCommand, GetListC
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var listCarts = await _CartsRepository.GetAllAsync(request.Page, request.Size, request.Order,request.Direction,
+        var listCarts = await _CartsRepository.GetAllAsync(request.Page, request.Size, request.Order, request.Direction,
             request.ColumnFilters, cancellationToken);
 
         return _mapper.Map<GetListCartsResult>(listCarts);

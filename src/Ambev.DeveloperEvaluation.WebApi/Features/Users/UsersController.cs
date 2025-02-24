@@ -1,18 +1,18 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
+﻿using Ambev.DeveloperEvaluation.Application.Users.CreateUser;
+using Ambev.DeveloperEvaluation.Application.Users.DeleteUser;
+using Ambev.DeveloperEvaluation.Application.Users.GetListUser;
+using Ambev.DeveloperEvaluation.Application.Users.GetUser;
+using Ambev.DeveloperEvaluation.Application.Users.UpdateUser;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.CreateUser;
-using Ambev.DeveloperEvaluation.WebApi.Features.Users.GetUser;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.DeleteUser;
-using Ambev.DeveloperEvaluation.Application.Users.GetUser;
-using Ambev.DeveloperEvaluation.Application.Users.DeleteUser;
-using Ambev.DeveloperEvaluation.Application.Users.CreateUser;
-using Ambev.DeveloperEvaluation.WebApi.Features.Users.UpdateUser;
-using Ambev.DeveloperEvaluation.Application.Users.UpdateUser;
+using Ambev.DeveloperEvaluation.WebApi.Features.Users.GetUser;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.LisUsers;
-using Ambev.DeveloperEvaluation.Application.Users.GetListUser;
-using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.WebApi.Features.Users.UpdateUser;
+using AutoMapper;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Users;
 
@@ -85,8 +85,8 @@ public class UsersController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<UpdateUserCommand>(request);
-        
-        try 
+
+        try
         {
             var response = await _mediator.Send(command, cancellationToken);
             return Ok(_mapper.Map<UpdateUserResponse>(response));
@@ -126,7 +126,7 @@ public class UsersController : BaseController
         catch (Exception ex)
         {
             return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
-        }       
+        }
     }
 
     /// <summary>
@@ -142,7 +142,7 @@ public class UsersController : BaseController
     [ProducesResponseType(typeof(PaginatedList<User?>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetListUsers([FromRoute] int page = 1,int size = 10,string? order = default, string? direction = "asc", CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetListUsers([FromRoute] int page = 1, int size = 10, string? order = default, string? direction = "asc", CancellationToken cancellationToken = default)
     {
         var request = new GetListUserRequest { Page = page, Size = size, Order = order, Direction = direction };
         var validator = new GetListUserRequestValidator();
@@ -185,7 +185,7 @@ public class UsersController : BaseController
 
         var command = _mapper.Map<DeleteUserCommand>(request.Id);
 
-        try 
+        try
         {
             await _mediator.Send(command, cancellationToken);
             return Ok(new ApiResponse

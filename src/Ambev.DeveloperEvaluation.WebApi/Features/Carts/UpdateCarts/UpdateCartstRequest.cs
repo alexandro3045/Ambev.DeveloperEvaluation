@@ -1,30 +1,11 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.UpdateCards;
 
 /// <summary>
 /// Represents a request to Update a new Carts in the system.
 /// </summary>
-public class UpdateCartsRequest
+public class UpdateCartsRequest : CartsRequest
 {
-
-    /// <summary>
-    /// Gets or sets the id.
-    /// </summary>
-    public required string Id { get; set; }
-
-    /// <summary>
-    /// Gets the UserID from Carts
-    /// </summary>
-    public required string UserId { get; set; }
-
-    /// <summary>
-    /// Gets the date from Carts
-    /// </summary>
-    public required DateTime Date { get; set; }
-
-    /// <summary>
-    /// Gets the products from Carts.
-    /// </summary>
-    public required List<Item> Products { get; set; }
+    public UpdateCartsRequest(string userId, List<ItemProduct> products) { }
 }

@@ -7,6 +7,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
 /// </summary>
 public class CreateCartsCommandValidator : AbstractValidator<CreateCartsCommand>
 {
+    private string message = "{0} is required";
     /// <summary>
     /// Initializes a new instance of the CreateCartsRequestValidator with defined validation rules.
     /// </summary>
@@ -14,12 +15,21 @@ public class CreateCartsCommandValidator : AbstractValidator<CreateCartsCommand>
     /// Validation rules include:
     /// - UserID:Required, UserID User
     /// - Date: Date created
-    /// - Products: Products relationed
+    /// - ProductsItems: ProductsItems relationed
     /// </remarks>
     public CreateCartsCommandValidator()
     {
-        RuleFor(Carts => Carts.UserId).NotEmpty().Length(1, 50);
-        RuleFor(Carts => Carts.CreatedAt).NotEmpty();
-        RuleFor(Carts => Carts.Products).NotEmpty();
+        RuleFor(Carts => Carts.UserId)
+            .NotEmpty()
+            .Length(1, 50)
+            .WithMessage(string.Format(message, "UserId"));
+
+        RuleFor(Carts => Carts.CreatedAt)
+            .NotEmpty()
+            .WithMessage(string.Format(message, "CreatedAt"));
+
+        RuleFor(Carts => Carts.Products)
+            .NotEmpty()
+            .WithMessage(string.Format(message, "ProductsItems"));
     }
 }

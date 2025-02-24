@@ -9,25 +9,25 @@ public class GetListCategoriesRequest
 {
     [JsonIgnore]
     /// <summary>
-    /// The page Products list to retrieve
+    /// The page ProductsItems list to retrieve
     /// </summary>
     public int Page { get; set; }
 
     [JsonIgnore]
     /// <summary>
-    /// The size Products list to retrieve
+    /// The size ProductsItems list to retrieve
     /// </summary>
     public int Size { get; set; }
 
     [JsonIgnore]
     /// <summary>
-    /// The order Products list to retrieve
+    /// The order ProductsItems list to retrieve
     /// </summary>
     public string? Order { get; set; } = "ASC";
 
     [JsonIgnore]
     /// <summary>
-    /// The direction Products list to retrieve
+    /// The direction ProductsItems list to retrieve
     /// </summary>
     public string? Direction { get; set; } = default;
 }

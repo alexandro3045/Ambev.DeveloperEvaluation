@@ -1,6 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
-
-
+﻿
 namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
 
 /// <summary>
@@ -12,16 +10,10 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
 /// </remarks>
 public class CreateCartsResult
 {
-
-    public CreateCartsResult(List<Item> products)
-    {
-        Products = products;
-    }
-
     /// <summary>
-    /// Gets or sets the unique identifier of the newly created Products.
+    /// Gets or sets the unique identifier of the newly created ProductsItems.
     /// </summary>
-    /// <value>A GUID that uniquely identifies the created Products in the system.</value>
+    /// <value>A GUID that uniquely identifies the created ProductsItems in the system.</value>
     public Guid Id { get; set; }
 
     /// <summary>
@@ -37,5 +29,5 @@ public class CreateCartsResult
     /// <summary>
     /// Gets the List from product.
     /// </summary>
-    public List<Item> Products { get; set; }
+    public List<Domain.Entities.CartsProductsItems> Products { get; set; }
 }

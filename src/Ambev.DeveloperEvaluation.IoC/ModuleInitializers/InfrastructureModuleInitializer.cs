@@ -13,7 +13,14 @@ public class InfrastructureModuleInitializer : IModuleInitializer
     {
         builder.Services.AddScoped<DbContext>(provider => provider.GetRequiredService<DefaultContext>());
         builder.Services.AddScoped<IUserRepository, UserRepository>();
-        builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
+        builder.Services.AddScoped<IProductRepository, ProductRepository>();
         builder.Services.AddScoped<ICartsRepository, CartsRepository>();
+        builder.Services.AddScoped<ISalesCartsRepository, SalesCartsRepository>();
+        builder.Services.AddScoped<ICartsProductsItemsRepository, CartsProductsItemsRepository>();
+
+        builder.Services.AddDbContext<DbContext>(options =>
+        {
+            options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+        });
     }
 }

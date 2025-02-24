@@ -1,8 +1,8 @@
-using AutoMapper;
-using MediatR;
-using FluentValidation;
-using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Application.Products.GetProducts;
+using Ambev.DeveloperEvaluation.Domain.Repositories;
+using AutoMapper;
+using FluentValidation;
+using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Productss.GetProducts;
 
@@ -11,17 +11,17 @@ namespace Ambev.DeveloperEvaluation.Application.Productss.GetProducts;
 /// </summary>
 public class GetProductHandler : IRequestHandler<GetProductsCommand, GetProductsResult>
 {
-    private readonly IProductsRepository _ProductsRepository;
+    private readonly IProductRepository _ProductsRepository;
     private readonly IMapper _mapper;
 
     /// <summary>
     /// Initializes a new instance of GetProductsHandler
     /// </summary>
-    /// <param name="ProductsRepository">The Products repository</param>
+    /// <param name="ProductsRepository">The ProductsItems repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for GetProductsCommand</param>
     public GetProductHandler(
-        IProductsRepository ProductsRepository,
+        IProductRepository ProductsRepository,
         IMapper mapper)
     {
         _ProductsRepository = ProductsRepository;
@@ -33,7 +33,7 @@ public class GetProductHandler : IRequestHandler<GetProductsCommand, GetProducts
     /// </summary>
     /// <param name="request">The GetProducts command</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The Products details if found</returns>
+    /// <returns>The ProductsItems details if found</returns>
     public async Task<GetProductsResult> Handle(GetProductsCommand request, CancellationToken cancellationToken)
     {
         var validator = new GetProductsValidator();
@@ -44,7 +44,7 @@ public class GetProductHandler : IRequestHandler<GetProductsCommand, GetProducts
 
         var Products = await _ProductsRepository.GetByIdAsync(request.Id, cancellationToken);
         if (Products == null)
-            throw new KeyNotFoundException($"Products with ID {request.Id} not found");
+            throw new KeyNotFoundException($"ProductsItems with ID {request.Id} not found");
 
         return _mapper.Map<GetProductsResult>(Products);
     }

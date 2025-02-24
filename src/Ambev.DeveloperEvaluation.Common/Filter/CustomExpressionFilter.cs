@@ -1,5 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Ambev.DeveloperEvaluation.Common.Filter
@@ -53,7 +52,7 @@ namespace Ambev.DeveloperEvaluation.Common.Filter
                 var expressionFilters = new List<ExpressionFilter>();
                 foreach (var item in columnFilters)
                 {
-                    expressionFilters.Add(new ExpressionFilter() { ColumnName = item.Id, Value = item.Value , Funcao = item.Range });
+                    expressionFilters.Add(new ExpressionFilter() { ColumnName = item.Id, Value = item.Value, Funcao = item.Range });
                 }
                 // Create the parameter expression for the input data
                 var parameter = Expression.Parameter(typeof(T), className);
@@ -73,7 +72,7 @@ namespace Ambev.DeveloperEvaluation.Common.Filter
 
                     var property = Expression.Property(parameter, filter.ColumnName);
 
-                    Expression comparison=null;
+                    Expression comparison = null;
 
                     if (filter.Funcao == "Min")
                     {

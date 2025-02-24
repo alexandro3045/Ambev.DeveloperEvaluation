@@ -1,7 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Application.Users.GetListUser;
-using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using AutoMapper;
-
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
 
@@ -15,8 +13,13 @@ public class CreateCartsProfile : Profile
     /// </summary>
     public CreateCartsProfile()
     {
-        CreateMap<CreateCartsCommand, Domain.Entities.Carts>();
+        CreateMap<CartsProductsItems, ProductsItems>();
+
+        CreateMap<CreateCartsCommand, Domain.Entities.Carts>()
+           .ForMember(dest => dest.CartsProductsItems, opt => opt.MapFrom(src => src.Products.Select(p => new CartsProductsItems { ProductId = p.ProductId, Quantity = p.Quantity })));
+
         CreateMap<Domain.Entities.Carts, CreateCartsResult>()
-            .ConstructUsing(carts => new CreateCartsResult(carts.Products));
+          .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.CreatedAt))
+          .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.CartsProductsItems.Select(p => new CartsProductsItems { ProductId = p.ProductId, Quantity = p.Quantity }))); ;
     }
 }

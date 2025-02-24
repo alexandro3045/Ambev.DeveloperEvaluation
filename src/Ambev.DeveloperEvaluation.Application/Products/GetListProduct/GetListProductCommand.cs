@@ -3,7 +3,7 @@ using MediatR;
 namespace Ambev.DeveloperEvaluation.Application.Products.GetListProducts;
 
 /// <summary>
-/// Command for retrieving a list Products
+/// Command for retrieving a list ProductsItems
 /// </summary>
 public record GetListProductCommand : IRequest<GetListProductResult>
 {

@@ -1,8 +1,7 @@
-using MediatR;
-using FluentValidation;
-using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Application.Products.DeleteProducts;
-using Ambev.DeveloperEvaluation.Application.Users.DeleteUser;
+using Ambev.DeveloperEvaluation.Domain.Repositories;
+using FluentValidation;
+using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Productss.DeleteProducts;
 
@@ -11,15 +10,15 @@ namespace Ambev.DeveloperEvaluation.Application.Productss.DeleteProducts;
 /// </summary>
 public class DeleteProductsHandler : IRequestHandler<DeleteProductsCommand, DeleteProductsResponse>
 {
-    private readonly IProductsRepository _ProductsRepository;
+    private readonly IProductRepository _ProductsRepository;
 
     /// <summary>
     /// Initializes a new instance of DeleteProductsHandler
     /// </summary>
-    /// <param name="ProductsRepository">The Products repository</param>
+    /// <param name="ProductsRepository">The ProductsItems repository</param>
     /// <param name="validator">The validator for DeleteProductsCommand</param>
     public DeleteProductsHandler(
-        IProductsRepository ProductsRepository)
+        IProductRepository ProductsRepository)
     {
         _ProductsRepository = ProductsRepository;
     }
@@ -40,7 +39,7 @@ public class DeleteProductsHandler : IRequestHandler<DeleteProductsCommand, Dele
 
         var success = await _ProductsRepository.DeleteAsync(request.Id, cancellationToken);
         if (!success)
-            throw new KeyNotFoundException($"Products with ID {request.Id} not found");
+            throw new KeyNotFoundException($"ProductsItems with ID {request.Id} not found");
 
         return new DeleteProductsResponse { Success = true };
     }

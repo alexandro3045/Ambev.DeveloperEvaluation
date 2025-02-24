@@ -4,7 +4,7 @@ using MediatR;
 namespace Ambev.DeveloperEvaluation.Application.Products.GetListCategorias;
 
 /// <summary>
-/// Command for retrieving a list categories of Products
+/// Command for retrieving a list categories of ProductsItems
 /// </summary>
 public record GetListCategoriesCommand : IRequest<GetListCategoriesResult>
 {

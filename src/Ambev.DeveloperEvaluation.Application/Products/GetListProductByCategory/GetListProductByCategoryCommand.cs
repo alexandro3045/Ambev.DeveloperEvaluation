@@ -1,11 +1,10 @@
 using Ambev.DeveloperEvaluation.Application.Products.GetListProducts;
-using Ambev.DeveloperEvaluation.Common.Filter;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.GetListProductsByCategory;
 
 /// <summary>
-/// Command for retrieving a list Products
+/// Command for retrieving a list ProductsItems
 /// </summary>
 public record GetListProductByCategoryCommand : IRequest<GetListProductResult>
 {

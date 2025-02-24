@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Carts.GetCarts;
+﻿using Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCarts;
 
@@ -9,7 +9,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCarts;
 /// This response contains the unique identifier of the newly update Carts,
 /// which can be used for subsequent operations or reference.
 /// </remarks>
-public class UpdateCartsResult : GetCartsResult
+public class UpdateCartsResult : CreateCartsResult
 {
 
 }

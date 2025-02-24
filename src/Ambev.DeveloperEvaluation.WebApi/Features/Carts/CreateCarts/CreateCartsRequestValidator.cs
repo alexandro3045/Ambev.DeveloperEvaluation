@@ -1,11 +1,12 @@
-﻿using FluentValidation;
+﻿using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
+using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.CreateCarts;
 
 /// <summary>
 /// Validator for CreateCartsRequest that defines validation rules for Carts creation.
 /// </summary>
-public class CreateCartsRequestValidator : AbstractValidator<CreateCartsRequest>
+public class CreateCartsRequestValidator : AbstractValidator<CartsRequest>
 {
     /// <summary>
     /// Initializes a new instance of the CreateCartsRequestValidator with defined validation rules.
@@ -13,8 +14,8 @@ public class CreateCartsRequestValidator : AbstractValidator<CreateCartsRequest>
     /// <remarks>
     /// Validation rules include:
     /// - UserID:Required, UserID User
-    /// - Date: Date created
-    /// - Products: Products relationed
+    /// - CreatedAt: CreatedAt created
+    /// - ProductsItems: ProductsItems relationed
     /// </remarks>
     public CreateCartsRequestValidator()
     {

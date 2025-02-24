@@ -1,5 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Common.Validation;
-using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
+using Ambev.DeveloperEvaluation.Common.Validation;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCarts;
@@ -9,7 +9,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCarts;
 /// </summary>
 /// <remarks>
 /// This command is used to capture the required data for creating a Carts, 
-/// including Dat, UserId,Users and Products. 
+/// including Dat, UserId,Users and ProductsItems. 
 /// It implements <see cref="IRequest{TResponse}"/> to initiate the request 
 /// that returns a <see cref="UpdateCartsResult"/>.
 /// 
@@ -20,11 +20,15 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCarts;
 /// </remarks>
 public class UpdateCartsCommand : IRequest<UpdateCartsResult>
 {
+    /// <summary>
+    /// Gets the Id when the carts was updated.
+    /// </summary>
+    public required Guid Id { get; set; }
 
     /// <summary>
     /// Gets the date and time when the carts was created.
     /// </summary>
-    public DateTime Date { get; set; }
+    public DateTime CreatedAt { get; set; }
 
     /// <summary>
     /// Gets the UserId when the carts was created.
@@ -32,9 +36,9 @@ public class UpdateCartsCommand : IRequest<UpdateCartsResult>
     public string UserId { get; set; }
 
     /// <summary>
-    /// Gets the Products when the carts was created.
+    /// Gets the ProductsItems when the carts was created.
     /// </summary>
-    public List<Item> Products { get; set; }
+    public List<CartItem> Products { get; set; }
 
     public ValidationResultDetail Validate()
     {

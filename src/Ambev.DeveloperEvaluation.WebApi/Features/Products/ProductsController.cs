@@ -1,22 +1,22 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
-using Ambev.DeveloperEvaluation.WebApi.Common;
-using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProducts;
-using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProducts;
-using Ambev.DeveloperEvaluation.WebApi.Features.Products.DeleteProducts;
+﻿using Ambev.DeveloperEvaluation.Application.Products.DeleteProducts;
+using Ambev.DeveloperEvaluation.Application.Products.GetListCategorias;
+using Ambev.DeveloperEvaluation.Application.Products.GetListProducts;
+using Ambev.DeveloperEvaluation.Application.Products.GetListProductsByCategory;
 using Ambev.DeveloperEvaluation.Application.Products.GetProducts;
-using Ambev.DeveloperEvaluation.Application.Products.DeleteProducts;
-using Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct;
-using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetListProduct;
-using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Application.Productss.CreateProducts;
 using Ambev.DeveloperEvaluation.Application.Productss.UpdateProducts;
+using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.WebApi.Common;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProducts;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.DeleteProducts;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetListProduct;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProducts;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Productss.GetProducts;
-using Ambev.DeveloperEvaluation.Application.Products.GetListProducts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.GetListProduct;
-using Ambev.DeveloperEvaluation.Application.Products.GetListCategorias;
-using Ambev.DeveloperEvaluation.Application.Products.GetListProductsByCategory;
+using AutoMapper;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Products;
 
@@ -72,11 +72,11 @@ public class ProductsController : BaseController
     }
 
     /// <summary>
-    /// Update Products
+    /// Update ProductsItems
     /// </summary>
-    /// <param name="request">The Products update request</param>
+    /// <param name="request">The ProductsItems update request</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The update Products details</returns>
+    /// <returns>The update ProductsItems details</returns>
     [HttpPut]
     [ProducesResponseType(typeof(ApiResponseWithData<UpdateProductResponse>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
@@ -125,7 +125,7 @@ public class ProductsController : BaseController
 
         var response = await _mediator.Send(command, cancellationToken);
 
-        if(response == null)
+        if (response == null)
             return NotFound(new ApiResponse { Success = false, Message = "Product not found" });
 
         return Ok(_mapper.Map<GetProductsResponse>(response));
@@ -139,12 +139,12 @@ public class ProductsController : BaseController
     /// <param name="order">The page of list</param>
     /// <param name="direction">The page of list</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The list of Products </returns>
+    /// <returns>The list of ProductsItems </returns>
     [HttpGet("{page},{size},{order},{direction}")]
     [ProducesResponseType(typeof(PaginatedList<Product?>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetListProducts([FromRoute] int page = 1,int size = 10,string? 
+    public async Task<IActionResult> GetListProducts([FromRoute] int page = 1, int size = 10, string?
         order = default, string? direction = "asc",
         [FromQuery] string? columnFilters = "", CancellationToken cancellationToken = default)
     {
@@ -213,11 +213,11 @@ public class ProductsController : BaseController
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetListCategories(CancellationToken cancellationToken)
-    {       
-        var command = _mapper.Map<GetListCategoriesCommand>(new GetListCategoriesRequest());     
+    {
+        var command = _mapper.Map<GetListCategoriesCommand>(new GetListCategoriesRequest());
         var response = await _mediator.Send(command, cancellationToken);
 
-        if(response.Categories == null)
+        if (response.Categories == null)
             return NotFound(new ApiResponse { Success = false, Message = "Categories not found" });
 
         return Ok(response);
@@ -231,7 +231,7 @@ public class ProductsController : BaseController
     /// <param name="order">The page of list</param>
     /// <param name="direction">The page of list</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The list of Products </returns>
+    /// <returns>The list of ProductsItems </returns>
     [HttpGet("category/{category}")]
     [ProducesResponseType(typeof(PaginatedList<Product?>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
@@ -248,9 +248,9 @@ public class ProductsController : BaseController
         var command = _mapper.Map<GetListProductByCategoryCommand>(request);
         var response = await _mediator.Send(command, cancellationToken);
 
-            
-        if(response.Products == null)
-            return NotFound(new ApiResponse { Success = false, Message = "Products not found" });
+
+        if (response.Products == null)
+            return NotFound(new ApiResponse { Success = false, Message = "ProductsItems not found" });
 
         return OkPaginated(new PaginatedList<Product?>(response.Products, response.Products.Count, page, size));
     }

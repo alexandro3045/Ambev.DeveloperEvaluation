@@ -1,5 +1,4 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Products.UpdateProducts;
-using Ambev.DeveloperEvaluation.Application.Productss.CreateProducts;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using MediatR;
@@ -8,10 +7,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Ambev.DeveloperEvaluation.Application.Productss.UpdateProducts;
 
 /// <summary>
-/// Command for creating a new Products.
+/// Command for creating a new ProductsItems.
 /// </summary>
 /// <remarks>
-/// This command is used to capture the required data for creating a Products, 
+/// This command is used to capture the required data for creating a ProductsItems, 
 /// including Productsname, password, phone number, email, status, and role. 
 /// It implements <see cref="IRequest{TResponse}"/> to initiate the request 
 /// that returns a <see cref="UpdateProductsResult"/>.
@@ -42,7 +41,7 @@ public class UpdateProductsCommand : IRequest<UpdateProductResult>
     /// <summary>
     /// Gets the description from product.
     /// </summary>
-    public string Descripption { get; set; }
+    public string Description { get; set; }
 
     /// <summary>
     /// Gets the category from product.

@@ -1,4 +1,3 @@
-using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 using Bogus;
 
@@ -22,14 +21,15 @@ public static class ActiveUserSpecificationTestData
     /// - Role (User)
     /// Status is not set here as it's the main test parameter
     /// </summary>
-    private static readonly Faker<User> userFaker = new Faker<User>()
-        .CustomInstantiator(f => new User {
+    private static readonly Faker<DeveloperEvaluation.Domain.Entities.User> userFaker = new Faker<DeveloperEvaluation.Domain.Entities.User>()
+        .CustomInstantiator(f => new DeveloperEvaluation.Domain.Entities.User
+        {
             Email = f.Internet.Email(),
             Password = $"Test@{f.Random.Number(100, 999)}",
             UserName = f.Name.FirstName(),
             Status = f.PickRandom<UserStatus>(),
             Phone = $"+55{f.Random.Number(11, 99)}{f.Random.Number(100000000, 999999999)}",
-            Role = f.PickRandom<UserRole> ()
+            Role = f.PickRandom<UserRole>()
         });
 
     /// <summary>
@@ -37,7 +37,7 @@ public static class ActiveUserSpecificationTestData
     /// </summary>
     /// <param name="status">The UserStatus to set for the generated user.</param>
     /// <returns>A valid User entity with randomly generated data and specified status.</returns>
-    public static User GenerateUser(UserStatus status)
+    public static DeveloperEvaluation.Domain.Entities.User GenerateUser(UserStatus status)
     {
         var user = userFaker.Generate();
         user.Status = status;

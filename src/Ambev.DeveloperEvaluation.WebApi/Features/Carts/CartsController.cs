@@ -1,20 +1,20 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
-using Ambev.DeveloperEvaluation.WebApi.Common;
-using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CreateCarts;
-using Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetCarts;
-using Ambev.DeveloperEvaluation.WebApi.Features.Carts.DeleteCarts;
-using Ambev.DeveloperEvaluation.Application.Carts.GetCarts;
+﻿using Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
 using Ambev.DeveloperEvaluation.Application.Carts.DeleteCarts;
-using Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
-using Ambev.DeveloperEvaluation.WebApi.Features.Carts.UpdateCarts;
-using Ambev.DeveloperEvaluation.Application.Carts.UpdateCarts;
+using Ambev.DeveloperEvaluation.Application.Carts.GetCarts;
 using Ambev.DeveloperEvaluation.Application.Carts.GetListCarts;
+using Ambev.DeveloperEvaluation.Application.Carts.UpdateCarts;
 using Ambev.DeveloperEvaluation.WebApi.Carts.GetCarts.GetCarts;
+using Ambev.DeveloperEvaluation.WebApi.Common;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CreateCarts;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.DeleteCarts;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetCarts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetListCarts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.UpdateCards;
-using Ambev.DeveloperEvaluation.WebApi.Carts.GetCarts;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.UpdateCarts;
+using AutoMapper;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts;
 
@@ -46,9 +46,9 @@ public class CartsController : BaseController
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The created Carts details</returns>
     [HttpPost]
-    [ProducesResponseType(typeof(ApiResponseWithData<CreateCartsResponse>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ApiResponseWithData<CartsResponse>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> CreateCarts([FromBody] CreateCartsRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateCarts([FromBody] CartsRequest request, CancellationToken cancellationToken)
     {
         var validator = new CreateCartsRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
@@ -61,7 +61,7 @@ public class CartsController : BaseController
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-            return CreatedAtRoute("GetCarts", new { id = response.Id }, _mapper.Map<CreateCartsResponse>(response));
+            return Ok(_mapper.Map<CartsResponse>(response));
         }
         catch (Exception ex)
         {
@@ -91,11 +91,11 @@ public class CartsController : BaseController
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-            return CreatedAtRoute("GetCarts", new { id = response.Id }, _mapper.Map<UpdateCartsResponse>(response));
+            return Ok(_mapper.Map<UpdateCartsResponse>(response));
         }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
         }
     }
 
@@ -106,7 +106,7 @@ public class CartsController : BaseController
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The Carts details if found</returns>
     [HttpGet("{id}")]
-    [ProducesResponseType(typeof(ApiResponseWithData<GetCartsResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponseWithData<CartsResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetCarts([FromRoute] Guid id, CancellationToken cancellationToken)
@@ -123,7 +123,7 @@ public class CartsController : BaseController
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-            return Ok(_mapper.Map<GetCartsResponse>(response));
+            return Ok(_mapper.Map<CartsResponse>(response));
         }
         catch (Exception ex)
         {
@@ -142,14 +142,20 @@ public class CartsController : BaseController
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The list of Carts </returns>
     [HttpGet()]
-    [ProducesResponseType(typeof(PaginatedList<Domain.Entities.Carts?>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PaginatedList<GetListCartsResponse?>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetListCarts([FromQuery] int page = 1, [FromQuery] int size = 10, [FromQuery] string? order = "Date", [FromQuery] string? direction = "asc",
+    public async Task<IActionResult> GetListCarts([FromQuery] int page = 1, [FromQuery] int size = 10, [FromQuery] string? order = "CreatedAt", [FromQuery] string? direction = "asc",
           [FromQuery] string? columnFilters = default, CancellationToken cancellationToken = default)
     {
-        var request = new GetListCartsRequest { Page = page, Size = size, Order = order, 
-                  ColumnFilters = columnFilters, Direction = direction };
+        var request = new GetListCartsRequest
+        {
+            Page = page,
+            Size = size,
+            Order = order,
+            ColumnFilters = columnFilters,
+            Direction = direction
+        };
 
         var validator = new GetListCartsRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
@@ -162,7 +168,10 @@ public class CartsController : BaseController
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-            return OkPaginated(new PaginatedList<Domain.Entities.Carts?>(response.ListCarts, response.ListCarts.Count, page, size));
+
+            var mappedResponse = _mapper.Map<GetListCartsResponse>(response);
+
+            return OkPaginated(new PaginatedList<CartsResponse?>(mappedResponse?.ListCarts, mappedResponse.ListCarts.Count, page, size));
         }
         catch (Exception ex)
         {
