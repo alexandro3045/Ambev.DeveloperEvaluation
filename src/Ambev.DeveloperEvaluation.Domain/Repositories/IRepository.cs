@@ -46,7 +46,7 @@ public interface IRepository<TEntity> where TEntity : class
     /// <param name="id">The unique identifier of the entity</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The entity if found, null otherwise</returns>
-    Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a entity by their unique identifier
@@ -55,7 +55,7 @@ public interface IRepository<TEntity> where TEntity : class
     /// <param name="cancellationToken">Cancellation token</param>
     /// <param name="IIncludableQueryable">Include debset</param>
     /// <returns>The entity if found, null otherwise</returns>
-    Task<TEntity> GetByIdAsync(Guid id, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, CancellationToken cancellationToken = default);
+    Task<TEntity?> GetByIdAsync(Guid id, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a entity by their unique identifier
@@ -86,7 +86,7 @@ public interface IRepository<TEntity> where TEntity : class
     /// <param name="cancellationToken">Cancellation token</param>
     /// <param name="IIncludableQueryable">Include debset</param>
     /// <returns>The entity if found, null otherwise</returns>
-    Task<List<TEntity>> GetAllAsync(int page, int size, string order, string direction, string? ColumnFilters, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, CancellationToken cancellationToken = default);
+    Task<List<TEntity>> GetAllAsync(int page, int size, string order, string direction, string? ColumnFilters, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all entity

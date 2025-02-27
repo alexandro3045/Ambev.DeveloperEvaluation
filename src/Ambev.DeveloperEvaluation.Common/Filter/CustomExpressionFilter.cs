@@ -58,7 +58,7 @@ namespace Ambev.DeveloperEvaluation.Common.Filter
                 var parameter = Expression.Parameter(typeof(T), className);
 
                 // Build the filter expression dynamically
-                Expression filterExpression = null;
+                Expression? filterExpression = null;
                 foreach (var filter in expressionFilters)
                 {
                     var startWith = filter.Value.StartsWith("*");

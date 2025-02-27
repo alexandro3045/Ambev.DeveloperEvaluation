@@ -3,6 +3,7 @@ using Ambev.DeveloperEvaluation.Application.Carts.DeleteCarts;
 using Ambev.DeveloperEvaluation.Application.Carts.GetCarts;
 using Ambev.DeveloperEvaluation.Application.Carts.GetListCarts;
 using Ambev.DeveloperEvaluation.Application.Carts.UpdateCarts;
+using Ambev.DeveloperEvaluation.Application.Serivices.Notifications;
 using Ambev.DeveloperEvaluation.WebApi.Carts.GetCarts.GetCarts;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
@@ -59,7 +60,7 @@ public class CartsController : BaseController
         var command = _mapper.Map<CreateCartsCommand>(request);
 
         try
-        {
+        {           
             var response = await _mediator.Send(command, cancellationToken);
             return Ok(_mapper.Map<CartsResponse>(response));
         }

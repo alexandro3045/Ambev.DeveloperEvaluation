@@ -1,5 +1,9 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Application.Serivices.Notifications;
+using Ambev.DeveloperEvaluation.Application.Serivices.Notifications.Base;
+using Ambev.DeveloperEvaluation.Application.Serivices.Notifications.Carts;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using AutoMapper;
+using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
 
@@ -13,6 +17,11 @@ public class CreateCartsProfile : Profile
     /// </summary>
     public CreateCartsProfile()
     {
+        CreateMap<Domain.Entities.Carts, BaseNotification>()
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.GetType().Name))
+           .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+           .ForMember(dest => dest.Action, opt => opt.MapFrom(src => ActionNotification.Created));
+
         CreateMap<CartsProductsItems, ProductsItems>();
 
         CreateMap<CreateCartsCommand, Domain.Entities.Carts>()
@@ -20,6 +29,6 @@ public class CreateCartsProfile : Profile
 
         CreateMap<Domain.Entities.Carts, CreateCartsResult>()
           .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.CreatedAt))
-          .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.CartsProductsItems.Select(p => new CartsProductsItems { ProductId = p.ProductId, Quantity = p.Quantity }))); ;
+          .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.CartsProductsItems.Select(p => new CartsProductsItems { ProductId = p.ProductId, Quantity = p.Quantity })));
     }
 }

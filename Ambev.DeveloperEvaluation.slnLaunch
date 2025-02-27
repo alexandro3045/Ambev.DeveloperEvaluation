@@ -1,0 +1,47 @@
+[
+  {
+    "Name": "Novo Perfil",
+    "Projects": [
+      {
+        "Path": "src\\Ambev.DeveloperEvaluation.WebApi\\Ambev.DeveloperEvaluation.WebApi.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Ambev.DeveloperEvaluation.ORM\\Ambev.DeveloperEvaluation.ORM.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Ambev.DeveloperEvaluation.Application\\Ambev.DeveloperEvaluation.Application.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Ambev.DeveloperEvaluation.Domain\\Ambev.DeveloperEvaluation.Domain.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "tests\\Ambev.DeveloperEvaluation.Functional\\Ambev.DeveloperEvaluation.Functional.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "tests\\Ambev.DeveloperEvaluation.Integration\\Ambev.DeveloperEvaluation.Integration.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "tests\\Ambev.DeveloperEvaluation.Unit\\Ambev.DeveloperEvaluation.Unit.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Ambev.DeveloperEvaluation.Common\\Ambev.DeveloperEvaluation.Common.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Ambev.DeveloperEvaluation.IoC\\Ambev.DeveloperEvaluation.IoC.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "docker-compose.dcproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

@@ -69,7 +69,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             IQueryable<TEntity> source = _context.Set<TEntity>()
             .IncludeAllRecursively()
@@ -85,7 +85,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
                 .FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<TEntity> GetByIdAsync(Guid id, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, CancellationToken cancellationToken = default)
+        public async Task<TEntity?> GetByIdAsync(Guid id, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = default, CancellationToken cancellationToken = default)
         {
             IQueryable<TEntity> source = _context.Set<TEntity>()
             .IncludeAllRecursively()
@@ -114,7 +114,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             string? columnFilters, CancellationToken cancellationToken = default)
         {
 
-            Expression<Func<TEntity, bool>> filters = null;
+            Expression<Func<TEntity, bool>>? filters = null;
 
             IQueryable<TEntity> source = _context.Set<TEntity>()
                 .IncludeAllRecursively(10)
@@ -147,9 +147,9 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<List<TEntity>> GetAllAsync(int page, int size, string order, string direction, string? ColumnFilters, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, CancellationToken cancellationToken = default)
+        public async Task<List<TEntity>> GetAllAsync(int page, int size, string order, string direction, string? ColumnFilters, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = default, CancellationToken cancellationToken = default)
         {
-            Expression<Func<TEntity, bool>> filters = null;
+            Expression<Func<TEntity, bool>>? filters = null;
 
             IQueryable<TEntity> source = _context.Set<TEntity>()
                 .IncludeAllRecursively(10)

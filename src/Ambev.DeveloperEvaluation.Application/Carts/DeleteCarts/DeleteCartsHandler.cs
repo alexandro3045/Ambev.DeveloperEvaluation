@@ -1,4 +1,7 @@
+using Ambev.DeveloperEvaluation.Application.Serivices.Notifications;
+using Ambev.DeveloperEvaluation.Application.Serivices.Notifications.Base;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using AutoMapper;
 using FluentValidation;
 using MediatR;
 
@@ -10,16 +13,18 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.DeleteCarts;
 public class DeleteCartsHandler : IRequestHandler<DeleteCartsCommand, DeleteCartsResponse>
 {
     private readonly ICartsRepository _CartsRepository;
-
+    private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
     /// <summary>
     /// Initializes a new instance of DeleteCartsHandler
     /// </summary>
     /// <param name="CartsRepository">The Carts repository</param>
     /// <param name="validator">The validator for DeleteCartsCommand</param>
-    public DeleteCartsHandler(
-        ICartsRepository CartsRepository)
+    public DeleteCartsHandler( ICartsRepository CartsRepository, IMapper mapper, IMediator mediator)
     {
         _CartsRepository = CartsRepository;
+        _mapper = mapper;
+        _mediator = mediator;
     }
 
     /// <summary>
@@ -39,6 +44,12 @@ public class DeleteCartsHandler : IRequestHandler<DeleteCartsCommand, DeleteCart
         var success = await _CartsRepository.DeleteAsync(request.Id, cancellationToken);
         if (!success)
             throw new KeyNotFoundException($"Carts with ID {request.Id} not found");
+
+        var notification = _mapper.Map<BaseNotification>(new Domain.Entities.Carts { Id = request.Id });
+
+        notification.Action = ActionNotification.Deleted;
+
+        await _mediator.Publish(notification, cancellationToken);
 
         return new DeleteCartsResponse { Success = true };
     }

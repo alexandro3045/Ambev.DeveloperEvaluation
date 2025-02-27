@@ -24,8 +24,7 @@ public class CreateSalesCartsProfile : Profile
          .ForMember(dest => dest.Products, act => act.MapFrom(src => src.Carts.Products.Select(cp =>
                new CartItem(cp.ProductId, cp.Quantity, false))))
          .ForMember(dest => dest.UserId, act => act.MapFrom(src => src.Carts.UserId))
-         .ForMember(dest => dest.CreatedAt, act => act.MapFrom(src => src.Carts.Date))
-         .ForMember(dest => dest.CartId, act => act.MapFrom(src => src.Carts.Id));
+         .ForMember(dest => dest.CreatedAt, act => act.MapFrom(src => src.Carts.Date));
 
         CreateMap<Domain.Entities.Carts, CreateSalesCartsResult>();
 

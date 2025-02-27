@@ -1,5 +1,7 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
 using Ambev.DeveloperEvaluation.Application.Carts.GetCarts;
+using Ambev.DeveloperEvaluation.Application.Serivices.Notifications.Base;
+using Ambev.DeveloperEvaluation.Application.Serivices.Notifications;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using AutoMapper;
 

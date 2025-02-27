@@ -9,6 +9,8 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         public Carts()
         {
             CreatedAt = DateTime.UtcNow;
+            UserId = string.Empty; 
+            CartsProductsItems = new List<CartsProductsItems>();
         }
 
         /// <summary>

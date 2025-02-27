@@ -6,11 +6,6 @@
 public class CartsRequest
 {
     /// <summary>
-    /// Gets the Id when the carts was created/updated.
-    /// </summary>
-    public Guid Id { get; set; }
-
-    /// <summary>
     /// Gets the date and time when the carts was created.
     /// </summary>
     public DateTime Date { get; set; } = DateTime.Now;
@@ -18,7 +13,7 @@ public class CartsRequest
     /// <summary>
     /// Gets the UserId when the carts was created.
     /// </summary>
-    public required string UserId { get; set; }
+    public string UserId { get; set; }
 
     /// <summary>
     /// Gets the products when the carts was created.

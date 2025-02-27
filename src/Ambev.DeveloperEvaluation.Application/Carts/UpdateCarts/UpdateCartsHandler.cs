@@ -1,4 +1,6 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Application.Serivices.Notifications;
+using Ambev.DeveloperEvaluation.Application.Serivices.Notifications.Base;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentValidation;
@@ -14,6 +16,7 @@ public class UpdateCartsHandler : IRequestHandler<UpdateCartsCommand, UpdateCart
     private readonly ICartsRepository _CartsRepository;
     private readonly ICartsProductsItemsRepository _CartsProductsItemsRepository;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
     /// <summary>
     /// Initializes a new instance of UpdateCartsHandler
@@ -21,11 +24,12 @@ public class UpdateCartsHandler : IRequestHandler<UpdateCartsCommand, UpdateCart
     /// <param name="CartsRepository">The Carts repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for UpdateCartsCommand</param>
-    public UpdateCartsHandler(ICartsRepository CartsRepository, ICartsProductsItemsRepository CartsProductsItemsRepository, IMapper mapper)
+    public UpdateCartsHandler(ICartsRepository CartsRepository, ICartsProductsItemsRepository CartsProductsItemsRepository, IMapper mapper, IMediator mediator)
     {
         _CartsProductsItemsRepository = CartsProductsItemsRepository;
         _CartsRepository = CartsRepository;
         _mapper = mapper;
+        _mediator = mediator;
     }
 
     /// <summary>
@@ -47,18 +51,23 @@ public class UpdateCartsHandler : IRequestHandler<UpdateCartsCommand, UpdateCart
 
         Carts.CartsProductsItems.Clear();
 
-        command.Products.ForEach(async cartItem =>
+        command.Products.ForEach(cartItem =>
         {
             _CartsProductsItemsRepository
                .GetByFilterAsync($"CartId={cartItem.CartId}&ProductId={cartItem.ProductId}", cancellationToken).ConfigureAwait(true)
-               .GetAwaiter().GetResult().ForEach(async Item =>
+               .GetAwaiter().GetResult().ForEach(Item =>
                {
                    Carts.CartsProductsItems.Add(new CartsProductsItems { Id = Item.Id, CartId = Item.CartId, ProductId = cartItem.ProductId, Quantity = cartItem.Quantity });
                });
         });
 
-
         var UpdatedCarts = await _CartsRepository.UpdateAsync(Carts, cancellationToken);
+
+        var notification = _mapper.Map<BaseNotification>(UpdatedCarts);
+
+        notification.Action = ActionNotification.Updated;
+
+        await _mediator.Publish(notification, cancellationToken);
 
         var result = _mapper.Map<UpdateCartsResult>(UpdatedCarts);
 

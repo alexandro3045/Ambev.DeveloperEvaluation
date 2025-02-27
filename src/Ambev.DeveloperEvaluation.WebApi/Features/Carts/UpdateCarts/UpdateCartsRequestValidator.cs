@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.WebApi.Features.Carts.UpdateCards;
+﻿using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.UpdateCards;
 using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.UpdateCarts;
@@ -6,7 +7,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.UpdateCarts;
 /// <summary>
 /// Validator for UpdateCartsRequest that defines validation rules for Carts creation.
 /// </summary>
-public class UpdateCartsRequestValidator : AbstractValidator<UpdateCartsRequest>
+public class UpdateCartsRequestValidator : AbstractValidator<CartsRequest>
 {
     /// <summary>
     /// Initializes a new instance of the CreateCartsRequestValidator with defined validation rules.

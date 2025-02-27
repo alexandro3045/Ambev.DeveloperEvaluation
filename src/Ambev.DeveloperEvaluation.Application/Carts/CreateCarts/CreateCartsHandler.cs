@@ -1,4 +1,6 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Repositories;
+﻿using Ambev.DeveloperEvaluation.Application.Serivices.Notifications.Base;
+using Ambev.DeveloperEvaluation.Application.Serivices.Notifications.Carts;
+using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
@@ -13,17 +15,19 @@ public class CreateCartsHandler : IRequestHandler<CreateCartsCommand, CreateCart
 {
     private readonly ICartsRepository _CartsRepository;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
     /// <summary>
     /// Initializes a new instance of CreateCartsHandler
     /// </summary>
     /// <param name="CartsRepository">The Carts repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
-    /// <param name="validator">The validator for CreateCartsCommand</param>
-    public CreateCartsHandler(ICartsRepository CartsRepository, IMapper mapper)
+    /// <param name="mediator">The mediator instance</param>
+    public CreateCartsHandler(ICartsRepository CartsRepository, IMapper mapper, IMediator mediator)
     {
         _CartsRepository = CartsRepository;
         _mapper = mapper;
+        _mediator = mediator;
     }
 
     /// <summary>
@@ -44,6 +48,10 @@ public class CreateCartsHandler : IRequestHandler<CreateCartsCommand, CreateCart
         var Carts = _mapper.Map<Domain.Entities.Carts>(command);
 
         var createdCarts = await _CartsRepository.CreateAsync(Carts, cancellationToken);
+
+        var notification = _mapper.Map<BaseNotification>(createdCarts);
+
+        await _mediator.Publish(notification, cancellationToken);
 
         var result = _mapper.Map<CreateCartsResult>(createdCarts);
 
