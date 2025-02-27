@@ -1,5 +1,7 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Products.CreateProducts;
 using Ambev.DeveloperEvaluation.Application.Productss.CreateProducts;
+using Ambev.DeveloperEvaluation.Application.Serivices.Notifications.Base;
+using Ambev.DeveloperEvaluation.Application.Serivices.Notifications;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using AutoMapper;
 
@@ -15,6 +17,10 @@ public class CreateProductProfile : Profile
     /// </summary>
     public CreateProductProfile()
     {
+        CreateMap<Product, BaseNotification>()
+          .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.GetType().Name))
+         .ForMember(dest => dest.Action, opt => opt.MapFrom(src => ActionNotification.Created));
+
         CreateMap<CreateProductsCommand, Product>();
         CreateMap<Product, CreateProductsResult>();
     }

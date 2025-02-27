@@ -1,5 +1,4 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Serivices.Notifications.Base;
-using Ambev.DeveloperEvaluation.Application.Serivices.Notifications.Carts;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentValidation;

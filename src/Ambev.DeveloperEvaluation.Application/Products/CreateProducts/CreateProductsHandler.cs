@@ -1,4 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Products.CreateProducts;
+using Ambev.DeveloperEvaluation.Application.Serivices.Notifications.Base;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentValidation;
@@ -12,17 +13,19 @@ public class CreateProductsHandler : IRequestHandler<CreateProductsCommand, Crea
 {
     private readonly IProductRepository _ProductsRepository;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
     /// <summary>
     /// Initializes a new instance of CreateProductsHandler
     /// </summary>
     /// <param name="ProductsRepository">The ProductsItems repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
-    /// <param name="validator">The validator for CreateProductsCommand</param>
-    public CreateProductsHandler(IProductRepository ProductsRepository, IMapper mapper)
+    /// <param name="mediator">The mediator instance</param>
+    public CreateProductsHandler(IProductRepository ProductsRepository, IMapper mapper, IMediator mediator)
     {
         _ProductsRepository = ProductsRepository;
         _mapper = mapper;
+        _mediator = mediator;
     }
 
     /// <summary>
@@ -46,7 +49,13 @@ public class CreateProductsHandler : IRequestHandler<CreateProductsCommand, Crea
         var Products = _mapper.Map<Domain.Entities.Product>(command);
 
         var createdProducts = await _ProductsRepository.CreateAsync(Products, cancellationToken);
+
+        var notification = _mapper.Map<BaseNotification>(createdProducts);
+
+        await _mediator.Publish(notification, cancellationToken);
+
         var result = _mapper.Map<CreateProductsResult>(createdProducts);
+
         return result;
     }
 }

@@ -18,8 +18,7 @@ public class CreateCartsProfile : Profile
     public CreateCartsProfile()
     {
         CreateMap<Domain.Entities.Carts, BaseNotification>()
-            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.GetType().Name))
-           .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+           .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.GetType().Name))
            .ForMember(dest => dest.Action, opt => opt.MapFrom(src => ActionNotification.Created));
 
         CreateMap<CartsProductsItems, ProductsItems>();
