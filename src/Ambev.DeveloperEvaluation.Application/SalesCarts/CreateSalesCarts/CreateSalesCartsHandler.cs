@@ -1,10 +1,9 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
-using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Application.Serivices.Notifications.Base;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Ambev.DeveloperEvaluation.Application.SalesCarts.CreateSalesCarts;
 
@@ -16,19 +15,21 @@ public class CreateSalesCartsHandler : IRequestHandler<CreateSalesCartsCommand, 
     private readonly ISalesCartsRepository _SalesCartsRepository;
     private readonly IProductRepository _ProductsRepository;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
     /// <summary>
     /// Initializes a new instance of CreateSalesCartsHandler
     /// </summary>
     /// <param name="SalesCartsRepository">The Carts repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
-    /// <param name="validator">The validator for CreateCartsCommand</param>
+    /// <param name="mediator">The mediator for CreateSalesCartsCommand</param>
     public CreateSalesCartsHandler(ISalesCartsRepository SalesCartsRepository, IProductRepository ProductsRepository
-        , IMapper mapper)
+        , IMapper mapper, IMediator mediator)
     {
         _ProductsRepository = ProductsRepository;
         _SalesCartsRepository = SalesCartsRepository;
         _mapper = mapper;
+        _mediator = mediator;
     }
 
     /// <summary>
@@ -78,23 +79,27 @@ public class CreateSalesCartsHandler : IRequestHandler<CreateSalesCartsCommand, 
 
         salesCarts.CalculateCart();
 
-        var CreatedCarts = await _SalesCartsRepository.CreateAsync(salesCarts, cancellationToken);
+        var createdSalesCarts = await _SalesCartsRepository.CreateAsync(salesCarts, cancellationToken);
 
-        var result = _mapper.Map<CreateSalesCartsResult>(CreatedCarts);
+        var notification = _mapper.Map<BaseNotification>(createdSalesCarts);
+
+        await _mediator.Publish(notification, cancellationToken);
+
+        var result = _mapper.Map<CreateSalesCartsResult>(createdSalesCarts);
 
         return new CreateSalesCartsResult
             (
-             CreatedCarts.SalesNumber ?? 0,
-             CreatedCarts.CreatedAt,
-             CreatedCarts.UserId,
-             CreatedCarts.TotalSalesAmount,
-             CreatedCarts.BranchId,
-             CreatedCarts.Carts.CartsProductsItems.Select(p =>
+             createdSalesCarts.SalesNumber ?? 0,
+             createdSalesCarts.CreatedAt,
+             createdSalesCarts.UserId,
+             createdSalesCarts.TotalSalesAmount,
+             createdSalesCarts.BranchId,
+             createdSalesCarts.Carts.CartsProductsItems.Select(p =>
                     new CartItemResult(p.CartId, p.ProductId, p.Quantity, p.TotalAmountItem,
                     p.UnitPrice, p.Discounts, p.Canceled)).ToList(),
-             CreatedCarts.Quantities,
-             CreatedCarts.Canceled,
-             CreatedCarts.CartId
+             createdSalesCarts.Quantities,
+             createdSalesCarts.Canceled,
+             createdSalesCarts.CartId
             );
     }
 }

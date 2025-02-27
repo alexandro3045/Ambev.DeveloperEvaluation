@@ -1,4 +1,6 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Application.Serivices.Notifications.Base;
+using Ambev.DeveloperEvaluation.Application.Serivices.Notifications;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentValidation;
@@ -12,10 +14,10 @@ namespace Ambev.DeveloperEvaluation.Application.SalesCarts.UpdateSalesCarts;
 /// </summary>
 public class UpdateCartsHandler : IRequestHandler<UpdateSalesCartsCommand, UpdateSalesCartsResult>
 {
-    private readonly ISalesCartsRepository _SalesCartsRepository;
-    private readonly ICartsProductsItemsRepository _CartsProductsItemsRepository;
-    private readonly IProductRepository _ProductsRepository;
+    private readonly ISalesCartsRepository _salesCartsRepository;
+    private readonly ICartsProductsItemsRepository _cartsProductsItemsRepository;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
     /// <summary>
     /// Initializes a new instance of UpdateCartsHandler
@@ -25,13 +27,12 @@ public class UpdateCartsHandler : IRequestHandler<UpdateSalesCartsCommand, Updat
     /// <param name="validator">The validator for UpdateCartsCommand</param>
     public UpdateCartsHandler(ISalesCartsRepository SalesCartsRepository,
         ICartsProductsItemsRepository CartsProductsItemsRepository,
-        IMapper mapper,
-        IProductRepository productsRepository)
+        IProductRepository productsRepository, IMapper mapper, IMediator mediator)
     {
-        _CartsProductsItemsRepository = CartsProductsItemsRepository;
-        _SalesCartsRepository = SalesCartsRepository;
+        _cartsProductsItemsRepository = CartsProductsItemsRepository;
+        _salesCartsRepository = SalesCartsRepository;
         _mapper = mapper;
-        _ProductsRepository = productsRepository;
+        _mediator = mediator;
     }
 
 
@@ -46,7 +47,7 @@ public class UpdateCartsHandler : IRequestHandler<UpdateSalesCartsCommand, Updat
 
         var salesCarts = _mapper.Map<Domain.Entities.SalesCarts>(command);
 
-        var existingSalesCarts = await _SalesCartsRepository.GetByPropertyValueAsync(p => p.SalesNumber == salesCarts.SalesNumber, cancellationToken);
+        var existingSalesCarts = await _salesCartsRepository.GetByPropertyValueAsync(p => p.SalesNumber == salesCarts.SalesNumber, cancellationToken);
         var salesCartSingle = existingSalesCarts.SingleOrDefault();
         if (salesCartSingle != null)
         {
@@ -57,7 +58,7 @@ public class UpdateCartsHandler : IRequestHandler<UpdateSalesCartsCommand, Updat
         salesCarts.Carts.CartsProductsItems.Clear();
         foreach (var cartItem in command.Products)
         {
-            var items = await _CartsProductsItemsRepository.GetByCartIdProducIdAsync(salesCarts.CartId, cartItem.ProductId, cancellationToken);
+            var items = await _cartsProductsItemsRepository.GetByCartIdProducIdAsync(salesCarts.CartId, cartItem.ProductId, cancellationToken);
             items.ForEach(Item =>
             {
                 salesCarts.Carts.CartsProductsItems.Add(new CartsProductsItems { Id = Item.Id, CartId = Item.CartId, ProductId = cartItem.ProductId, Quantity = cartItem.Quantity, Product = Item.Product, Canceled = cartItem.Canceled });
@@ -66,8 +67,16 @@ public class UpdateCartsHandler : IRequestHandler<UpdateSalesCartsCommand, Updat
 
         salesCarts.CalculateCart();
 
-        var UpdatedCarts = await _SalesCartsRepository.UpdateAsync(salesCarts, cancellationToken);
-        var result = _mapper.Map<UpdateSalesCartsResult>(UpdatedCarts);
+        var updatedSalesCarts = await _salesCartsRepository.UpdateAsync(salesCarts, cancellationToken);
+
+        var notification = _mapper.Map<BaseNotification>(updatedSalesCarts);
+
+        notification.Action = ActionNotification.Updated;
+
+        await _mediator.Publish(notification, cancellationToken);
+
+        var result = _mapper.Map<UpdateSalesCartsResult>(updatedSalesCarts);
+        
         return result;
     }
 }

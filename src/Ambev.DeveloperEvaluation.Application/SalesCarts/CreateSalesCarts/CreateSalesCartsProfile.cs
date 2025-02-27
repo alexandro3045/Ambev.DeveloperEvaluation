@@ -1,5 +1,7 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
 using Ambev.DeveloperEvaluation.Application.SalesCarts.CreateSalesCarts;
+using Ambev.DeveloperEvaluation.Application.Serivices.Notifications.Base;
+using Ambev.DeveloperEvaluation.Application.Serivices.Notifications;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using AutoMapper;
 
@@ -15,6 +17,11 @@ public class CreateSalesCartsProfile : Profile
     /// </summary>
     public CreateSalesCartsProfile()
     {
+        CreateMap<Domain.Entities.SalesCarts, BaseNotification>()
+         .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.GetType().Name))
+         .ForMember(dest => dest.Action, opt => opt.MapFrom(src => ActionNotification.Created));
+
+
         CreateMap<CreateSalesCartsCommand, Domain.Entities.SalesCarts>()
              .ForMember(dest => dest.Carts, opt => opt.MapFrom(src =>
              new Domain.Entities.Carts

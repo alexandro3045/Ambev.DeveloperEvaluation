@@ -8,6 +8,7 @@ using Ambev.DeveloperEvaluation.Unit.Extensions;
 using AutoMapper;
 using Bogus;
 using FluentAssertions;
+using MediatR;
 using NSubstitute;
 using Xunit;
 
@@ -20,13 +21,15 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.SalesCarts
         private readonly IProductRepository _ProductRepository;
         private readonly IMapper _mapper;
         private readonly CreateSalesCartsHandler _handler;
+        private readonly IMediator _mediator;
 
         public CreateSalesCartstHandlerTests()
         {
             _SalesCartsRepository = Substitute.For<ISalesCartsRepository>();
             _ProductRepository = Substitute.For<IProductRepository>(); // Fixing the conversion issue
             _mapper = Substitute.For<IMapper>();
-            _handler = new CreateSalesCartsHandler(_SalesCartsRepository, _ProductRepository, _mapper);
+            _mediator = Substitute.For<IMediator>();
+            _handler = new CreateSalesCartsHandler(_SalesCartsRepository, _ProductRepository, _mapper, _mediator);
         }
 
 

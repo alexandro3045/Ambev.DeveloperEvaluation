@@ -61,15 +61,15 @@ public class UpdateCartsHandler : IRequestHandler<UpdateCartsCommand, UpdateCart
                });
         });
 
-        var UpdatedCarts = await _CartsRepository.UpdateAsync(Carts, cancellationToken);
+        var updatedCarts = await _CartsRepository.UpdateAsync(Carts, cancellationToken);
 
-        var notification = _mapper.Map<BaseNotification>(UpdatedCarts);
+        var notification = _mapper.Map<BaseNotification>(updatedCarts);
 
         notification.Action = ActionNotification.Updated;
 
         await _mediator.Publish(notification, cancellationToken);
 
-        var result = _mapper.Map<UpdateCartsResult>(UpdatedCarts);
+        var result = _mapper.Map<UpdateCartsResult>(updatedCarts);
 
         return result;
     }

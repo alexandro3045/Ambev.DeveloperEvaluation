@@ -4,6 +4,7 @@ using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Unit.Application.TestData;
 using AutoMapper;
 using FluentAssertions;
+using MediatR;
 using NSubstitute;
 using Xunit;
 
@@ -15,12 +16,13 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Product
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
         private readonly CreateProductsHandler _handler;
-
+        private readonly IMediator _mediator;
         public CreateCartstHandlerTests()
         {
             _productRepository = Substitute.For<IProductRepository>();
             _mapper = Substitute.For<IMapper>();
-            _handler = new CreateProductsHandler(_productRepository, _mapper);
+            _mediator = Substitute.For<IMediator>();
+            _handler = new CreateProductsHandler(_productRepository, _mapper, _mediator);
             Setup();
         }
         private void Setup()
