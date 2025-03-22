@@ -14,29 +14,6 @@ namespace Ambev.DeveloperEvaluation.Application.SalesCarts.CreateSalesCarts;
 public class CreateSalesCartsResult
 {
 
-    public CreateSalesCartsResult(int salesNumber, DateTime createdAt, Guid userId, decimal totalSalesAmount, Guid branchId, List<CartItemResult> products, int quantities, bool canceled, Guid cartId)
-    {
-        SalesNumber = salesNumber;
-        CreatedAt = createdAt;
-        UserId = userId;
-        TotalSalesAmount = totalSalesAmount;
-        BranchId = branchId;
-        Products = products;
-        Quantities = quantities;
-        Canceled = canceled;
-        CartId = cartId;
-    }
-
-    public CreateSalesCartsResult(int salesNumber, DateTime createdAt, Guid userId, decimal totalSalesAmount, Guid branchId, List<CartItemResult> products)
-    {
-        SalesNumber = salesNumber;
-        CreatedAt = createdAt;
-        UserId = userId;
-        TotalSalesAmount = totalSalesAmount;
-        BranchId = branchId;
-        Products = products;
-    }
-
     /// <summary>
     /// Gets the CartId when the saleCarts was created.
     /// </summary>

@@ -85,21 +85,8 @@ public class CreateSalesCartsHandler : IRequestHandler<CreateSalesCartsCommand, 
 
         await _mediator.Publish(notification, cancellationToken);
 
-        var result = _mapper.Map<CreateSalesCartsResult>(createdSalesCarts);
+        var result = _mapper.Map<CreateSalesCartsResult>(salesCarts);
 
-        return new CreateSalesCartsResult
-            (
-             createdSalesCarts.SalesNumber ?? 0,
-             createdSalesCarts.CreatedAt,
-             createdSalesCarts.UserId,
-             createdSalesCarts.TotalSalesAmount,
-             createdSalesCarts.BranchId,
-             createdSalesCarts.Carts.CartsProductsItems.Select(p =>
-                    new CartItemResult(p.CartId, p.ProductId, p.Quantity, p.TotalAmountItem,
-                    p.UnitPrice, p.Discounts, p.Canceled)).ToList(),
-             createdSalesCarts.Quantities,
-             createdSalesCarts.Canceled,
-             createdSalesCarts.CartId
-            );
+        return result;
     }
 }

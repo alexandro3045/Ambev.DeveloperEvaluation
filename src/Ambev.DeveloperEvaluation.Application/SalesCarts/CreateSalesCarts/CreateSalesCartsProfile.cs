@@ -33,20 +33,9 @@ public class CreateSalesCartsProfile : Profile
              }));
 
         CreateMap<Domain.Entities.SalesCarts, CreateSalesCartsResult>()
-            .ConstructUsing(src => new CreateSalesCartsResult
-            (
-                 src.SalesNumber ?? 0,
-                 src.CreatedAt,
-                 src.UserId,
-                 src.TotalSalesAmount,
-                 src.BranchId,
-                 src.Carts.CartsProductsItems.Select(cpi =>
-                 new CartItemResult(cpi.CartId, cpi.ProductId, cpi.Quantity, cpi.TotalAmountItem,
-                    cpi.UnitPrice, cpi.Discounts, cpi.Canceled)).ToList(),
-                 src.Quantities,
-                 src.Canceled,
-                 src.CartId
-            ));
+            .ForMember(dest => dest.SalesNumber, opt => opt.MapFrom(src => src.SalesNumber ?? 0))
+            .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Carts.CartsProductsItems.Select(cpi => new CartItemResult(cpi.CartId, cpi.ProductId, cpi.Quantity,
+            cpi.TotalAmountItem, cpi.UnitPrice, cpi.Discounts, cpi.Canceled)).ToList()));
     }
 }
 

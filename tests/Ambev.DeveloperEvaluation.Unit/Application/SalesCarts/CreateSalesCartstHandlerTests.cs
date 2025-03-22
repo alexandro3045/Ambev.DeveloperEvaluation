@@ -63,16 +63,16 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.SalesCarts
             };
 
             var result = new CreateSalesCartsResult
-            (
-                 SalesCarts.SalesNumber ?? 0,
-                SalesCarts.CreatedAt,
-                SalesCarts.UserId,
-                 SalesCarts.TotalSalesAmount,
-                SalesCarts.BranchId,
-                 SalesCarts.Carts.CartsProductsItems.Select(p =>
-                    new CartItemResult(p.CartId, p.ProductId, p.Quantity, p.TotalAmountItem,
-                    p.UnitPrice, p.Discounts, p.Canceled)).ToList()
-            );
+            {
+                SalesNumber = SalesCarts.SalesNumber ?? 0,
+                CreatedAt = SalesCarts.CreatedAt,
+                UserId = SalesCarts.UserId,
+                TotalSalesAmount = SalesCarts.TotalSalesAmount,
+                BranchId = SalesCarts.BranchId,
+                Products = SalesCarts.Carts.CartsProductsItems.Select(p =>
+                   new CartItemResult(p.CartId, p.ProductId, p.Quantity, p.TotalAmountItem,
+                   p.UnitPrice, p.Discounts, p.Canceled)).ToList()
+            };
 
             _mapper.Map<DeveloperEvaluation.Domain.Entities.SalesCarts>(command).Returns(SalesCarts);
 
@@ -97,9 +97,35 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.SalesCarts
             // Then
             var createSalesCartsResult = await _handler.Handle(command, CancellationToken.None);
 
+            createSalesCartsResult.TotalSalesAmount = SalesCarts.TotalSalesAmount;
+
+            createSalesCartsResult.Quantities = SalesCarts.Quantities;
+
+            var SalesCartsResult = new CreateSalesCartsResult
+            { 
+               SalesNumber = SalesCarts.SalesNumber??0,
+               CreatedAt = SalesCarts.CreatedAt,
+               UserId = SalesCarts.UserId,
+               TotalSalesAmount = SalesCarts.TotalSalesAmount,
+               BranchId = SalesCarts.BranchId,
+               Products= SalesCarts.Carts.CartsProductsItems.Select(p =>
+                        new CartItemResult(p.CartId, p.ProductId, p.Quantity, p.TotalAmountItem,
+                        p.UnitPrice, p.Discounts, p.Canceled)).ToList(),
+               Quantities = SalesCarts.Quantities,
+               Canceled = SalesCarts.Canceled,
+               CartId = SalesCarts.CartId
+            };
+
             // Then
             createSalesCartsResult.Should().NotBeNull();
-            createSalesCartsResult.SalesNumber.Should().Be(SalesCarts.SalesNumber);
+            createSalesCartsResult.SalesNumber.Should().Be(SalesCartsResult.SalesNumber);
+            createSalesCartsResult.TotalSalesAmount.Should().Be(SalesCartsResult.TotalSalesAmount);
+            createSalesCartsResult.Quantities.Should().Be(SalesCartsResult.Quantities);
+            createSalesCartsResult.CreatedAt.Should().Be(SalesCartsResult.CreatedAt);
+            createSalesCartsResult.UserId.Should().Be(SalesCartsResult.UserId);
+            createSalesCartsResult.BranchId.Should().Be(SalesCartsResult.BranchId);
+            createSalesCartsResult.Products.Should().AllSatisfy(p => p.Canceled.Should().BeFalse());
+            createSalesCartsResult.SalesNumber.Should().Be(SalesCartsResult.SalesNumber);
             await _SalesCartsRepository.Received(2).CreateAsync(Arg.Any<DeveloperEvaluation.Domain.Entities.SalesCarts>(), Arg.Any<CancellationToken>());
         }
     }
