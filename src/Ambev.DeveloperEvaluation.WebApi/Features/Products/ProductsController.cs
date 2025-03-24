@@ -190,18 +190,14 @@ public class ProductsController : BaseController
 
         try
         {
-            await _mediator.Send(command, cancellationToken);
+            var response = await _mediator.Send(command, cancellationToken);
+            return Ok(_mapper.Map<DeleteProductResult>(response));
         }
         catch (Exception ex)
         {
             return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
         }
 
-        return Ok(new ApiResponse
-        {
-            Success = true,
-            Message = "Product deleted successfully"
-        });
     }
 
     /// <summary>

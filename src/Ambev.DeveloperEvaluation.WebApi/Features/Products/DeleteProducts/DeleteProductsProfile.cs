@@ -1,4 +1,5 @@
 using AutoMapper;
+using Ambev.DeveloperEvaluation.Application.Products.DeleteProducts;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.DeleteProducts;
 
@@ -12,7 +13,9 @@ public class DeleteProductsProfile : Profile
     /// </summary>
     public DeleteProductsProfile()
     {
-        CreateMap<Guid, Application.Products.DeleteProducts.DeleteProductsCommand>()
-            .ConstructUsing(id => new Application.Products.DeleteProducts.DeleteProductsCommand(id));
+        CreateMap<Guid, DeleteProductsCommand>()
+            .ConstructUsing(id => new DeleteProductsCommand(id));
+
+        CreateMap<DeleteProductsResponse, DeleteProductResult>();
     }
 }

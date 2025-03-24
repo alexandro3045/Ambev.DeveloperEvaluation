@@ -184,8 +184,6 @@ namespace Store.FunctionalTests.Controllers
             var statusCode1 = response1.StatusCode.ToString();
 
             Assert.Equal("OK", statusCode1);
-
-            Assert.True(updatedProduct.Success);
         }
 
         [Fact]

@@ -53,6 +53,6 @@ public class DeleteProductsHandler : IRequestHandler<DeleteProductsCommand, Dele
 
         await _mediator.Publish(notification, cancellationToken);
 
-        return new DeleteProductsResponse { Success = true };
+        return new DeleteProductsResponse { Success = true, Message = $"ProductsItems with ID {request.Id} deleted succefully"  };
     }
 }

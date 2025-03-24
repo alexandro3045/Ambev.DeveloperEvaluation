@@ -1,10 +1,12 @@
-namespace Ambev.DeveloperEvaluation.Application.Products.DeleteProducts;
+
+
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.DeleteProducts;
 
 /// <summary>
-/// Response model for DeleteProducts operation
+/// API response model for DeleteProductResult operation
 /// </summary>
-public class DeleteProductsResponse
-{
+public class DeleteProductResult {
+
     /// <summary>
     /// Indicates whether the deletion was successful
     /// </summary>
