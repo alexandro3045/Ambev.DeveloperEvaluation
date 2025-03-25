@@ -11,7 +11,7 @@ namespace Ambev.DeveloperEvaluation.Integration.Base
     public abstract class ControllerApiTesteBase
     {
         protected HttpSelfHostServer? servidor;
-        protected const string urlBase = "http://algumaurl.com/";
+        protected const string urlBase = "https://localhost:7181/";
 
         [TestInitialize]
         public void Setup()

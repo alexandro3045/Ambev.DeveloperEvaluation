@@ -14,6 +14,7 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProducts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Productss.GetProducts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.GetListProduct;
+using Ambev.DeveloperEvaluation.Common.Validation;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -56,14 +57,23 @@ public class ProductsController : BaseController
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
-            return BadRequest(validationResult.Errors);
+          return  BadRequest(new ApiResponse{ Success = false, Errors =
+              validationResult.Errors.Select(err => new ValidationErrorDetail { Detail = err.ErrorMessage, Error = err.ErrorCode }).ToList()
+          });
+
 
         var command = _mapper.Map<CreateProductsCommand>(request);
 
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-            return Ok(_mapper.Map<CreateProductsResponse>(response));
+
+            return Created(string.Empty, new ApiResponseWithData<CreateProductsResponse>
+            {
+                Success = true,
+                Message = "Product created successfully",
+                Data = _mapper.Map<CreateProductsResponse>(response)
+            });
         }
         catch (Exception ex)
         {
@@ -93,7 +103,8 @@ public class ProductsController : BaseController
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-            return Ok(_mapper.Map<UpdateProductResponse>(response));
+            
+            return Updated(_mapper.Map<UpdateProductResponse>(response), "Product updated successfully");
         }
         catch (Exception ex)
         {
@@ -123,12 +134,15 @@ public class ProductsController : BaseController
 
         var command = _mapper.Map<GetProductsCommand>(request.Id);
 
-        var response = await _mediator.Send(command, cancellationToken);
-
-        if (response == null)
-            return NotFound(new ApiResponse { Success = false, Message = "Product not found" });
-
-        return Ok(_mapper.Map<GetProductsResponse>(response));
+         try
+        {
+            var response = await _mediator.Send(command, cancellationToken);
+            return Ok(_mapper.Map<GetProductsResponse>(response));
+        }
+        catch (Exception ex)
+        {
+            return NotFound(new ApiResponse { Success = false, Message = ex.Message });
+        }
     }
 
     /// <summary>
@@ -146,7 +160,7 @@ public class ProductsController : BaseController
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetListProducts([FromRoute] int page = 1, int size = 10, string?
         order = default, string? direction = "asc",
-        [FromQuery] string? columnFilters = "", CancellationToken cancellationToken = default)
+        [FromQuery] string? columnFilters = default, CancellationToken cancellationToken = default)
     {
         var request = new GetListProductRequest { Page = page, Size = size, Order = order, Direction = direction, ColumnFilters = columnFilters };
         var validator = new GetListProductsRequestValidator();
@@ -159,7 +173,7 @@ public class ProductsController : BaseController
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-            return OkPaginated(new PaginatedList<Product?>(response.Products, response.Products.Count, page, size));
+            return Ok(new PaginatedList<Product?>(response.Products, response.Products.Count, page, size));
         }
         catch (Exception ex)
         {

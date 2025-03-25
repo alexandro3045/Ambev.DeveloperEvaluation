@@ -1,17 +1,19 @@
-﻿using Ambev.DeveloperEvaluation.Application.Products.GetListProducts;
-using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Functional.Controllers;
 using Ambev.DeveloperEvaluation.Functional.Models.Controllers.Models;
 using Ambev.DeveloperEvaluation.WebApi;
+using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProducts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetListProduct;
-using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProducts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct;
 using Bogus;
+using Store.SharedDatabaseSetup.Extensions;
 using Newtonsoft.Json;
+using Store.SharedDatabaseSetup;
 using System.Text;
 using Xunit;
-using static System.Net.Mime.MediaTypeNames;
+using System.Linq;
+
 
 namespace Store.FunctionalTests.Controllers
 {
@@ -25,11 +27,11 @@ namespace Store.FunctionalTests.Controllers
         public async Task GetProducts_ReturnsAllRecords()
         {
             var client = this.GetNewClient();
-            var response = await client.GetAsync("/api/Products");
+            var response = await client.GetAsync("/api/Products/1,10,Title,asc");
             response.EnsureSuccessStatusCode();
 
             var stringResponse = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<IEnumerable<GetListProductResponse>>(stringResponse).ToList();
+            var result = JsonConvert.DeserializeObject<dynamic>(stringResponse).data;
             var statusCode = response.StatusCode.ToString();
 
             Assert.Equal("OK", statusCode);
@@ -39,13 +41,17 @@ namespace Store.FunctionalTests.Controllers
         [Fact]
         public async Task GetProductById_ProductExists_ReturnsCorrectProduct()
         {
-            var productId = Guid.NewGuid();
             var client = this.GetNewClient();
+
+            var productId = DatabaseSetup.ProductsFaker.FirstOrDefault().Id;
+
             var response = await client.GetAsync($"/api/Products/{productId}");
             response.EnsureSuccessStatusCode();
 
             var stringResponse = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<GetProductsResponse>(stringResponse);
+
+            var result = JsonConvert.DeserializeObject<ApiResponseWithData<Product>>(stringResponse).Data;
+
             var statusCode = response.StatusCode.ToString();
 
             Assert.Equal("OK", statusCode);
@@ -56,13 +62,11 @@ namespace Store.FunctionalTests.Controllers
             Assert.NotNull(result.Rating);
         }
 
-        [Theory]
-        [InlineData(0)]
-        [InlineData(20)]
-        public async Task GetProductById_ProductDoesntExist_ReturnsNotFound(int productId)
+        [Fact]
+        public async Task GetProductById_ProductDoesntExist_ReturnsNotFound()
         {
             var client = this.GetNewClient();
-            var response = await client.GetAsync($"/api/Products/{productId}");
+            var response = await client.GetAsync($"/api/Products/{Guid.NewGuid()}");
 
             var statusCode = response.StatusCode.ToString();
 
@@ -78,12 +82,12 @@ namespace Store.FunctionalTests.Controllers
 
             var request = new CreateProductRequest
             {
-                Price = new Faker().Random.Decimal(0.00m, 99.00m),
+                Price = new Faker().Random.Decimal(0.00m, 99.00m, 2),
                 Category = $"Category {new Faker().Internet.DomainName()}",
                 Description = $"Description {new Faker().Finance.AccountName()}",
                 Image = new Faker().Image.ToString(),
                 Title = $"Title {new Faker().Commerce.ProductName()}",
-                Rating = new Rating { Count = new Faker().Random.Int(10), Rate = new Faker().Random.Decimal(0.00m, 99.00m) }
+                Rating = new Rating { Count = new Faker().Random.Int(10), Rate = new Faker().Random.Decimal(0.00m, 99.00m, 2) }
             };
 
             var stringContent = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
@@ -93,17 +97,16 @@ namespace Store.FunctionalTests.Controllers
             response1.EnsureSuccessStatusCode();
 
             var stringResponse1 = await response1.Content.ReadAsStringAsync();
-            var createdProduct = JsonConvert.DeserializeObject<CreateProductsResponse>(stringResponse1);
+            var createdProduct = JsonConvert.DeserializeObject<ApiResponseWithData<Product>>(stringResponse1).Data;
             var statusCode1 = response1.StatusCode.ToString();
 
             Assert.Equal("Created", statusCode1);
-
 
             var response2 = await client.GetAsync($"/api/Products/{createdProduct.Id}");
             response2.EnsureSuccessStatusCode();
 
             var stringResponse2 = await response2.Content.ReadAsStringAsync();
-            var result2 = JsonConvert.DeserializeObject<CreateProductsResponse>(stringResponse2);
+            var result2 = JsonConvert.DeserializeObject<ApiResponseWithData<Product>>(stringResponse2).Data;
             var statusCode2 = response2.StatusCode.ToString();
 
             Assert.Equal("OK", statusCode2);
@@ -112,7 +115,8 @@ namespace Store.FunctionalTests.Controllers
             Assert.Equal(createdProduct.Description, result2.Description);
             Assert.Equal(createdProduct.Price, result2.Price);
             Assert.Equal(createdProduct.Category, result2.Category);
-            Assert.Equal(createdProduct.Rating, result2.Rating);
+            Assert.Equal(createdProduct.Rating.Count, result2.Rating.Count);
+            Assert.Equal(createdProduct.Rating.Rate, result2.Rating.Rate);
             Assert.Equal(createdProduct.Image, result2.Image);
         }
 
@@ -125,41 +129,27 @@ namespace Store.FunctionalTests.Controllers
 
             var request = new CreateProductRequest
             {
-                Price = new Faker().Random.Decimal(0.00m, 99.00m),
+                Price = new Faker().Random.Decimal(0.00m, 99.00m, 2),
                 Category = string.Empty,
                 Description = string.Empty,
                 Image = new Faker().Image.ToString(),
                 Title = $"Title {new Faker().Commerce.ProductName()}",
-                Rating = new Rating { Count = new Faker().Random.Int(10), Rate = new Faker().Random.Decimal(0.00m, 99.00m) }
+                Rating = new Rating { Count = new Faker().Random.Int(10), Rate = new Faker().Random.Decimal(0.00m, 99.00m, 2) }
             };
 
             var stringContent = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
 
             var response1 = await client.PostAsync("/api/Products", stringContent);
 
-            response1.EnsureSuccessStatusCode();
-
-            var stringResponse1 = await response1.Content.ReadAsStringAsync();
-            var createdProduct = JsonConvert.DeserializeObject<CreateProductsResponse>(stringResponse1);
-            var statusCode1 = response1.StatusCode.ToString();
-
-            Assert.Equal("Created", statusCode1);
-
-            // Get created product
-
-            var response2 = await client.GetAsync($"/api/Products/{createdProduct.Id}");
-            response2.EnsureSuccessStatusCode();
-
-            var stringResponse = await response2.Content.ReadAsStringAsync();
+            var stringResponse = await response1.Content.ReadAsStringAsync();
             var badRequest = JsonConvert.DeserializeObject<BadRequestModel>(stringResponse);
-            var statusCode = response2.StatusCode.ToString();
+            var statusCode = response1.StatusCode.ToString();
 
             Assert.Equal("BadRequest", statusCode);
-            Assert.NotNull(badRequest.Title);
             Assert.NotNull(badRequest.Errors);
-            Assert.Equal(2, badRequest.Errors.Count);
-            Assert.Contains(badRequest.Errors.Keys, k => k == "Category");
-            Assert.Contains(badRequest.Errors.Keys, k => k == "Description");
+            Assert.Equal(4, badRequest.Errors.Count());
+            Assert.Contains(badRequest.Errors, e => e.Detail == "'Category'");
+            Assert.Contains(badRequest.Errors, e => e.Detail == "Description");
         }
 
 
@@ -168,22 +158,27 @@ namespace Store.FunctionalTests.Controllers
         {
             var client = this.GetNewClient();
 
-            var response = await client.GetAsync("/api/Products");
+            var UpdateProductRequest = DatabaseSetup.ProductsFaker.FirstOrDefault();
 
-            var stringResponse = await response.Content.ReadAsStringAsync();
-            
-            var UpdateProductRequest = JsonConvert.DeserializeObject<IEnumerable<GetListProductResponse>>(stringResponse).Single().ListProduct.First();
+            UpdateProductRequest.Title = "Updated Title";
 
             var stringContent = new StringContent(JsonConvert.SerializeObject(UpdateProductRequest), Encoding.UTF8, "application/json");
 
             var response1 = await client.PutAsync($"/api/Products", stringContent);
+            
             response1.EnsureSuccessStatusCode();
 
             var stringResponse1 = await response1.Content.ReadAsStringAsync();
-            var updatedProduct = JsonConvert.DeserializeObject<UpdateProductResponse>(stringResponse1);
+            
+            var updatedProduct = JsonConvert.DeserializeObject<ApiResponseWithData<Product>>(stringResponse1).Data;
+            
             var statusCode1 = response1.StatusCode.ToString();
 
             Assert.Equal("OK", statusCode1);
+
+            Assert.Equal(UpdateProductRequest.Id, updatedProduct.Id);
+
+            Assert.Equal(UpdateProductRequest.Title, updatedProduct.Title);
         }
 
         [Fact]

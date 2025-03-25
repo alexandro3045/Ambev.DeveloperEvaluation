@@ -4,10 +4,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
 using Store.SharedDatabaseSetup;
-using System;
-using System.Linq;
 
 namespace Store.FunctionalTests
 {
@@ -18,20 +15,11 @@ namespace Store.FunctionalTests
         {
             builder.ConfigureServices(static services =>
             {
-                // Remove the app's DefaultContext registration.
-                var descriptor = services.SingleOrDefault(
-                    d => d.ServiceType ==
-                        typeof(DbContextOptions<DefaultContext>));
-
-                if (descriptor != null)
-                {
-                    services.Remove(descriptor);
-                }
 
                 // Add DefaultContext using an in-memory database for testing.
                 services.AddDbContext<DefaultContext>(static options =>
                 {
-                    options.UseInMemoryDatabase("InMemoryDbForFunctionalTesting");
+                    options.UseInMemoryDatabase("Ambev.DeveloperEvaluation.ORM.DefaultContext");
                 });
 
                 // Get service provider.
@@ -44,6 +32,7 @@ namespace Store.FunctionalTests
                     var logger = scopedServices.GetRequiredService<ILogger<CustomWebApplicationFactory<TStartup>>>();
 
                     var storeDbContext = scopedServices.GetRequiredService<DefaultContext>();
+
                     storeDbContext.Database.EnsureCreated();
 
                     try
@@ -73,14 +62,14 @@ namespace Store.FunctionalTests
 
                     var storeDbContext = scopedServices.GetRequiredService<DefaultContext>();
 
-                    try
-                    {
-                        DatabaseSetup.SeedData(storeDbContext);
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.LogError(ex, $"An error occurred seeding the Store database with test messages. Error: {ex.Message}");
-                    }
+                   try
+                   {
+                     DatabaseSetup.SeedData(storeDbContext);
+                   }
+                   catch (Exception ex)
+                   {
+                     logger.LogError(ex, $"An error occurred seeding the Store database with test messages. Error: {ex.Message}");
+                   }
                 }
             });
         }

@@ -27,10 +27,10 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         builder.Property(u => u.Description)
             .IsRequired()
-            .HasMaxLength(100);
+            .HasMaxLength(300);
 
         builder.Property(u => u.Category)
-            .HasMaxLength(20);
+            .HasMaxLength(300);
 
         builder.Property(u => u.Image)
             .IsRequired()

@@ -59,7 +59,13 @@ public class UsersController : BaseController
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-            return Ok(_mapper.Map<CreateUserResponse>(response));
+            
+            return Created(string.Empty, new ApiResponseWithData<CreateUserResponse>
+            {
+                Success = true,
+                Message = "User created successfully",
+                Data = _mapper.Map<CreateUserResponse>(response)
+            });
         }
         catch (Exception ex)
         {

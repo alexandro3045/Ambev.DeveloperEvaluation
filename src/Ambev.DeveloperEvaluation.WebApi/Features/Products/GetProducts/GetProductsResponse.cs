@@ -9,7 +9,6 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProducts;
 /// </summary>
 public class GetProductsResponse
 {
-
     /// <summary>
     /// Gets the id from product
     /// </summary>
