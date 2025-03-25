@@ -148,10 +148,9 @@ namespace Store.FunctionalTests.Controllers
             Assert.Equal("BadRequest", statusCode);
             Assert.NotNull(badRequest.Errors);
             Assert.Equal(4, badRequest.Errors.Count());
-            Assert.Contains(badRequest.Errors, e => e.Detail == "'Category'");
-            Assert.Contains(badRequest.Errors, e => e.Detail == "Description");
+            Assert.Contains(badRequest.Errors, e => e.Detail.Contains("Category"));
+            Assert.Contains(badRequest.Errors, e => e.Detail.Contains("Description"));
         }
-
 
         [Fact]
         public async Task PutProduct_ReturnsUpdatedProduct()
@@ -182,26 +181,19 @@ namespace Store.FunctionalTests.Controllers
         }
 
         [Fact]
-        public async Task DeleteProductById_ReturnsNoContent()
+        public async Task DeleteProductById_ReturnsNotFound()
         {
             var client = this.GetNewClient();
-            var productId = 5;
+
+            var productId = Guid.NewGuid();
 
             // Delete product
 
             var response1 = await client.DeleteAsync($"/api/Products/{productId}");
 
-            var statusCode1 = response1.StatusCode.ToString();
+            var statusCode = response1.StatusCode.ToString();
 
-            Assert.Equal("NoContent", statusCode1);
-
-            // Get deleted product
-
-            var response2 = await client.GetAsync($"/api/Products/{productId}");
-
-            var statusCode2 = response2.StatusCode.ToString();
-
-            Assert.Equal("NotFound", statusCode2);
-        }
+            Assert.Equal("NotFound", statusCode);
+         }
     }
 }

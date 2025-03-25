@@ -96,7 +96,12 @@ public class ProductsController : BaseController
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
-            return BadRequest(validationResult.Errors);
+            return BadRequest(new ApiResponse
+            {
+                Success = false,
+                Errors =
+                validationResult.Errors.Select(err => new ValidationErrorDetail { Detail = err.ErrorMessage, Error = err.ErrorCode }).ToList()
+            });
 
         var command = _mapper.Map<UpdateProductsCommand>(request);
 
@@ -198,7 +203,12 @@ public class ProductsController : BaseController
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
-            return BadRequest(validationResult.Errors);
+            return BadRequest(new ApiResponse
+            {
+                Success = false,
+                Errors =
+                validationResult.Errors.Select(err => new ValidationErrorDetail { Detail = err.ErrorMessage, Error = err.ErrorCode }).ToList()
+            });
 
         var command = _mapper.Map<DeleteProductsCommand>(request.Id);
 
@@ -209,7 +219,7 @@ public class ProductsController : BaseController
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+            return NotFound(new ApiResponse { Success = false, Message = ex.Message });
         }
 
     }
@@ -253,7 +263,12 @@ public class ProductsController : BaseController
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
-            return BadRequest(validationResult.Errors);
+            return BadRequest(new ApiResponse
+            {
+                Success = false,
+                Errors =
+                validationResult.Errors.Select(err => new ValidationErrorDetail { Detail = err.ErrorMessage, Error = err.ErrorCode }).ToList()
+            });
 
         var command = _mapper.Map<GetListProductByCategoryCommand>(request);
         var response = await _mediator.Send(command, cancellationToken);
