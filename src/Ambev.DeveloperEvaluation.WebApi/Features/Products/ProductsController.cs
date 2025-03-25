@@ -77,7 +77,7 @@ public class ProductsController : BaseController
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+            return BadRequest(new ApiResponse { Success = false, Message = ex.Message, ErrorType = ex.GetType().Name });
         }
     }
 
@@ -115,7 +115,6 @@ public class ProductsController : BaseController
         {
             return BadRequest(new ApiResponse { Success = false, Message = ex.Message , ErrorType = ex.GetType().Name });
         }
-
     }
 
     /// <summary>

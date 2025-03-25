@@ -1,10 +1,18 @@
-﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
+﻿using Microsoft.IdentityModel.Tokens;
+
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
 
 /// <summary>
 /// Represents a request to create a new products in the system.
 /// </summary>
 public class CartsRequest
 {
+
+    /// <summary>
+    /// The unique identifier of the user to retrieve
+    /// </summary>
+    public Guid Id { get; set; }
+
     /// <summary>
     /// Gets the date and time when the carts was created.
     /// </summary>
@@ -18,7 +26,18 @@ public class CartsRequest
     /// <summary>
     /// Gets the products when the carts was created.
     /// </summary>
-    public required List<ItemProduct> Products { get; set; }
+    private List<ItemProduct> products;
+    public List<ItemProduct> Products
+    {
+        get
+        {
+            return !products.IsNullOrEmpty() ? [.. products.OrderBy(p => p.ProductId)] : products;
+        }
+        set
+        {
+            products = value;
+        }
+    }
 }
 
 public class ItemProduct
@@ -31,6 +50,13 @@ public class ItemProduct
     public Guid ProductId { get; set; }
     public int Quantity { get; set; }
     public bool Canceled { get; set; }
+
+    public override bool Equals(object obj)
+    {
+        return ProductId == ((ItemProduct)obj).ProductId &&
+          Quantity == ((ItemProduct)obj).Quantity &&
+          Canceled == ((ItemProduct)obj).Canceled;
+    }
 }
 
 public class ItemProductResult : ItemProduct

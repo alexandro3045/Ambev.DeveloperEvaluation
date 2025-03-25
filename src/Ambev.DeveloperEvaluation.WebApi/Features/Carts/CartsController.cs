@@ -4,6 +4,7 @@ using Ambev.DeveloperEvaluation.Application.Carts.GetCarts;
 using Ambev.DeveloperEvaluation.Application.Carts.GetListCarts;
 using Ambev.DeveloperEvaluation.Application.Carts.UpdateCarts;
 using Ambev.DeveloperEvaluation.Application.Serivices.Notifications;
+using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.WebApi.Carts.GetCarts.GetCarts;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
@@ -55,18 +56,29 @@ public class CartsController : BaseController
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
-            return BadRequest(validationResult.Errors);
+            return BadRequest(new ApiResponse
+            {
+                Success = false,
+                Errors =
+                validationResult.Errors.Select(err => new ValidationErrorDetail { Detail = err.ErrorMessage, Error = err.ErrorCode }).ToList()
+            });
 
         var command = _mapper.Map<CreateCartsCommand>(request);
 
         try
         {           
             var response = await _mediator.Send(command, cancellationToken);
-            return Ok(_mapper.Map<CartsResponse>(response));
+
+            return Created(string.Empty, new ApiResponseWithData<CartsResponse>
+            {
+                Success = true,
+                Message = "Carts created successfully",
+                Data = _mapper.Map<CartsResponse>(response)
+            });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+            return BadRequest(new ApiResponse { Success = false, Message = ex.Message, ErrorType = ex.GetType().Name });
         }
     }
 
@@ -92,12 +104,14 @@ public class CartsController : BaseController
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-            return Ok(_mapper.Map<UpdateCartsResponse>(response));
+
+            return Updated(_mapper.Map<UpdateCartsResponse>(response), "Carts updated successfully");
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+            return BadRequest(new ApiResponse { Success = false, Message = ex.Message, ErrorType = ex.GetType().Name });
         }
+
     }
 
     /// <summary>
@@ -128,7 +142,7 @@ public class CartsController : BaseController
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+            return NotFound(new ApiResponse { Success = false, Message = ex.Message , ErrorType = ex.GetType().Name });
         }
 
     }
@@ -142,7 +156,7 @@ public class CartsController : BaseController
     /// <param name="direction">The page of list</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The list of Carts </returns>
-    [HttpGet()]
+    [HttpGet("{page},{size},{order},{direction}")]
     [ProducesResponseType(typeof(PaginatedList<GetListCartsResponse?>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
@@ -176,7 +190,7 @@ public class CartsController : BaseController
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+            return BadRequest(new ApiResponse { Success = false, Message = ex.Message, ErrorType = ex.GetType().Name });
         }
     }
 
@@ -212,7 +226,7 @@ public class CartsController : BaseController
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+            return BadRequest(new ApiResponse { Success = false, Message = ex.Message, ErrorType = ex.GetType().Name });
         }
 
     }
