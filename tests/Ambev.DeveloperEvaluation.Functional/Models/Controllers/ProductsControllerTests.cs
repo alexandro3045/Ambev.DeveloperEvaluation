@@ -4,16 +4,12 @@ using Ambev.DeveloperEvaluation.Functional.Models.Controllers.Models;
 using Ambev.DeveloperEvaluation.WebApi;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProducts;
-using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetListProduct;
-using Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct;
 using Bogus;
 using Store.SharedDatabaseSetup.Extensions;
 using Newtonsoft.Json;
 using Store.SharedDatabaseSetup;
 using System.Text;
 using Xunit;
-using System.Linq;
-
 
 namespace Store.FunctionalTests.Controllers
 {
@@ -35,7 +31,7 @@ namespace Store.FunctionalTests.Controllers
             var statusCode = response.StatusCode.ToString();
 
             Assert.Equal("OK", statusCode);
-            Assert.True(result.Count == 10);
+            Assert.True(result.totalCount == 10);
         }
 
         [Fact]

@@ -12,6 +12,9 @@ namespace Ambev.DeveloperEvaluation.Functional.Models.Controllers.Models
 
         [JsonProperty("errors")]
         public Errors[] Errors { get; set; }
+
+        [JsonProperty("errorType")]
+        public string ErrorType { get; set; }
     }
 
     public class Errors

@@ -113,7 +113,7 @@ public class ProductsController : BaseController
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+            return BadRequest(new ApiResponse { Success = false, Message = ex.Message , ErrorType = ex.GetType().Name });
         }
 
     }
@@ -146,7 +146,7 @@ public class ProductsController : BaseController
         }
         catch (Exception ex)
         {
-            return NotFound(new ApiResponse { Success = false, Message = ex.Message });
+            return NotFound(new ApiResponse { Success = false, Message = ex.Message, ErrorType = ex.GetType().Name });
         }
     }
 
@@ -178,11 +178,11 @@ public class ProductsController : BaseController
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-            return Ok(new PaginatedList<Product?>(response.Products, response.Products.Count, page, size));
+            return OkPaginated(new PaginatedList<Product?>(response.Products, response.Products.Count, page, size));
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+            return BadRequest(new ApiResponse { Success = false, Message = ex.Message, ErrorType = ex.GetType().Name });
         }
     }
 
@@ -219,7 +219,7 @@ public class ProductsController : BaseController
         }
         catch (Exception ex)
         {
-            return NotFound(new ApiResponse { Success = false, Message = ex.Message });
+            return NotFound(new ApiResponse { Success = false, Message = ex.Message, ErrorType = ex.GetType().Name });
         }
 
     }

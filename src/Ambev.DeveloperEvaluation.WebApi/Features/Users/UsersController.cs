@@ -3,6 +3,7 @@ using Ambev.DeveloperEvaluation.Application.Users.DeleteUser;
 using Ambev.DeveloperEvaluation.Application.Users.GetListUser;
 using Ambev.DeveloperEvaluation.Application.Users.GetUser;
 using Ambev.DeveloperEvaluation.Application.Users.UpdateUser;
+using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.CreateUser;
@@ -52,7 +53,12 @@ public class UsersController : BaseController
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
-            return BadRequest(validationResult.Errors);
+            return BadRequest(new ApiResponse
+            {
+                Success = false,
+                Errors =
+             validationResult.Errors.Select(err => new ValidationErrorDetail { Detail = err.ErrorMessage, Error = err.ErrorCode }).ToList()
+            });
 
         var command = _mapper.Map<CreateUserCommand>(request);
 
@@ -131,7 +137,7 @@ public class UsersController : BaseController
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+            return BadRequest(new ApiResponse { Success = false, Message = ex.Message, ErrorType = ex.GetType().Name });
         }
     }
 
@@ -202,7 +208,7 @@ public class UsersController : BaseController
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+            return BadRequest(new ApiResponse { Success = false, Message = ex.Message, ErrorType = ex.GetType().Name });
         }
 
 
