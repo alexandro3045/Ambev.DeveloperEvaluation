@@ -135,7 +135,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     SalesNumber = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "date", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "date", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "date", nullable: true),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     TotalSalesAmount = table.Column<decimal>(type: "numeric", maxLength: 10, nullable: false),
                     BranchId = table.Column<Guid>(type: "uuid", nullable: false),

@@ -5,8 +5,5 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
 /// </summary>
 public class CartsResponse : CartsRequest
 {
-    /// <summary>
-    /// The unique identifier of the created carts
-    /// </summary>
-    public Guid Id { get; set; }
+
 }

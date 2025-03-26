@@ -313,7 +313,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                     b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Branch", "Branch")
                         .WithOne()
                         .HasForeignKey("Ambev.DeveloperEvaluation.Domain.Entities.SalesCarts", "BranchId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Carts", "Carts")

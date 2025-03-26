@@ -3,7 +3,13 @@ using Ambev.DeveloperEvaluation.Application.SalesCarts.DeleteSalesCarts;
 using Ambev.DeveloperEvaluation.Application.SalesCarts.GetListSalesCarts;
 using Ambev.DeveloperEvaluation.Application.SalesCarts.GetSalesCarts;
 using Ambev.DeveloperEvaluation.Application.SalesCarts.UpdateSalesCarts;
+using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.WebApi.Common;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetListCarts;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProducts;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetListProduct;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.CreateCarts;
 using Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.CreateSalesCarts;
 using Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.DeleteSalesCarts;
@@ -53,18 +59,29 @@ public class SalesCartsController : BaseController
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
-            return BadRequest(validationResult.Errors);
+            return BadRequest(new ApiResponse
+            {
+                Success = false,
+                Errors =
+                validationResult.Errors.Select(err => new ValidationErrorDetail { Detail = err.ErrorMessage, Error = err.ErrorCode }).ToList()
+            });
 
         var command = _mapper.Map<CreateSalesCartsCommand>(request);
 
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-            return Ok(_mapper.Map<CreateSalesCartsResponse>(response));
+
+            return Created(string.Empty, new ApiResponseWithData<CreateSalesCartsResponse>
+            {
+                Success = true,
+                Message = "SaleCarts created successfully",
+                Data = _mapper.Map<CreateSalesCartsResponse>(response)
+            });
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+            return BadRequest(new ApiResponse { Success = false, Message = ex.Message, ErrorType = ex.GetType().Name });
         }
     }
 
@@ -83,18 +100,24 @@ public class SalesCartsController : BaseController
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
-            return BadRequest(validationResult.Errors);
+            return BadRequest(new ApiResponse
+            {
+                Success = false,
+                Errors =
+                validationResult.Errors.Select(err => new ValidationErrorDetail { Detail = err.ErrorMessage, Error = err.ErrorCode }).ToList()
+            });
 
         var command = _mapper.Map<UpdateSalesCartsCommand>(request);
 
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-            return Ok(_mapper.Map<UpdateSalesCartsResponse>(response));
+
+            return Updated(_mapper.Map<UpdateSalesCartsResponse>(response), "SaleCarts updated successfully");
         }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(new ApiResponse { Success = false, Message = ex.Message, ErrorType = ex.GetType().Name });
         }
     }
 
@@ -126,9 +149,8 @@ public class SalesCartsController : BaseController
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+            return BadRequest(new ApiResponse { Success = false, Message = ex.Message, ErrorType = ex.GetType().Name });
         }
-
     }
 
     /// <summary>
@@ -140,22 +162,14 @@ public class SalesCartsController : BaseController
     /// <param name="direction">The page of list</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The list of Carts </returns>
-    [HttpGet()]
-    [ProducesResponseType(typeof(PaginatedList<Domain.Entities.Carts?>), StatusCodes.Status200OK)]
+    [HttpGet("{page},{size},{order},{direction}")]
+    [ProducesResponseType(typeof(PaginatedList<GetListSalesCartsResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetListSalesCarts([FromQuery] int page = 1, [FromQuery] int size = 10, [FromQuery] string? order = "CreatedAt", [FromQuery] string? direction = "asc",
           [FromQuery] string? columnFilters = default, CancellationToken cancellationToken = default)
     {
-        var request = new GetListSalesCartsRequest
-        {
-            Page = page,
-            Size = size,
-            Order = order,
-            ColumnFilters = columnFilters,
-            Direction = direction
-        };
-
+        var request = new GetListSalesCartsRequest { Page = page, Size = size, Order = order, Direction = direction, ColumnFilters = columnFilters };
         var validator = new GetListSalesCartsRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
@@ -167,12 +181,14 @@ public class SalesCartsController : BaseController
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-            var nullableList = response.ListSalesCarts.Cast<Domain.Entities.Carts?>().ToList();
-            return OkPaginated(new PaginatedList<Domain.Entities.Carts?>(nullableList, nullableList.Count, page, size));
+        
+            var mappedResponse = _mapper.Map<GetListSalesCartsResponse>(response);
+            
+            return OkPaginated(new PaginatedList<CartsResponse>(mappedResponse.ListSalesCarts, mappedResponse.ListSalesCarts.Count, page, size));
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+            return BadRequest(new ApiResponse { Success = false, Message = ex.Message, ErrorType = ex.GetType().Name });
         }
     }
 
@@ -193,7 +209,11 @@ public class SalesCartsController : BaseController
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
-            return BadRequest(validationResult.Errors);
+            return BadRequest(new ApiResponse
+            {
+                Success = false,
+                Errors = validationResult.Errors.Select(err => new ValidationErrorDetail { Detail = err.ErrorMessage, Error = err.ErrorCode }).ToList()
+            });
 
         var command = _mapper.Map<DeleteSalesCartsCommand>(request.Id);
 
@@ -208,7 +228,7 @@ public class SalesCartsController : BaseController
         }
         catch (Exception ex)
         {
-            return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
+            return NotFound(new ApiResponse { Success = false, Message = ex.Message, ErrorType = ex.GetType().Name });
         }
 
     }

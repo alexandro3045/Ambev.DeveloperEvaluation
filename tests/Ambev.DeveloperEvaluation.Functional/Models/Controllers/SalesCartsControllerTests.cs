@@ -8,12 +8,13 @@ using Store.SharedDatabaseSetup;
 using System.Text;
 using Xunit;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 
 namespace Store.FunctionalTests.Controllers
 {
-    public class CartsControllerTests : BaseControllerTests
+    public class SalesCartsControllerTests : BaseControllerTests
     {
-        public CartsControllerTests(CustomWebApplicationFactory<Program> factory) : base(factory)
+        public SalesCartsControllerTests(CustomWebApplicationFactory<Program> factory) : base(factory)
         {
         }
 
@@ -21,7 +22,7 @@ namespace Store.FunctionalTests.Controllers
         public async Task Get_ReturnsAllRecords()
         {
             var client = this.GetNewClient();
-            var response = await client.GetAsync("/api/Carts/1,10,UserId,asc");
+            var response = await client.GetAsync("/api/SalesCarts/1,10,UserId,asc");
             response.EnsureSuccessStatusCode();
 
             var stringResponse = await response.Content.ReadAsStringAsync();
@@ -34,28 +35,31 @@ namespace Store.FunctionalTests.Controllers
             Assert.True(result?.totalCount == 10);
         }
 
+        
         [Fact]
         public async Task GetById_Exists_ReturnsCorrect()
         {
             var client = this.GetNewClient();
 
-            var id = DatabaseSetup.CartsFaker.FirstOrDefault().Id;
+            var productId = DatabaseSetup.CartsFaker.FirstOrDefault().Id;
 
-            var response = await client.GetAsync($"/api/Carts/{id}");
+            var response = await client.GetAsync($"/api/Carts/{productId}");
             response.EnsureSuccessStatusCode();
 
             var stringResponse = await response.Content.ReadAsStringAsync();
 
-            var result = JsonConvert.DeserializeObject<ApiResponseWithData<CartsResponse>>(stringResponse).Data;
+            var result = JsonConvert.DeserializeObject<ApiResponseWithData<Product>>(stringResponse).Data;
 
             var statusCode = response.StatusCode.ToString();
 
             Assert.Equal("OK", statusCode);
-            Assert.Equal(id, result.Id);
-            Assert.NotNull(result.Products);
-            Assert.NotNull(result.UserId);
-            Assert.NotNull(result.Date);
+            Assert.Equal(productId, result.Id);
+            Assert.NotNull(result.Description);
+            Assert.True(result.Price > 0);
+            Assert.NotNull(result.Category);
+            Assert.NotNull(result.Rating);
         }
+        
 
         [Fact]
         public async Task GetById_DoesntExist_ReturnsNotFound()

@@ -57,7 +57,8 @@ public class SalesCartsConfiguration : IEntityTypeConfiguration<SalesCarts>
             .HasOne(sc => sc.Branch)
             .WithOne()
             .HasForeignKey<SalesCarts>(b => b.BranchId)
-            .IsRequired(false);
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder
             .Property(u => u.CartId)
