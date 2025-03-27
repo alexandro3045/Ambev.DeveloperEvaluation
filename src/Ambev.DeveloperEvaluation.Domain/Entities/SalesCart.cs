@@ -59,7 +59,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// <summary>
         /// Gets the Carts when the SalsesCarts was created.
         /// </summary>
-        public Carts Carts { get; set; } = new();
+        public Carts Carts { get; set; }
 
         /// <summary>
         /// Gets the quantities products when the carts was created.
@@ -71,6 +71,9 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// </summary>
         public bool Canceled { get; set; }
 
+        /// <summary>
+        /// Calculate and set values Sales
+        /// </summary>
         public void CalculateCart()
         {
             var group = Carts.CartsProductsItems.GroupBy(x => x.ProductId).Select(g =>
@@ -126,6 +129,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             Quantities = Carts.CartsProductsItems.Count;
             TotalSalesAmount = group.ToList().Sum(g => g.TotalSales);
         }
+       
         /// <summary>
         /// Performs validation of the user entity using the UserValidator rules.
         /// </summary>

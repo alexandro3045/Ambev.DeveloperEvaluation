@@ -112,6 +112,11 @@ namespace Ambev.DeveloperEvaluation.Common.Filter
                         var constant = Expression.Constant(Convert.ToInt32(filter.Value));
                         comparison = Expression.Equal(property, constant);
                     }
+                    else if (property.Type == typeof(int?))
+                    {
+                        var constant = Expression.Constant(Convert.ToInt32(filter.Value), property.Type);
+                        comparison = Expression.Equal(property, constant);
+                    }
 
 
                     filterExpression = filterExpression == null

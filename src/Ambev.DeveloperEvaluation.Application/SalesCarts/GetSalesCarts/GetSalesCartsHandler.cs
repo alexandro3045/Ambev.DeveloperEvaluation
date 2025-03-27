@@ -10,20 +10,20 @@ namespace Ambev.DeveloperEvaluation.Application.SalesCarts.GetSalesCarts;
 /// </summary>
 public class GetSalesCartsHandler : IRequestHandler<GetSalesCartsCommand, GetSalesCartsResult>
 {
-    private readonly ICartsRepository _CartsRepository;
+    private readonly ISalesCartsRepository _SalesCartsRepository;
     private readonly IMapper _mapper;
 
     /// <summary>
     /// Initializes a new instance of GetCartsHandler
     /// </summary>
-    /// <param name="CartsRepository">The Carts repository</param>
+    /// <param name="SalesCartsRepository">The SalesCartsRepository repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for GetCartsCommand</param>
     public GetSalesCartsHandler(
-        ICartsRepository CartsRepository,
+        ISalesCartsRepository SalesCartsRepository,
         IMapper mapper)
     {
-        _CartsRepository = CartsRepository;
+        _SalesCartsRepository = SalesCartsRepository;
         _mapper = mapper;
     }
 
@@ -41,10 +41,10 @@ public class GetSalesCartsHandler : IRequestHandler<GetSalesCartsCommand, GetSal
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var Carts = await _CartsRepository.GetByIdAsync(request.Id, cancellationToken);
-        if (Carts == null)
-            throw new KeyNotFoundException($"Carts with ID {request.Id} not found");
+        var salesCarts = await _SalesCartsRepository.GetByIdAsync(request.Id, cancellationToken);
+        if (salesCarts == null)
+            throw new KeyNotFoundException($"SalesCarts with ID {request.Id} not found");
 
-        return _mapper.Map<GetSalesCartsResult>(Carts);
+        return _mapper.Map<GetSalesCartsResult>(salesCarts);
     }
 }

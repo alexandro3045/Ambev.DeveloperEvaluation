@@ -3,6 +3,8 @@ using Ambev.DeveloperEvaluation.Application.SalesCarts.GetListSalesCarts;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
 using Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.GetListSalesCarts;
+using Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.SalesCartsRequests;
+using Ambev.DeveloperEvaluation.WebApi.SalesCarts.GetSalesCarts;
 using AutoMapper;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Cats.DeleteSalesCarts.GetListSalesCart;
@@ -22,14 +24,17 @@ public class GetListSalesCartProfile : Profile
               request.Direction, request.ColumnFilters));
 
         CreateMap<GetListSalesCartsResult, GetListSalesCartsResponse>()
-            .ForMember(dest => dest.ListSalesCarts, act => act.MapFrom(src => src.ListSalesCarts.Select(cp =>
-               new CartsResponse
-               {
-                   Date = cp.CreatedAt,
-                   Id = cp.Id,
-                   UserId = cp.UserId,
-                   Products = cp.CartsProductsItems.Select(cpi => new ItemProduct(cpi.ProductId, cpi.Quantity)).ToList()
-               }  
-               )));
+            .ForMember(dest => dest.ListSalesCarts, opt =>
+
+                 opt.MapFrom(src => src.ListSalesCarts.Select(c =>
+                             new GetSalesCartsResponse {
+                                 SalesNumber = c.SalesNumber.Value,
+                                 TotalSalesAmount = c.TotalSalesAmount,
+                                 BranchId = c.BranchId,
+                                 Products = c.Carts.CartsProductsItems.Select(p => new ItemProductResult(p.ProductId, p.Quantity, p.Quantity, p.Quantity, p.Canceled)).ToList(),
+                                 Quantities = c.Quantities,
+                                 Canceled = c.Canceled,
+                                 UserId = c.UserId.ToString()
+                             })));
     }
 }

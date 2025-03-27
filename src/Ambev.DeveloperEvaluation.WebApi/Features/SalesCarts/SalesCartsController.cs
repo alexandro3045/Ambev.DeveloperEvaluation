@@ -162,14 +162,21 @@ public class SalesCartsController : BaseController
     /// <param name="direction">The page of list</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The list of Carts </returns>
-    [HttpGet("{page},{size},{order},{direction}")]
-    [ProducesResponseType(typeof(PaginatedList<GetListSalesCartsResponse>), StatusCodes.Status200OK)]
+    [HttpGet("{page},{size},{order},{direction},{columnFilters},{cancellationToken}")]
+    [ProducesResponseType(typeof(PaginatedList<GetSalesCartsResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetListSalesCarts([FromQuery] int page = 1, [FromQuery] int size = 10, [FromQuery] string? order = "CreatedAt", [FromQuery] string? direction = "asc",
-          [FromQuery] string? columnFilters = default, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetListSalesCarts([FromRoute] int page , [FromRoute] int size , [FromRoute] string? order , [FromRoute] string? direction ,
+          [FromRoute] string? columnFilters , [FromRoute] CancellationToken cancellationToken )
     {
-        var request = new GetListSalesCartsRequest { Page = page, Size = size, Order = order, Direction = direction, ColumnFilters = columnFilters };
+        var request = new GetListSalesCartsRequest
+        {
+            Page = page == 0 ? 1 : page,
+            Size = size == 0 ? 10 : size,
+            Order = order??"Id",
+            Direction = direction,
+            ColumnFilters = columnFilters
+        };
         var validator = new GetListSalesCartsRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
@@ -184,12 +191,30 @@ public class SalesCartsController : BaseController
         
             var mappedResponse = _mapper.Map<GetListSalesCartsResponse>(response);
             
-            return OkPaginated(new PaginatedList<CartsResponse>(mappedResponse.ListSalesCarts, mappedResponse.ListSalesCarts.Count, page, size));
+            return OkPaginated(new PaginatedList<GetSalesCartsResponse>(mappedResponse.ListSalesCarts, mappedResponse.ListSalesCarts.Count, page, size));
         }
         catch (Exception ex)
         {
             return BadRequest(new ApiResponse { Success = false, Message = ex.Message, ErrorType = ex.GetType().Name });
         }
+    }
+
+    /// <summary>
+    /// Retrieves a list Carts by their page, size and order
+    /// </summary>
+    /// <param name="page">The page of list</param>
+    /// <param name="size">The page of list</param>
+    /// <param name="order">The page of list</param>
+    /// <param name="direction">The page of list</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The list of Carts </returns>
+    [HttpGet("{columnFilters},{cancellationToken}")]
+    [ProducesResponseType(typeof(PaginatedList<GetListSalesCartsResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetSalesCarts([FromRoute] string? columnFilters, [FromRoute] CancellationToken cancellationToken)
+    {
+        return await GetListSalesCarts(default, default, default, "asc", columnFilters, cancellationToken);
     }
 
     /// <summary>

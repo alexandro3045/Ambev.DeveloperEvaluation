@@ -1,4 +1,6 @@
+using Ambev.DeveloperEvaluation.Application.Carts.CreateCarts;
 using Ambev.DeveloperEvaluation.Application.SalesCarts.GetSalesCarts;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
 using Ambev.DeveloperEvaluation.WebApi.SalesCarts.GetSalesCarts;
 using AutoMapper;
 
@@ -19,6 +21,7 @@ public class GetSalesCartsProfile : Profile
 
         CreateMap<Domain.Entities.Carts, GetSalesCartsResult>();
 
-        CreateMap<GetSalesCartsResult, GetSalesCartsResponse>();
+        CreateMap<GetSalesCartsResult, GetSalesCartsResponse>()
+             .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products.Select(p => new ItemProductResult(p.ProductId, p.Quantity, p.TotalAmountItem, p.UnitPrice,p.Canceled,  p.Discounts))));
     }
 }

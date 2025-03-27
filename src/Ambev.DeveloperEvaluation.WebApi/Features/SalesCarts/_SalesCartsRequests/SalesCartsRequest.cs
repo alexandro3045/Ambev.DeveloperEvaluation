@@ -7,5 +7,5 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.SalesCartsRequest
 /// </summary>
 public class SalesCartsRequest : BaseSalesCartsRequest
 {
-    public required CartsRequest Carts { get; set; }
+    public CartsRequest Carts { get; set; }
 }

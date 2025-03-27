@@ -10,7 +10,7 @@ namespace Store.FunctionalTests
 {
     public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {
-
+        /*
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.ConfigureServices(static services =>
@@ -19,7 +19,7 @@ namespace Store.FunctionalTests
                 // Add DefaultContext using an in-memory database for testing.
                 services.AddDbContext<DefaultContext>(static options =>
                 {
-                    options.UseInMemoryDatabase("Ambev.DeveloperEvaluation.ORM.DefaultContext");
+                    options.UseInMemoryDatabase("DeveloperEvaluation");
                 });
 
                 // Get service provider.
@@ -46,11 +46,18 @@ namespace Store.FunctionalTests
                 }
             });
         }
+        */
 
         public void CustomConfigureServices(IWebHostBuilder builder)
         {
             builder.ConfigureServices(services =>
             {
+                // Add DefaultContext using an in-memory database for testing.
+                services.AddDbContext<DefaultContext>(static options =>
+                {
+                    options.UseInMemoryDatabase("DeveloperEvaluation");
+                });
+
                 // Get service provider.
                 var serviceProvider = services.BuildServiceProvider();
 

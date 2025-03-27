@@ -85,7 +85,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
                 .FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<TEntity?> GetByIdAsync(Guid id, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = default, CancellationToken cancellationToken = default)
+        public virtual async Task<TEntity?> GetByIdAsync(Guid id, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = default, CancellationToken cancellationToken = default)
         {
             IQueryable<TEntity> source = _context.Set<TEntity>()
             .IncludeAllRecursively()

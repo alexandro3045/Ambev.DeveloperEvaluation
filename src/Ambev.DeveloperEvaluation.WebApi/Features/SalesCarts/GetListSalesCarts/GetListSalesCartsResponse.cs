@@ -1,5 +1,6 @@
 
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CartsRequests;
+using Ambev.DeveloperEvaluation.WebApi.SalesCarts.GetSalesCarts;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.SalesCarts.GetListSalesCarts;
 
@@ -11,5 +12,5 @@ public class GetListSalesCartsResponse
     /// <summary>
     /// The list Carts
     /// </summary>
-    public List<CartsResponse> ListSalesCarts { get; set; }
+    public List<GetSalesCartsResponse> ListSalesCarts { get; set; }
 }

@@ -26,7 +26,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// <summary>
         /// Gets the products when the carts was created.
         /// </summary>
-        public virtual List<CartsProductsItems> CartsProductsItems { get; set; }
+        public virtual List<CartsProductsItems> CartsProductsItems { get; set; } = [];
 
         /// <summary>
         /// Performs validation of the user entity using the UserValidator rules.

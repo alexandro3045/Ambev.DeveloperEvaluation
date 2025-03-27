@@ -10,7 +10,7 @@ namespace Ambev.DeveloperEvaluation.Application.SalesCarts.GetListSalesCarts;
 /// </summary>
 public class GetListSalesCartsHandler : IRequestHandler<GetListSalesCartsCommand, GetListSalesCartsResult>
 {
-    protected readonly ICartsRepository _CartsRepository;
+    protected readonly ISalesCartsRepository _SalesCartsRepository;
     protected readonly IMapper _mapper;
 
     /// <summary>
@@ -20,10 +20,10 @@ public class GetListSalesCartsHandler : IRequestHandler<GetListSalesCartsCommand
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for GetCartsCommand</param>
     public GetListSalesCartsHandler(
-        ICartsRepository CartssRepository,
+        ISalesCartsRepository SalesCartsRepository,
         IMapper mapper)
     {
-        _CartsRepository = CartssRepository;
+        _SalesCartsRepository = SalesCartsRepository;
         _mapper = mapper;
     }
 
@@ -41,7 +41,7 @@ public class GetListSalesCartsHandler : IRequestHandler<GetListSalesCartsCommand
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var listCarts = await _CartsRepository.GetAllAsync(request.Page, request.Size,
+        var listCarts = await _SalesCartsRepository.GetAllAsync(request.Page, request.Size,
              request.Order, request.Direction, request.ColumnFilters, cancellationToken);
 
         return _mapper.Map<GetListSalesCartsResult>(listCarts);
